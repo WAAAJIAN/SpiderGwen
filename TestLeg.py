@@ -2,7 +2,7 @@ import time
 import maestro
 
 # Create the servo controller instance
-servo = maestro.Controller()  # use default tty; modify with e.g. '/dev/ttyACM0' if needed
+servo = maestro.Controller('/dev/ttyAMA0')  # use default tty; modify with e.g. '/dev/ttyACM0' if needed
 
 # Define all legs and their servo channel mappings
 legs = {
