@@ -1,4 +1,7 @@
+import maestro
 import numpy as np
+
+ServoController = maestro.Controller('/dev/ttyAMA0')
 
 ''' 
 GWEN 2.0 Configuration:
@@ -139,3 +142,12 @@ def compute_foot_position_from_origin():
 foot_positions = compute_foot_position_from_origin()
 for leg, pos in foot_positions.items():
     print(f"{leg} foot position from origin: x = {pos[0]:.2f} mm, y = {pos[1]:.2f} mm, z = {pos[2]:.2f} mm")
+
+class Trileg:
+    def __init__(self, leg, sc, sf, st):
+        self.leg = leg # name of the leg (e.g., 'L1', 'L2', 'L3, 'R1', 'R2', 'R3')
+        self.sc = sc # servo pin for coxa
+        self.sf = sf # servo pin for femur
+        self.st = st # servo pin for tibia
+
+    
