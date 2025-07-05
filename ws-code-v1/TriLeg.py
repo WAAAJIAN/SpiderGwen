@@ -14,7 +14,7 @@ class Trileg:
         self.coxa_deg = coxa_deg
         self.femur_deg = femur_deg
         self.tibia_deg = tibia_deg
-    
+
     def angleToDC(self):
         self.coxa_deg = int((100 * self.coxa_deg)/3 + 6000)
         self.femur_deg = int((100 * self.femur_deg)/3 + 6000)
@@ -29,5 +29,11 @@ class Trileg:
         ServoController.setTarget(self.sf, self.femur_deg)
         ServoController.setTarget(self.st, self.tibia_deg)
 
+    def clean(self):
+        ServoController.setTarget(self.sc, 0)
+        ServoController.setTarget(self.sf, 0)
+        ServoController.setTarget(self.st, 0)
+
     def IK(self):
         pass
+

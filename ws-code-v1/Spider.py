@@ -1,20 +1,5 @@
 from TriLeg import Trileg
-
-''' 
-GWEN 2.0 Configuration:
-     FRONT ↑ +Y
-           |
-      L1   |   R1
--X    L2   |   R2    -> +X
-      L3   |   R3
-           |
-     BACK   -Y
-+Z is vertical upward
-
-Roll: rotation about front-back axis (X)
-Pitch: rotation about left-right axis (Y)
-Yaw: rotation about vertical axis (Z)
-'''
+import time
 
 class Spider:
     def _init__(self):
@@ -38,3 +23,29 @@ class Spider:
                          coxa_deg= 0, femur_deg= 0, tibia_deg= 0)
         
     ''' gait motion code here '''
+
+def main():
+    gwen = Spider()
+
+    Spider.L1.move()
+    Spider.L1.clean()
+    time.sleep(1)
+
+    Spider.L2.move()
+    Spider.L2.clean()
+    time.sleep(1)
+
+    Spider.L3.move()
+    Spider.L3.clean()
+    time.sleep(1)
+
+    Spider.R1.move()
+    Spider.R1.clean()
+    time.sleep(1)  
+
+    Spider.R2.move()
+    Spider.R2.clean()
+    time.sleep(1)
+    
+    Spider.R3.move()
+    Spider.R3.clean()
