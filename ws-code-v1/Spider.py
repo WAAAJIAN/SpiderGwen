@@ -22,32 +22,34 @@ class Spider:
                          sc= 9, sf= 10, st= 11, 
                          coxa_deg= 0, femur_deg= 0, tibia_deg= 0)
         
+    def move(self):
+        self.L1.move()
+        time.sleep(1)
+        self.L2.move()
+        time.sleep(1)
+        self.L3.move()
+        time.sleep(1)
+        self.R1.move()
+        time.sleep(1)
+        self.R2.move()
+        time.sleep(1)
+        self.R3.move()
+        time.sleep(1)
+    
+    def clean(self):
+        Spider.L1.clean()
+        Spider.L2.clean()
+        Spider.L3.clean()
+        Spider.R1.clean()
+        Spider.R2.clean()
+        Spider.R3.clean()
+        
     ''' gait motion code here '''
 
 def main():
     gwen = Spider()
-
-    Spider.L1.move()
-    Spider.L1.clean()
+    gwen.move()
     time.sleep(1)
-
-    Spider.L2.move()
-    Spider.L2.clean()
-    time.sleep(1)
-
-    Spider.L3.move()
-    Spider.L3.clean()
-    time.sleep(1)
-
-    Spider.R1.move()
-    Spider.R1.clean()
-    time.sleep(1)  
-
-    Spider.R2.move()
-    Spider.R2.clean()
-    time.sleep(1)
-    
-    Spider.R3.move()
-    Spider.R3.clean()
+    gwen.clean()
 
 main()

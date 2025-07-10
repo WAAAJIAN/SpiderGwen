@@ -5,9 +5,9 @@ import ForwardKinematics
 
 ServoController = maestro.Controller('/dev/ttyAMA0')
 
-min_angle = ServoController.getMin()
+min_angle = ServoController.getMin(0)
 print(f"servo minimum range: {min_angle}")
-max_angle = ServoController.getMax()
+max_angle = ServoController.getMax(0)
 print(f"servo maximum range: {max_angle}")
 
 class Trileg:
