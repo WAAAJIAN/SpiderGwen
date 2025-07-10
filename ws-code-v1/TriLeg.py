@@ -1,9 +1,14 @@
 import maestro
+from leg_config import Config as cfg
+import numpy as np
+import ForwardKinematics
 
 ServoController = maestro.Controller('/dev/ttyAMA0')
 
-print(f"servo maximum range: {ServoController.getMax()}")
-print(f"servo minimum range: {ServoController.getMin()}")
+min_angle = ServoController.getMin()
+print(f"servo minimum range: {min_angle}")
+max_angle = ServoController.getMax()
+print(f"servo maximum range: {max_angle}")
 
 class Trileg:
     def __init__(self, leg, sc, sf, st, coxa_deg, femur_deg, tibia_deg):
@@ -34,6 +39,35 @@ class Trileg:
         ServoController.setTarget(self.sf, 0)
         ServoController.setTarget(self.st, 0)
 
-    def IK(self):
-        pass
+    def clamp(self, x, min_val, max_val):
+        return max(min_val, min(x, max_val))
+
+    def IK(self, foot_target):
+        local_pos = ForwardKinematics.global_to_leg_frame(self.leg, foot_target)
+        x, y, z = local_pos
+
+        # Step 1: Coxa angle
+        theta1 = np.arctan2(y, x)
+
+        # Step 2: Projection into sagittal plane
+        r = np.sqrt(x**2 + y**2)
+        x_ = r - cfg.l_coxa
+        z_ = z
+        d = np.sqrt(x_**2 + z_**2)
+
+        # Step 3: Check reachability
+        d = self.clamp(d, 1e-6, cfg.l_femur + cfg.l_tibia - 1e-6)
+
+        # Step 4: Compute angles using Law of Cosines
+        theta3 = np.pi - np.arccos(self.clamp((cfg.l_femur**2 + cfg.l_tibia**2 - d**2) / (2 * cfg.l_femur * cfg.l_tibia), -1, 1))
+        alpha = np.arccos(self.clamp((cfg.l_femur**2 + d**2 - cfg.l_tibia**2) / (2 * cfg.l_femur * d), -1, 1))
+        beta = np.arctan2(z_, x_)
+        theta2 = beta + alpha
+
+        # Set degrees (you can round here if needed)
+        self.coxa_deg = self.clamp(np.degrees(theta1), min_angle, max_angle)
+        self.femur_deg = self.clamp(np.degrees(theta2), min_angle, max_angle)
+        self.tibia_deg = self.clamp(np.degrees(theta3), min_angle, max_angle)
+
+        print(f"[{self.leg}] IK: θ1 = {self.coxa_deg:.2f}°, θ2 = {self.femur_deg:.2f}°, θ3 = {self.tibia_deg:.2f}°")
 

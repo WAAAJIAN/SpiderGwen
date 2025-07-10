@@ -49,3 +49,5 @@ def main():
     
     Spider.R3.move()
     Spider.R3.clean()
+
+main()
