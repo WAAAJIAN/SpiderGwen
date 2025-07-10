@@ -24,17 +24,17 @@ class Spider:
         
     def move(self):
         self.L1.move()
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.L2.move()
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.L3.move()
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.R1.move()
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.R2.move()
-        time.sleep(0.5)
+        time.sleep(0.1)
         self.R3.move()
-        time.sleep(0.5)
+        time.sleep(5)
     
     def clean(self):
         self.L1.clean()
