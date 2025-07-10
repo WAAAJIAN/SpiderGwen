@@ -5,22 +5,22 @@ class Spider:
     def __init__(self):
         self.L1 = Trileg('L1', 
                          sc= 0, sf= 1, st= 2, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         self.L2 = Trileg('L2', 
                          sc= 3, sf= 4, st= 5, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         self.L3 = Trileg('L3', 
                          sc= 6, sf= 7, st= 8, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         self.R1 = Trileg('R1', 
                          sc= 21, sf= 22, st= 23, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         self.R2 = Trileg('R2', 
                          sc= 18, sf= 19, st= 20, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         self.R3 = Trileg('R3', 
                          sc= 9, sf= 10, st= 11, 
-                         coxa_deg= 0, femur_deg= -60, tibia_deg= 140)
+                         coxa_deg= 0, femur_deg= -60, tibia_deg= 100)
         
     def move(self):
         self.L1.move()
