@@ -2,7 +2,7 @@ from TriLeg import Trileg
 import time
 
 class Spider:
-    def _init__(self):
+    def __init__(self):
         self.L1 = Trileg('L1', 
                          sc= 0, sf= 1, st= 2, 
                          coxa_deg= 0, femur_deg= 0, tibia_deg= 0)
