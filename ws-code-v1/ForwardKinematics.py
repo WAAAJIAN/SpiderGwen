@@ -40,7 +40,7 @@ def forward_kinematics(theta1, theta2, theta3):
     dh_params = [
         [theta1, 0, 0,      -np.pi/2],        # i = 1 Coxa joint
         [theta2, 0, cfg.l_coxa,  0],        # i = 2 Femur joint
-        [theta3, 0, cfg.l_femur, 0],        # i = 3 Tibia joint
+        [-theta3, 0, cfg.l_femur, 0],        # i = 3 Tibia joint
         [0,      0, cfg.l_tibia, 0]         # i = 4 Foot tip (just extension)
     ]
 

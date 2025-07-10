@@ -23,7 +23,7 @@ class Trileg:
     def angleToDC(self):
         self.coxa_deg = int((100 * self.coxa_deg)/3 + 6000)
         self.femur_deg = int((100 * self.femur_deg)/3 + 6000)
-        self.tibia_deg = int((100 * self.tibia_deg)/3 + 2000)
+        self.tibia_deg = int((-100 * self.tibia_deg)/3 + 2000)
         print(f"coxa {self.leg}: {self.coxa_deg}")
         print(f"femur {self.leg}: {self.femur_deg}")
         print(f"tibia {self.leg}: {self.tibia_deg}")
