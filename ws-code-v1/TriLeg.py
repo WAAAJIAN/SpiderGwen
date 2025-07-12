@@ -5,10 +5,8 @@ import ForwardKinematics
 
 ServoController = maestro.Controller('/dev/ttyAMA0')
 
-min_angle = ServoController.getMin(0)
-print(f"servo minimum range: {min_angle}")
-max_angle = ServoController.getMax(0)
-print(f"servo maximum range: {max_angle}")
+min_angle = 0
+max_angle = 120
 
 class Trileg:
     def __init__(self, leg, sc, sf, st, coxa_deg, femur_deg, tibia_deg):
@@ -21,18 +19,18 @@ class Trileg:
         self.tibia_deg = tibia_deg
 
     def angleToDC(self):
-        self.coxa_deg = int((100 * self.coxa_deg)/3 + 6000)
-        self.femur_deg = int((100 * self.femur_deg)/3 + 6000)
-        self.tibia_deg = int((-100 * self.tibia_deg)/3 + 2000)
-        print(f"coxa {self.leg}: {self.coxa_deg}")
-        print(f"femur {self.leg}: {self.femur_deg}")
-        print(f"tibia {self.leg}: {self.tibia_deg}")
+        self.coxa_pwm = int((100 * self.coxa_deg)/3 + 6000)
+        self.femur_pwm = int((100 * self.femur_deg)/3 + 6000)
+        self.tibia_pwm = int((-100 * self.tibia_deg)/3 + 8000)
+        print(f"coxa {self.leg}: {self.coxa_pwm}")
+        print(f"femur {self.leg}: {self.femur_pwm}")
+        print(f"tibia {self.leg}: {self.tibia_pwm}")
     
     def move(self):
         self.angleToDC()
-        ServoController.setTarget(self.sc, self.coxa_deg)
-        ServoController.setTarget(self.sf, self.femur_deg)
-        ServoController.setTarget(self.st, self.tibia_deg)
+        ServoController.setTarget(self.sc, self.coxa_pwm)
+        ServoController.setTarget(self.sf, self.femur_pwm)
+        ServoController.setTarget(self.st, self.tibia_pwm)
 
     def clean(self):
         ServoController.setTarget(self.sc, 0)
@@ -42,9 +40,8 @@ class Trileg:
     def clamp(self, x, min_val, max_val):
         return max(min_val, min(x, max_val))
 
-    def IK(self, foot_target):
-        local_pos = ForwardKinematics.global_to_leg_frame(self.leg, foot_target)
-        x, y, z = local_pos
+    def IK(self, global_x, global_y, global_z):
+        x, y, z = ForwardKinematics.global_to_leg_frame(self.leg, global_x, global_y, global_z)  #local positions of the leg
 
         # Step 1: Coxa angle
         theta1 = np.arctan2(y, x)
@@ -59,15 +56,19 @@ class Trileg:
         d = self.clamp(d, 1e-6, cfg.l_femur + cfg.l_tibia - 1e-6)
 
         # Step 4: Compute angles using Law of Cosines
-        theta3 = np.pi - np.arccos(self.clamp((cfg.l_femur**2 + cfg.l_tibia**2 - d**2) / (2 * cfg.l_femur * cfg.l_tibia), -1, 1))
-        alpha = np.arccos(self.clamp((cfg.l_femur**2 + d**2 - cfg.l_tibia**2) / (2 * cfg.l_femur * d), -1, 1))
-        beta = np.arctan2(z_, x_)
-        theta2 = beta + alpha
+        alpha = np.arccos(self.clamp((cfg.l_femur**2 + cfg.l_tibia**2 - d**2) / (2 * cfg.l_femur * cfg.l_tibia), -1, 1))
+        theta3 = np.pi - alpha 
+        beta = np.arccos(self.clamp((cfg.l_femur**2 + d**2 - cfg.l_tibia**2) / (2 * cfg.l_femur * d), -1, 1))
+        gamma = np.arctan2(z_, x_)
+        theta2 = beta - gamma
 
-        # Set degrees (you can round here if needed)
-        self.coxa_deg = self.clamp(np.degrees(theta1), min_angle, max_angle)
-        self.femur_deg = self.clamp(np.degrees(theta2), min_angle, max_angle)
-        self.tibia_deg = self.clamp(np.degrees(theta3), min_angle, max_angle)
+        # self.coxa_deg = self.clamp(np.degrees(theta1), min_angle, max_angle)
+        # self.femur_deg = self.clamp(np.degrees(theta2), min_angle, max_angle)
+        # self.tibia_deg = self.clamp(np.degrees(theta3), min_angle, max_angle)
 
-        print(f"[{self.leg}] IK: θ1 = {self.coxa_deg:.2f}°, θ2 = {self.femur_deg:.2f}°, θ3 = {self.tibia_deg:.2f}°")
+        self.coxa_deg = np.degrees(theta1)
+        self.femur_deg = np.degrees(theta2)
+        self.tibia_deg = np.degrees(-theta3)
+
+        print(f"[{self.leg}] IK: coxa = {self.coxa_deg:.2f}°, femur = {self.femur_deg:.2f}°, tibia = {self.tibia_deg:.2f}°")
 

@@ -87,12 +87,10 @@ def compute_foot_position_from_origin():
 
     return foot_position_from_origin
 
-def global_to_leg_frame(leg_name, global_pos):
+def global_to_leg_frame(leg_name, global_x, global_y, global_z):
     """
     Transforms a 3D global foot position into the local leg (coxa) frame.
     """
-    from leg_config import Config as cfg
-
     x, y, z = cfg.leg_coxa_pos[leg_name]
     yaw = cfg.leg_yaw[leg_name]
 
@@ -103,7 +101,7 @@ def global_to_leg_frame(leg_name, global_pos):
     T_coxa_to_base = np.linalg.inv(T_base_to_coxa)
 
     # Convert global pos to homogeneous form
-    foot_global_homog = np.array([*global_pos, 1])
+    foot_global_homog = np.array([*[global_x, global_y, global_z], 1])
 
     # Transform to local frame
     foot_local = T_coxa_to_base @ foot_global_homog
