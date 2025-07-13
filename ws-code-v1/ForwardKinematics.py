@@ -110,6 +110,6 @@ def global_to_leg_frame(leg_name, global_x, global_y, global_z):
 
 ##############################################################
 
-foot_positions = compute_foot_position_from_origin()
-for leg, pos in foot_positions.items():
-    print(f"{leg} foot position from origin: x = {pos[0]:.2f} mm, y = {pos[1]:.2f} mm, z = {pos[2]:.2f} mm")
+# foot_positions = compute_foot_position_from_origin()
+# for leg, pos in foot_positions.items():
+#     print(f"{leg} foot position from origin: x = {pos[0]:.2f} mm, y = {pos[1]:.2f} mm, z = {pos[2]:.2f} mm")

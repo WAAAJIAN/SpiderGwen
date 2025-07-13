@@ -42,7 +42,6 @@ class Trileg:
 
     def IK(self, global_x, global_y, global_z):
         x, y, z = ForwardKinematics.global_to_leg_frame(self.leg, global_x, global_y, global_z)  #local positions of the leg
-
         # Step 1: Coxa angle
         theta1 = np.arctan2(y, x)
 
@@ -52,8 +51,8 @@ class Trileg:
         z_ = z
         d = np.sqrt(x_**2 + z_**2)
 
-        # Step 3: Check reachability
-        d = self.clamp(d, 1e-6, cfg.l_femur + cfg.l_tibia - 1e-6)
+        # # Step 3: Check reachability
+        d = self.clamp(d, 1e-6, cfg.l_femur + cfg.l_tibia + 1e-6)
 
         # Step 4: Compute angles using Law of Cosines
         alpha = np.arccos(self.clamp((cfg.l_femur**2 + cfg.l_tibia**2 - d**2) / (2 * cfg.l_femur * cfg.l_tibia), -1, 1))
@@ -62,13 +61,11 @@ class Trileg:
         gamma = np.arctan2(z_, x_)
         theta2 = beta - gamma
 
-        # self.coxa_deg = self.clamp(np.degrees(theta1), min_angle, max_angle)
-        # self.femur_deg = self.clamp(np.degrees(theta2), min_angle, max_angle)
-        # self.tibia_deg = self.clamp(np.degrees(theta3), min_angle, max_angle)
+        self.coxa_deg = self.clamp(np.degrees(theta1), min_angle, max_angle)
+        self.femur_deg = self.clamp(np.degrees(theta2), min_angle, max_angle)
+        self.tibia_deg = self.clamp(np.degrees(theta3), min_angle, max_angle)
 
-        self.coxa_deg = np.degrees(theta1)
-        self.femur_deg = np.degrees(theta2)
-        self.tibia_deg = np.degrees(-theta3)
+        print(f"[{self.leg}] x={x:.2f}, y={y:.2f}, z={z:.2f}, r={r:.2f}, x_={x_:.2f}, z_={z_:.2f}, d={d:.2f}")
+        print(f"theta1 = {np.degrees(theta1):.2f}, gamma = {np.degrees(gamma):.2f}, beta = {np.degrees(beta):.2f}, alpha = {np.degrees(alpha):.2f}")
 
-        print(f"[{self.leg}] IK: coxa = {self.coxa_deg:.2f}°, femur = {self.femur_deg:.2f}°, tibia = {self.tibia_deg:.2f}°")
 
