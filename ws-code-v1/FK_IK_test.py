@@ -4,7 +4,7 @@ from leg_config import Config as cfg
 
 # Set test joint angles (deg)
 cfg.joint_angles_deg = {
-    'L1': [0, -25, -60],
+    'L1': [0, -32, 25],
     'L2': [15, 30, 10],
     'L3': [-24, 22, 60],
     'R1': [30, 25, 0],
