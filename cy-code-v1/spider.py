@@ -34,11 +34,16 @@ class Spider:
 
     def rotate_x(self, angle):
         for i in self.leg:
-            print(i)
             if i == 0 or i == 5 or i == 4: 
                 angle = -angle
             print(f"leg {i} turning angle {angle}")
             self.leg[i].rotating(0, angle)
+    
+    def rotate_y(self, angle):
+        for i in self.leg:
+            if i == 0 or i == 1:
+                angle = -angle
+            self.leg[i].rotating(1, angle)
         
     def stop_leg(self):
         for i in self.leg:
@@ -52,7 +57,7 @@ class Spider:
                 self.leg[0].calculateWalk(self.time, time_on_air, direction)
                 self.leg[2].calculateWalk(self.time, time_on_air, direction)
                 self.leg[4].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= period * 0.5:
+            if self.time >= period * 0.48:
                 pass
                 self.leg[1].calculateWalk(self.time - period * 0.5, time_on_air, direction)
                 self.leg[3].calculateWalk(self.time - period * 0.5 , time_on_air, direction)
