@@ -1,6 +1,6 @@
 from parameter import *
-# import maestro
-# servo = maestro.Controller('/dev/ttyAMA0')
+import maestro
+servo = maestro.Controller('/dev/ttyAMA0')
 
 class Leg:
     def __init__(self, leg, c, f, t):
@@ -133,19 +133,17 @@ class Leg:
 
     def angleToDC(self): 
         self.a = int((100 * self.a)/3 + 6000)
-        self.b = int((100 * self.b)/3 + 6000)
+        self.b = int((-100 * self.b)/3 + 6000)
         self.c = int((100 * self.c)/3 + 2000)
         print("polulu output: ",self.a,",",self.b,",",self.c,"\n")
 
     def clean(self):
-        return
         servo.setTarget(self.coxa, 0)
         servo.setTarget(self.femur, 0)
         servo.setTarget(self.tibia, 0)
 
     def run(self):
         self.angleToDC()
-        return
         servo.setTarget(self.coxa, self.a)
         servo.setTarget(self.femur, self.b)
         servo.setTarget(self.tibia, self.c)

@@ -1,7 +1,7 @@
-# import serial
+import serial
 from sys import version_info
 
-PY3 = version_info[0] == 3   #Running Python 2.x?
+PY2 = version_info[0] == 2   #Running Python 2.x?
 
 #
 #---------------------------
@@ -30,9 +30,7 @@ class Controller:
     # example, '/dev/ttyACM2' or for Windows, something like 'COM3'.
     def __init__(self,ttyStr='/dev/ttyACM0',device=0x0c):
         # Open the command port
-        
-        # self.usb = serial.Serial(ttyStr)
-
+        self.usb = serial.Serial(ttyStr)
         # Command lead-in and device number are sent for each Pololu serial command.
         self.PololuCmd = chr(0xaa) + chr(device)
         # Track target position for each servo. The function isMoving() will
@@ -50,10 +48,10 @@ class Controller:
     # Send a Pololu command out the serial port
     def sendCmd(self, cmd):
         cmdStr = self.PololuCmd + cmd
-        if PY3:
-            self.usb.write(cmdStr.encode('latin-1'))  # Encode the command string as bytes for Python 3
+        if PY2:
+            self.usb.write(cmdStr)
         else:
-            self.usb.write(bytes(cmdStr, 'latin-1'))
+            self.usb.write(bytes(cmdStr,'latin-1'))
 
     # Set channels min and max value range.  Use this as a safety to protect
     # from accidentally moving outside known safe parameters. A setting of 0
@@ -168,3 +166,4 @@ class Controller:
     def stopScript(self):
         cmd = chr(0x24)
         self.sendCmd(cmd)
+

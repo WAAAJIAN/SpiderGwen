@@ -3,7 +3,7 @@ from leg import *
 
 class Spider:
     def __init__(self):
-        # self.leg = {5: Leg(5,3,4,5)}
+        #self.leg = {5: Leg(5,3,4,5)}
         #self.leg = {2 : Leg(2, 18, 19, 20)}
         self.leg = {
             0: Leg(0, 0, 1, 2), 
@@ -115,8 +115,8 @@ def main():
     gwen = Spider()
     try:
         while(1):
-            # inp = input("enter: ")
-            # if inp == 'w' : gwen.gaitFunction[gwen.gait]([0,1])
+            inp = input("enter: ")
+            if inp == 'w' : gwen.gaitFunction[gwen.gait]([0,1])
             # elif inp == 'd' : gwen.gaitFunction[gwen.gait]([1,0])
             # elif inp == 's' : gwen.gaitFunction[gwen.gait]([0,-1])
             # elif inp == 'a' : gwen.gaitFunction[gwen.gait]([-1,0])
@@ -128,8 +128,8 @@ def main():
             # elif inp == '3' : gwen.gaitChange(3)
             # elif inp == '4' : gwen.gaitChange(4)
 
-            angle = int(input("enter angle:"))
-            gwen.rotate_x(angle)
+            #angle = int(input("enter angle:"))
+            #gwen.rotate_x(angle)
 
     except KeyboardInterrupt:
         print("Stopping Spider.....")
