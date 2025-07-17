@@ -61,7 +61,7 @@ class Spider:
 
 def main():
     gwen = Spider()
-    # gwen.L1.IK(-260.83, 280.72, 0)
+    gwen.L1.IK(-260.83, 280.72, 0)
     # gwen.L2.IK(-365.40, 0, 0)
     # gwen.L3.IK(-260.83, -280.72, 0)
     # gwen.R1.IK(260.83, 280.72, 0)
