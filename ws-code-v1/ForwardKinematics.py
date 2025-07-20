@@ -51,7 +51,7 @@ def standard_dh_transform(theta, d, a, alpha):
 
 #     return T
 
-def forward_kinematics_gemini(theta1, theta2, theta3):
+def forward_kinematics(theta1, theta2, theta3):
     '''
     Compute 3-DOF leg forward kinematics using standard D-H convention.
     Returns the 4x4 transformation matrix from the coxa joint frame to the foot tip frame.
@@ -105,7 +105,7 @@ def compute_foot_position_from_origin():
         yaw = cfg.leg_yaw[leg]
 
         T_origin_to_coxa = base_transform(x, y, z, yaw)
-        T_coxa_to_foot = forward_kinematics_gemini(theta1, theta2, theta3)
+        T_coxa_to_foot = forward_kinematics(theta1, theta2, theta3)
         T_origin_to_foot = T_origin_to_coxa @ T_coxa_to_foot
 
         foot_position_from_origin[leg] = T_origin_to_foot[0:3, 3]

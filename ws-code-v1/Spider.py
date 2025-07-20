@@ -57,17 +57,3 @@ class Spider:
         self.R2.clean()
         self.R3.clean()
         
-    ''' gait motion code here '''
-
-def main():
-    gwen = Spider()
-    gwen.L1.IK(-260.83, 280.72, -5)
-    # gwen.L2.IK(-365.40, 0, 0)
-    # gwen.L3.IK(-260.83, -280.72, 0)
-    # gwen.R1.IK(260.83, 280.72, 0)
-    # gwen.R2.IK(365.40, 0, 0)
-    # gwen.R3.IK(260.83, -280.72, 0)
-    # gwen.move()
-    time.sleep(3)
-    # gwen.clean()
-# main()
