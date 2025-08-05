@@ -1,5 +1,5 @@
 from math import *
-import datetime
+from time import sleep  
 
 period = 30000   # period of a leg cycle (its not time!)
 x_offset = 0     # initial x position of leg (vertical axis)
@@ -13,7 +13,7 @@ fl = 60    # length of femur
 tl = 157.21   # length of tibia
 
 step = 20 # for leg movement to target
-delays = 20 # for leg movement in ms
+delays = 0.020 # for leg movement in s
 
 
 offset_angle = 54
@@ -47,7 +47,7 @@ R = lambda x, theta1, theta2 : (
     (ctc[x] * sin(radians(theta2)) * (1 - cos(radians(theta1))), 0 , ctc[x] * sin(radians(theta2)) * sin(radians(theta1))),
     (0 , 0 , 0)) # to be include : yawing vector
 
-# ===== function =====
+# ===== helper function =====
 def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
     m3 = [(m1[0][0])*(m2[0]) + (m1[0][1])*(m2[1]), (m1[1][0])*(m2[0]) + (m1[1][1])*(m2[1])]
     #print(m1," x ", m2," = ",m3)
@@ -59,10 +59,7 @@ def polarVector(angle, value = 1):
 def transformBodyCoortoLeg(leg, vector, reverse=False): # vector : [x,y]
     newVec = vectorMull(transformMat[leg], vector)
     return newVec
-
-def delay(ms):
-    start_time = datetime.datetime.now()
-    target_time = start_time + datetime.timedelta(milliseconds=ms)
-    while datetime.datetime.now() < target_time:
-        pass
-
+# ==== pid ====
+kp = 1.5
+ki = 0 
+kd = 0
