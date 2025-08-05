@@ -5,13 +5,21 @@ class Spider:
     def __init__(self):
         #self.leg = {5: Leg(5,3,4,5)}
         #self.leg = {2 : Leg(2, 18, 19, 20)}
+        # self.leg = {
+        #     0: Leg(0, 0, 1, 2), 
+        #     5: Leg(5, 3, 4, 5), 
+        #     4: Leg(4, 6, 7, 8), 
+        #     1: Leg(1, 21, 22, 23), 
+        #     2: Leg(2, 18, 19, 20), 
+        #     3: Leg(3, 9, 10, 11)
+        # }
         self.leg = {
-            0: Leg(0, 0, 1, 2), 
-            5: Leg(5, 3, 4, 5), 
-            4: Leg(4, 6, 7, 8), 
-            1: Leg(1, 21, 22, 23), 
-            2: Leg(2, 18, 19, 20), 
-            3: Leg(3, 9, 10, 11)
+            0: Leg(0, 6, 18, 12), 
+            5: Leg(5, 7, 19, 13), 
+            4: Leg(4, 8, 20, 14), 
+            1: Leg(1, 9, 21, 15), 
+            2: Leg(2, 10, 22, 16), 
+            3: Leg(3, 11, 23, 17)
         }
         '''
             0 (0,0)   1 (1,0)
@@ -34,11 +42,19 @@ class Spider:
 
     def rotate_x(self, angle):
         for i in self.leg:
-            print(i)
+            turning_angle = angle
             if i == 0 or i == 5 or i == 4: 
-                angle = -angle
-            print(f"leg {i} turning angle {angle}")
-            self.leg[i].rotating(0, angle)
+                turning_angle = -turning_angle
+            print(f"leg {i} turning angle {turning_angle}")
+            self.leg[i].rotating(0, turning_angle)
+        
+    def rotate_y(self, angle):
+        for i in self.leg:
+            turning_angle = angle
+            if i == 0 or i == 1: 
+                turning_angle = -turning_angle
+            print(f"leg {i} turning angle {turning_angle}")
+            if i!= 2 and i!=5: self.leg[i].rotating(0, turning_angle)
         
     def stop_leg(self):
         for i in self.leg:
@@ -48,12 +64,10 @@ class Spider:
         time_on_air = 0.5
         while (self.time <= 1.5 * period):
             if self.time <= period:
-                pass
                 self.leg[0].calculateWalk(self.time, time_on_air, direction)
                 self.leg[2].calculateWalk(self.time, time_on_air, direction)
                 self.leg[4].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= period * 0.5:
-                pass
+            if self.time >= period * 0.45:
                 self.leg[1].calculateWalk(self.time - period * 0.5, time_on_air, direction)
                 self.leg[3].calculateWalk(self.time - period * 0.5 , time_on_air, direction)
                 self.leg[5].calculateWalk(self.time - period * 0.5, time_on_air, direction)
@@ -117,19 +131,19 @@ def main():
         while(1):
             inp = input("enter: ")
             if inp == 'w' : gwen.gaitFunction[gwen.gait]([0,1])
-            # elif inp == 'd' : gwen.gaitFunction[gwen.gait]([1,0])
-            # elif inp == 's' : gwen.gaitFunction[gwen.gait]([0,-1])
-            # elif inp == 'a' : gwen.gaitFunction[gwen.gait]([-1,0])
-            # elif inp == 'e' : gwen.gaitFunction[gwen.gait](polarVector(45))
-            # elif inp == 'q' : gwen.gaitFunction[gwen.gait](polarVector(135))
-            # elif inp == '0' : gwen.gaitChange(0)
-            # elif inp == '1' : gwen.gaitChange(1)
-            # elif inp == '2' : gwen.gaitChange(2)
-            # elif inp == '3' : gwen.gaitChange(3)
-            # elif inp == '4' : gwen.gaitChange(4)
+            elif inp == 'd' : gwen.gaitFunction[gwen.gait]([1,0])
+            elif inp == 's' : gwen.gaitFunction[gwen.gait]([0,-1])
+            elif inp == 'a' : gwen.gaitFunction[gwen.gait]([-1,0])
+            elif inp == 'e' : gwen.gaitFunction[gwen.gait](polarVector(45))
+            elif inp == 'q' : gwen.gaitFunction[gwen.gait](polarVector(135))
+            elif inp == '0' : gwen.gaitChange(0)
+            elif inp == '1' : gwen.gaitChange(1)
+            elif inp == '2' : gwen.gaitChange(2)
+            elif inp == '3' : gwen.gaitChange(3)
+            elif inp == '4' : gwen.gaitChange(4)
 
-            #angle = int(input("enter angle:"))
-            #gwen.rotate_x(angle)
+            # angle = int(input("enter angle:"))
+            # gwen.rotate_y(angle)
 
     except KeyboardInterrupt:
         print("Stopping Spider.....")

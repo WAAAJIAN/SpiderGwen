@@ -3,9 +3,9 @@ import datetime
 
 period = 30000   # period of a leg cycle (its not time!)
 x_offset = 0     # initial x position of leg (vertical axis)
-y_offset = 180   # initial y position of leg (horizontal axis from the center)
+y_offset = 130   # initial y position of leg (horizontal axis from the center)
 z_offset = 120  # initial z position of leg (height of bot)
-steps = 1500     # speed of motion
+steps = 2000     # speed of motion
 
 ctc = (91.37, 105.47) # ctc[0] for middle legs, ctc[1] for corner legs
 cl = 76.42 # length of coxa
