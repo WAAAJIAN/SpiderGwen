@@ -107,7 +107,7 @@ class Leg:
             self.z += dz
             #print(f"{i} : Current leg position : {self.x, self.y, self.z}")
             self.IK()
-            delay(delays)
+            sleep(delays)
 
     # to be implemented: find the limit for both ik and actual leg
     ''' 
