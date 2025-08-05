@@ -15,7 +15,6 @@ tl = 157.21   # length of tibia
 step = 20 # for leg movement to target
 delays = 0.020 # for leg movement in s
 
-
 offset_angle = 54
 offset_angle_map = {0: offset_angle, 1: offset_angle, 
                     2: 0, 5: 0, 
@@ -41,6 +40,16 @@ M4 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))], [-sin(radians(
 M5 = [[-1, 0], [0, 1]]                                                                # leg 5
 transformMat = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5}
 
+# ==== pid ====
+kp = 3
+ki = 0 
+kd = 0
+dt = 0.01
+filtercoe = 0.93
+
+pitch = 0
+roll = 0
+
 # Rotation "Matrix"
 R = lambda x, theta1, theta2 : (
     (0, ctc[x] * cos(radians(theta2)) * (1 - cos(radians(theta1))), ctc[x] * cos(radians(theta2)) * sin(radians(theta1))),
@@ -59,7 +68,3 @@ def polarVector(angle, value = 1):
 def transformBodyCoortoLeg(leg, vector, reverse=False): # vector : [x,y]
     newVec = vectorMull(transformMat[leg], vector)
     return newVec
-# ==== pid ====
-kp = 1.5
-ki = 0 
-kd = 0

@@ -35,11 +35,11 @@ class Leg:
             y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
         print(self.leg, ",", time, ",", phase)
-        print("position (before transform): ", x,",",y,",",self.z)
+        # print("position (before transform): ", x,",",y,",",self.z)
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        print("position: ", self.x,",",self.y,",",self.z)
+        # print("position: ", self.x,",",self.y,",",self.z)
         self.IK()
 
     '''
@@ -91,11 +91,16 @@ class Leg:
     def rotating(self, type, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
         R_c = R(self.offset, angle, self.offset_angle)[type]
         new_vec = transformBodyCoortoLeg(self.leg, R_c[:2])
-        target_x = self.x + new_vec[0]
-        target_y = self.y + new_vec[1]
-        target_z = self.z + R_c[2]
+        target_x = x_offset + new_vec[0]
+        target_y = y_offset + new_vec[1]
+        target_z = z_offset + R_c[2]
         #print(f"leg: {self.leg} moving to {target_x, target_y, target_z}\n")
-        self.move_to([target_x, target_y, target_z])
+        # self.move_to([target_x, target_y, target_z])
+
+        self.x = target_x
+        self.y = target_y
+        self.z = target_z
+        self.IK()
 
     def move_to(self, target): # target = [x, y, z]
         dx = (target[0] - self.x) / step
@@ -128,14 +133,15 @@ class Leg:
         self.a = degrees(atan(self.x/y3))
         self.b = degrees(acos(((fl**2)+(l**2)-(tl**2))/(2*fl*l))-theta)
         self.c = degrees(acos(((fl**2)+(tl**2)-(l**2))/(2*fl*tl)))
-        print("angle: ",self.a,",",self.b,",",self.c)
-        self.run()
+        # print("angle: ",self.a,",",self.b,",",self.c)
+        self.angleToDC()
+        # self.run()
 
     def angleToDC(self): 
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((-100 * self.b)/3 + 6000)
         self.c = int((100 * self.c)/3 + 2000)
-        print("polulu output: ",self.a,",",self.b,",",self.c,"\n")
+        # print("polulu output: ",self.a,",",self.b,",",self.c,"\n")
 
     def clean(self):
         servo.setTarget(self.coxa, 0)
@@ -143,7 +149,6 @@ class Leg:
         servo.setTarget(self.tibia, 0)
 
     def run(self):
-        self.angleToDC()
         servo.setTarget(self.coxa, self.a)
         servo.setTarget(self.femur, self.b)
         servo.setTarget(self.tibia, self.c)

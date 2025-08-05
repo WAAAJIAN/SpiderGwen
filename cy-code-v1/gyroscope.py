@@ -1,6 +1,5 @@
 import smbus2					#import SMBus module of I2C
 from time import sleep          #import
-from pid import *
 
 #some MPU6050 Registers and their Address // refer to picture under Subsystems, gyro info
 PWR_MGMT_1   = 0x6B
@@ -65,13 +64,13 @@ def get_gyro():
     gyro_z = read_raw_data(GYRO_ZOUT_H)
     
     #Full scale range +/- 250 degree/C as per sensitivity scale factor
-    Ax = acc_x/16384.0
-    Ay = acc_y/16384.0
-    Az = acc_z/16384.0
-    
+    Ax = acc_x * 9.81/16384.0
+    Ay = acc_y * 9.81/16384.0
+    Az = - acc_z * 9.81/16384.0
+
     Gx = gyro_x/131.0
     Gy = gyro_y/131.0
     Gz = gyro_z/131.0
     
-    # print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f g" %Ax, "\tAy=%.2f g" %Ay, "\tAz=%.2f g" %Az) 	
+#     print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f ms2" %Ax, "\tAy=%.2f ms2" %Ay, "\tAz=%.2f ms2" %Az) 	
     return [Ax, Ay, Az , Gx, Gy, Gz]

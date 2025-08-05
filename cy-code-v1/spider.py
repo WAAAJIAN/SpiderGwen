@@ -40,6 +40,8 @@ class Spider:
             4: self.tetraCycle
             }
         self.gait = 0
+        for i in self.leg:
+            self.leg[i].run()
         try:
             MPU_Init()
         except Exception as e:
@@ -47,21 +49,31 @@ class Spider:
 
 
     def balance(self):
+        global roll
         while True:
-            gyro = get_gyro()
-            error_x = 0 - gyro[3]
+            ax,ay,az,gx,gy,gz = get_gyro()
+            # pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
+            # pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
+            roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
+            roll  = filtercoe * (roll  + gy * dt) + (1 - filtercoe) * roll_acc
+            # print("roll", roll)
+            error_x = 0 - roll
             correction = kp * error_x
-            print("error:", error_x)
+            print("roll",roll,"correction:", correction)
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
-            sleep(0.5)
+            self.rotate_x(-correction)
+            sleep(dt)
 
     def rotate_x(self, angle):
         for i in self.leg:
             turning_angle = angle
             if i == 0 or i == 5 or i == 4: 
                 turning_angle = -turning_angle
-            print(f"leg {i} turning angle {turning_angle}")
+            # print(f"leg {i} turning angle {turning_angle}")
             self.leg[i].rotating(0, turning_angle)
+        for i in self.leg:
+            self.leg[i].run()
+        sleep(dt)
         
     def rotate_y(self, angle):
         for i in self.leg:

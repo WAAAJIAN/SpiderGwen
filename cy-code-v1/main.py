@@ -3,6 +3,7 @@ from spider import *
 def main():
     gwen = Spider()
     try:
+        sleep(2)
         gwen.balance()
         # while(1):
         #     inp = input("enter: ")
