@@ -15,12 +15,12 @@ class Spider:
         #     3: Leg(3, 9, 10, 11)
         # }
         self.leg = {
-            0: Leg(0, 6, 18, 12), 
-            5: Leg(5, 7, 19, 13), 
-            4: Leg(4, 8, 20, 14), 
-            1: Leg(1, 9, 21, 15), 
-            2: Leg(2, 10, 22, 16), 
-            3: Leg(3, 11, 23, 17)
+            0: Leg(0, 6, 23, 12), 
+            5: Leg(5, 7, 22, 13), 
+            4: Leg(4, 8, 21, 14), 
+            1: Leg(1, 11, 18, 17), 
+            2: Leg(2, 10, 19, 16), 
+            3: Leg(3, 9, 20, 15)
         }
         '''
             0 (0,0)   1 (1,0)
@@ -47,18 +47,21 @@ class Spider:
             print(f"Error encounter: {e}")
 
     def balance(self):
-        global roll
+        global roll, pitch
         while True:
             ax,ay,az,gx,gy,gz = get_gyro()
-            # pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
-            # pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
-            roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
-            roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
-            error_x = 0 - roll
+            pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
+            pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
+            error_x = 0 - pitch 
+            # roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
+            # roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
+            # error_y = 0 - roll
+            
             correction = kp * error_x
-            print("roll",roll,"correction:", correction)
+            # correction = kp * error_y
+            # print("roll",roll,"correction:", correction)
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
-            self.rotate_x(-correction)
+            self.rotate_y(-correction)
             sleep(dt)
 
     def rotate_x(self, angle): # roll
@@ -69,15 +72,12 @@ class Spider:
             # print(f"leg {i} turning angle {turning_angle}")
             self.leg[i].rotating(0, turning_angle)
         self.runleg()
-        sleep(dt)
+        # sleep(dt)
         
     def rotate_y(self, angle): # pitch
         for i in self.leg:
-            turning_angle = angle
-            if i == 0 or i == 1: 
-                turning_angle = -turning_angle
-            print(f"leg {i} turning angle {turning_angle}")
-            if i!= 2 and i!=5: self.leg[i].rotating(0, turning_angle)
+            self.leg[i].rotating(1, angle)
+        self.runleg()
         
     def stop_leg(self):
         for i in self.leg:

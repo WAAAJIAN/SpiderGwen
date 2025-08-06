@@ -86,13 +86,13 @@ class Leg:
         self.run()
     '''
 
-    def rotating(self, type, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
-        R_c = R(self.offset, angle, self.offset_angle)[type]
+    def rotating(self, type_, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
+        R_c = R(self.offset, angle, self.offset_angle)[type_]
         new_vec = transformBodyCoortoLeg(self.leg, R_c[:2])
         target_x = x_offset + new_vec[0]
         target_y = y_offset + new_vec[1]
         target_z = z_offset + R_c[2]
-        #print(f"leg: {self.leg} moving to {target_x, target_y, target_z}\n")
+        print(f"leg: {self.leg} with {angle, self.offset_angle} moving to {target_x, target_y, target_z}")
         # self.move_to([target_x, target_y, target_z])
 
         self.x = target_x
@@ -108,7 +108,7 @@ class Leg:
             self.x += dx
             self.y += dy
             self.z += dz
-            #print(f"{i} : Current leg position : {self.x, self.y, self.z}")
+            # print(f"{i} : Current leg position : {self.x, self.y, self.z}")
             self.IK()
             sleep(delays)
 
@@ -131,7 +131,7 @@ class Leg:
         self.a = degrees(atan(self.x/y3))
         self.b = degrees(acos(((fl**2)+(l**2)-(tl**2))/(2*fl*l))-theta)
         self.c = degrees(acos(((fl**2)+(tl**2)-(l**2))/(2*fl*tl)))
-        # print("angle: ",self.a,",",self.b,",",self.c)
+        # print("angle: ",self.a,",",self.b,",",self.c,"\n")
         self.angleToDC()
         # self.run()
 
@@ -139,7 +139,6 @@ class Leg:
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((-100 * self.b)/3 + 6000)
         self.c = int((100 * self.c)/3 + 2000)
-        # print("polulu output: ",self.a,",",self.b,",",self.c,"\n")
 
     def clean(self):
         servo.setTarget(self.coxa, 0)

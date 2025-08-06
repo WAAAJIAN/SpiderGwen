@@ -19,8 +19,11 @@ def main():
             # elif inp == '3' : gwen.gaitChange(3)
             # elif inp == '4' : gwen.gaitChange(4)
 
-            #angle = int(input("enter angle:"))
-            #gwen.rotate_x(angle)
+            # angle = int(input("enter angle:"))
+            # gwen.rotate_x(angle)
+        # j = -30
+        # for i in range(60):
+        #     gwen.rotate_x(j+i)
 
     except KeyboardInterrupt:
         print("Stopping Spider.....")
