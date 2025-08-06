@@ -40,13 +40,11 @@ class Spider:
             4: self.tetraCycle
             }
         self.gait = 0
-        for i in self.leg:
-            self.leg[i].run()
+        self.runleg()
         try:
             MPU_Init()
         except Exception as e:
             print(f"Error encounter: {e}")
-
 
     def balance(self):
         global roll
@@ -55,8 +53,7 @@ class Spider:
             # pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
             # pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
             roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
-            roll  = filtercoe * (roll  + gy * dt) + (1 - filtercoe) * roll_acc
-            # print("roll", roll)
+            roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
             error_x = 0 - roll
             correction = kp * error_x
             print("roll",roll,"correction:", correction)
@@ -64,18 +61,17 @@ class Spider:
             self.rotate_x(-correction)
             sleep(dt)
 
-    def rotate_x(self, angle):
+    def rotate_x(self, angle): # roll
         for i in self.leg:
             turning_angle = angle
             if i == 0 or i == 5 or i == 4: 
                 turning_angle = -turning_angle
             # print(f"leg {i} turning angle {turning_angle}")
             self.leg[i].rotating(0, turning_angle)
-        for i in self.leg:
-            self.leg[i].run()
+        self.runleg()
         sleep(dt)
         
-    def rotate_y(self, angle):
+    def rotate_y(self, angle): # pitch
         for i in self.leg:
             turning_angle = angle
             if i == 0 or i == 1: 
@@ -98,6 +94,7 @@ class Spider:
                 self.leg[1].calculateWalk(self.time - period * 0.5, time_on_air, direction)
                 self.leg[3].calculateWalk(self.time - period * 0.5 , time_on_air, direction)
                 self.leg[5].calculateWalk(self.time - period * 0.5, time_on_air, direction)
+            self.runleg()
             self.time += steps
         self.time = 0
 
@@ -110,6 +107,7 @@ class Spider:
             if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[3].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
             if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[2].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
             if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
+            self.runleg()
             self.time += steps
         self.time = 0
 
@@ -122,6 +120,7 @@ class Spider:
             if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[2].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
             if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[4].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
             if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
+            self.runleg()
             self.time += steps
         self.time = 0
 
@@ -134,6 +133,7 @@ class Spider:
             if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
             if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[0].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
             if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[3].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+            self.runleg()
             self.time += steps
         self.time = 0
 
@@ -146,8 +146,13 @@ class Spider:
             if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
             if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[4].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
             if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[2].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+            self.runleg()
             self.time += steps
         self.time = 0
 
     def gaitChange(self, inp):
         self.gait = inp
+
+    def runleg(self):
+        for i in self.leg:
+            self.leg[i].run()

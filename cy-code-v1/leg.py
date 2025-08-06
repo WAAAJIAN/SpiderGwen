@@ -21,20 +21,18 @@ class Leg:
 
     def calculateWalk(self, time, time_on_air, direction):
         distance = 25
-        #input()
         if(time <= ((time_on_air)*period)):
             phase = (time * 180)/(period * time_on_air)
             x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5) 
             y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = -distance * sin(radians(phase)) + z_offset
-            #self.z = -50 + z_offset
         else:
             temp_x = time_on_air * period
             phase = 180 + ((time - temp_x) * 180)/(period - temp_x)
             x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
-        print(self.leg, ",", time, ",", phase)
+        # print(self.leg, ",", time, ",", phase)
         # print("position (before transform): ", x,",",y,",",self.z)
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
@@ -102,7 +100,7 @@ class Leg:
         self.z = target_z
         self.IK()
 
-    def move_to(self, target): # target = [x, y, z]
+    def move_to(self, target): # target = [x, y, z], to use for manual rotate only
         dx = (target[0] - self.x) / step
         dy = (target[1] - self.y) / step
         dz = (target[2] - self.z) / step
@@ -137,7 +135,7 @@ class Leg:
         self.angleToDC()
         # self.run()
 
-    def angleToDC(self): 
+    def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((-100 * self.b)/3 + 6000)
         self.c = int((100 * self.c)/3 + 2000)
