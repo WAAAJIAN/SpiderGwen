@@ -3,12 +3,12 @@ from time import sleep
 
 period = 30000   # period of a leg cycle (its not time!)
 x_offset = 0     # initial x position of leg (vertical axis)
-y_offset = 130   # initial y position of leg (horizontal axis from the center)
+y_offset = 120   # initial y position of leg (horizontal axis from the center)
 z_offset = 120  # initial z position of leg (height of bot)
 steps = 2000     # speed of motion
 
-ctc = (91.37, 105.47) # ctc[0] for middle legs, ctc[1] for corner legs
-cl = 76.42 # length of coxa
+ctc = (71.77, 90.31) # ctc[0] for middle legs, ctc[1] for corner legs
+cl = 55.65 # length of coxa
 fl = 60    # length of femur
 tl = 157.21   # length of tibia
 
@@ -17,8 +17,8 @@ delays = 0.020 # for leg movement in s
 
 offset_angle = 54
 offset_angle_map = {0: offset_angle + 90, 1: offset_angle, 
-                    2: 180, 5: 0, 
-                    3: offset_angle + 180, 4: -offset_angle} # offset angle of each leg from y axis
+                    2: 0, 5: 180, 
+                    3: -offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
 #leg_max_length = 358.44 # maximum y position that leg can go to
 
@@ -41,7 +41,7 @@ M5 = [[-1, 0], [0, 1]]                                                          
 transformMat = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5}
 
 # ==== pid ====
-kp = 3
+kp = 2
 ki = 0 
 kd = 0
 dt = 0.01

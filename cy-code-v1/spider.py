@@ -61,9 +61,9 @@ class Spider:
             error_y = 0 - roll
             
             correction_x = -kp * error_x
-            correction_y = -kp * error_y
+            correction_y = kp * error_y
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
-
+            print("correction angle:", correction_x, correction_y)
             for i in self.leg:
                 self.leg[i].rotating(correction_x, correction_y)
             self.runleg()

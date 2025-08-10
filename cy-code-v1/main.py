@@ -6,8 +6,8 @@ def main():
         sleep(2)
         gwen.balance()
         # while(1):
-        #     inp = input("enter: ")
-        #     if inp == 'w' : gwen.gaitFunction[gwen.gait]([0,1])
+            # inp = input("enter: ")
+            # if inp == 'w' : gwen.gaitFunction[gwen.gait]([0,1])
             # elif inp == 'd' : gwen.gaitFunction[gwen.gait]([1,0])
             # elif inp == 's' : gwen.gaitFunction[gwen.gait]([0,-1])
             # elif inp == 'a' : gwen.gaitFunction[gwen.gait]([-1,0])

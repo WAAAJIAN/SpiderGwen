@@ -34,12 +34,12 @@ class Leg:
             x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
-        # print(self.leg, ",", time, ",", phase)
+        print(self.leg, ",", time, ",", phase)
         # print("position (before transform): ", x,",",y,",",self.z)
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        # print("position: ", self.x,",",self.y,",",self.z)
+        print("position: ", self.x,",",self.y,",",self.z)
         self.IK()
 
     '''
@@ -102,14 +102,14 @@ class Leg:
     #     self.z = target_z
     #     self.IK()
 
-    def rotating(self, roll, pitch): 
-        R_c = R(self.offset_angle, self.offset_angle, roll, pitch) 
+    def rotating(self, pitch, roll): 
+        R_c = R(self.offset, self.offset_angle, roll, pitch) 
         roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
         pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
         self.x = x_offset + roll_vec[0] + pitch_vec[0]
         self.y = y_offset + roll_vec[1] + pitch_vec[1]
         self.z = z_offset + R_c[0][2] + R_c[1][2]
-        print(f"leg: {self.leg} with {roll, pitch} moving to {self.x, self.y, self.z}")
+        # print(f"leg: {self.leg} with {roll, pitch} moving to {self.x, self.y, self.z}")
         self.IK()
 
     # def move_to(self, target): # target = [x, y, z], to use for manual rotate only
@@ -126,7 +126,7 @@ class Leg:
 
 
     def IK(self):
-        y3 = self.y-ctc[self.offset]
+        y3 = self.y#-ctc[self.offset]
         y2 = sqrt((self.y**2)+(self.x**2))-cl
         theta = atan(self.z/y2)
         l = sqrt((y2**2)+(self.z**2))
@@ -134,7 +134,8 @@ class Leg:
         self.a = degrees(atan(self.x/y3))
         self.b = degrees(acos(((fl**2)+(l**2)-(tl**2))/(2*fl*l))-theta)
         self.c = degrees(acos(((fl**2)+(tl**2)-(l**2))/(2*fl*tl)))
-        # print("angle: ",self.a,",",self.b,",",self.c,"\n")
+        # print(f"x={self.x:.2f}, y3={y3:.2f}, y2={y2:.2f}, l={l:.2f}, theta={degrees(theta):.2f}")
+        # print("angle: ",self.a,",",self.b,",",self.c)
         self.angleToDC()
         # self.run()
 
