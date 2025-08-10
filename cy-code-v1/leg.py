@@ -2,6 +2,8 @@ from parameter import *
 import maestro
 servo = maestro.Controller('/dev/ttyAMA0')
 
+# to be implemented: find the limit for both ik and actual leg
+
 class Leg:
     def __init__(self, leg, c, f, t):
         self.leg = leg             # 0 ~ 5, No. of leg, reference to graph on top
@@ -86,41 +88,42 @@ class Leg:
         self.run()
     '''
 
-    def rotating(self, type_, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
-        R_c = R(self.offset, angle, self.offset_angle)[type_]
-        new_vec = transformBodyCoortoLeg(self.leg, R_c[:2])
-        target_x = x_offset + new_vec[0]
-        target_y = y_offset + new_vec[1]
-        target_z = z_offset + R_c[2]
-        print(f"leg: {self.leg} with {angle, self.offset_angle} moving to {target_x, target_y, target_z}")
-        # self.move_to([target_x, target_y, target_z])
+    # def rotating(self, type_, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
+    #     R_c = R(self.offset, angle, self.offset_angle)[type_]
+    #     new_vec = transformBodyCoortoLeg(self.leg, R_c[:2])
+    #     target_x = x_offset + new_vec[0]
+    #     target_y = y_offset + new_vec[1]
+    #     target_z = z_offset + R_c[2]
+    #     print(f"leg: {self.leg} with {angle} moving to {target_x, target_y, target_z}")
+    #     # self.move_to([target_x, target_y, target_z])
 
-        self.x = target_x
-        self.y = target_y
-        self.z = target_z
+    #     self.x = target_x
+    #     self.y = target_y
+    #     self.z = target_z
+    #     self.IK()
+
+    def rotating(self, roll, pitch): 
+        R_c = R(self.offset_angle, self.offset_angle, roll, pitch) 
+        roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+        pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+        self.x = x_offset + roll_vec[0] + pitch_vec[0]
+        self.y = y_offset + roll_vec[1] + pitch_vec[1]
+        self.z = z_offset + R_c[0][2] + R_c[1][2]
+        print(f"leg: {self.leg} with {roll, pitch} moving to {self.x, self.y, self.z}")
         self.IK()
 
-    def move_to(self, target): # target = [x, y, z], to use for manual rotate only
-        dx = (target[0] - self.x) / step
-        dy = (target[1] - self.y) / step
-        dz = (target[2] - self.z) / step
-        for i in range(step):
-            self.x += dx
-            self.y += dy
-            self.z += dz
-            # print(f"{i} : Current leg position : {self.x, self.y, self.z}")
-            self.IK()
-            sleep(delays)
+    # def move_to(self, target): # target = [x, y, z], to use for manual rotate only
+    #     dx = (target[0] - self.x) / step
+    #     dy = (target[1] - self.y) / step
+    #     dz = (target[2] - self.z) / step
+    #     for i in range(step):
+    #         self.x += dx
+    #         self.y += dy
+    #         self.z += dz
+    #         # print(f"{i} : Current leg position : {self.x, self.y, self.z}")
+    #         self.IK()
+    #         sleep(delays)
 
-    # to be implemented: find the limit for both ik and actual leg
-    ''' 
-    def checkValid(self):
-        if(self.a>60 or self.a<-60) or (self.b>60 or self.b<-60) or (self.c>180 or self.c<60):
-            print("Invalid Input")
-            return False
-        else:
-            return True
-    '''
 
     def IK(self):
         y3 = self.y-ctc[self.offset]

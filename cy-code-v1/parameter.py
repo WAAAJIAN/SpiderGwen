@@ -16,9 +16,9 @@ step = 20 # for leg movement to target
 delays = 0.020 # for leg movement in s
 
 offset_angle = 54
-offset_angle_map = {0: offset_angle, 1: offset_angle, 
-                    2: 0, 5: 0, 
-                    3: -offset_angle, 4: -offset_angle} # offset angle of each leg from y axis
+offset_angle_map = {0: offset_angle + 90, 1: offset_angle, 
+                    2: 180, 5: 0, 
+                    3: offset_angle + 180, 4: -offset_angle} # offset angle of each leg from y axis
 
 #leg_max_length = 358.44 # maximum y position that leg can go to
 
@@ -51,15 +51,14 @@ pitch = 0
 roll = 0
 
 # Rotation "Matrix"
-R = lambda x, theta1, theta2 : (
-    (0, ctc[x] * cos(radians(theta2)) * (1 - cos(radians(theta1))), ctc[x] * cos(radians(theta2)) * sin(radians(theta1))),
-    (ctc[x] * sin(radians(theta2)) * (1 - cos(radians(theta1))), 0 , ctc[x] * sin(radians(theta2)) * sin(radians(theta1))),
-    (0 , 0 , 0)) # to be include : yawing vector
+R = lambda x, offset, roll=0, pitch=0 : (
+    (0, ctc[x] * cos(radians(offset)) * (1 - cos(radians(roll))), ctc[x] * cos(radians(offset)) * sin(radians(roll))),
+    (ctc[x] * sin(radians(offset)) * (1 - cos(radians(pitch))), 0 , ctc[x] * sin(radians(offset)) * sin(radians(pitch))),
+    (0 , 0 , 0)) # (roll, pitch, yaw)
 
 # ===== helper function =====
 def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
     m3 = [(m1[0][0])*(m2[0]) + (m1[0][1])*(m2[1]), (m1[1][0])*(m2[0]) + (m1[1][1])*(m2[1])]
-    #print(m1," x ", m2," = ",m3)
     return m3
 
 def polarVector(angle, value = 1):

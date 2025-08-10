@@ -50,18 +50,23 @@ class Spider:
         global roll, pitch
         while True:
             ax,ay,az,gx,gy,gz = get_gyro()
+
+            roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
             pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
-            pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
-            error_x = 0 - pitch 
-            # roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
-            # roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
-            # error_y = 0 - roll
             
-            correction = kp * error_x
-            # correction = kp * error_y
-            # print("roll",roll,"correction:", correction)
+            roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
+            pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
+            
+            error_x = 0 - pitch 
+            error_y = 0 - roll
+            
+            correction_x = -kp * error_x
+            correction_y = -kp * error_y
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
-            self.rotate_y(-correction)
+
+            for i in self.leg:
+                self.leg[i].rotating(correction_x, correction_y)
+            self.runleg()
             sleep(dt)
 
     def rotate_x(self, angle): # roll
