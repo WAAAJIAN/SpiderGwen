@@ -41,11 +41,12 @@ M5 = [[-1, 0], [0, 1]]                                                          
 transformMat = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5}
 
 # ==== pid ====
-kp = 2
-ki = 0 
+kp = 2.4
+ki = 2.5
 kd = 0
 dt = 0.01
 filtercoe = 0.93
+max_I = 25
 
 pitch = 0
 roll = 0
