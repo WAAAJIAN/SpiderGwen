@@ -22,7 +22,7 @@ class Leg:
         self.IK()
 
     def calculateWalk(self, time, time_on_air, direction):
-        distance = 25
+        distance = 35
         if(time <= ((time_on_air)*period)):
             phase = (time * 180)/(period * time_on_air)
             x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5) 

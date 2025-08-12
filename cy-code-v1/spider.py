@@ -48,6 +48,7 @@ class Spider:
 
     def balance(self):
         global roll, pitch
+        error_sum_x, error_sum_y = 0, 0
         while True:
             ax,ay,az,gx,gy,gz = get_gyro()
 
@@ -60,10 +61,19 @@ class Spider:
             error_x = 0 - pitch 
             error_y = 0 - roll
             
-            correction_x = -kp * error_x
-            correction_y = kp * error_y
+            error_sum_x += error_x * dt
+            error_sum_y += error_y * dt
+
+            if error_sum_x > max_I: error_sum_x = max_I
+            elif error_sum_x < -max_I: error_sum_x = -max_I
+            if error_sum_y > max_I: error_sum_y = max_I
+            elif error_sum_y < -max_I: error_sum_y = -max_I
+
+            correction_x = - (kp * error_x + ki * error_sum_x)
+            correction_y = kp * error_y + ki * error_sum_y
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
-            print("correction angle:", correction_x, correction_y)
+            print("error sum", error_sum_x, error_sum_y)
+            print("correction angle:", correction_x, correction_y,"\n")
             for i in self.leg:
                 self.leg[i].rotating(correction_x, correction_y)
             self.runleg()
