@@ -4,16 +4,6 @@ from gyroscope import *
 
 class Spider:
     def __init__(self):
-        #self.leg = {5: Leg(5,3,4,5)}
-        #self.leg = {2 : Leg(2, 18, 19, 20)}
-        # self.leg = {
-        #     0: Leg(0, 0, 1, 2), 
-        #     5: Leg(5, 3, 4, 5), 
-        #     4: Leg(4, 6, 7, 8), 
-        #     1: Leg(1, 21, 22, 23), 
-        #     2: Leg(2, 18, 19, 20), 
-        #     3: Leg(3, 9, 10, 11)
-        # }
         self.leg = {
             0: Leg(0, 6, 23, 12), 
             5: Leg(5, 7, 22, 13), 

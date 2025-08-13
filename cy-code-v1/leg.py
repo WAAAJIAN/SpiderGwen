@@ -35,7 +35,6 @@ class Leg:
             y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
         print(self.leg, ",", time, ",", phase)
-        # print("position (before transform): ", x,",",y,",",self.z)
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
