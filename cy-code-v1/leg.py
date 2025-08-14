@@ -13,6 +13,9 @@ class Leg:
         self.x = x_offset
         self.y = y_offset
         self.z = z_offset
+        self.x_start = self.x
+        self.y_start = self.y
+        self.y_start = self.z
         self.a = 0                 # angle of coxa
         self.b = 0                # angle of femur
         self.c = 180              # angle of tibia
@@ -41,18 +44,21 @@ class Leg:
     #     print("position: ", self.x,",",self.y,",",self.z)
     #     self.IK()
 
-    def calculateWalk(self, phase, direction, turn_distance):
+    def calculateWalk(self, phase, direction, distance, type_):
         if phase <= 180:
-            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) 
+            turn_distance = walk_cycle["on_air"][type_] * distance
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ > 0 else 0)
             y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
-            self.z = -turn_distance * sin(radians(phase)) + z_offset
+            self.z = - distance * sin(radians(phase)) + z_offset
         else:
-            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            turn_distance = walk_cycle["on_ground"][type_] * distance
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ < 2 else 0)
             y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
+        print(f"leg: {self.leg} in {phase} has x = {x}, y = {y}, moving to {self.x, self.y}")
         self.IK()
 
 

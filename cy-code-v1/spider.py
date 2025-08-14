@@ -22,7 +22,7 @@ class Spider:
             4 (0,2)   3 (1,2)
         '''
         self.time = 0
-        self.gait = 0
+        self.gait = gait[0]
         self.runleg()
         try:
             MPU_Init()
@@ -86,24 +86,22 @@ class Spider:
         self.walk(direction, 0, time_on_air, phase_offsets)
         
         for i in range(loop):
-            self.walk(direction, 1)
+            self.walk(direction, 1, time_on_air, phase_offsets)
         
-        self.walk(direction, 2)
+        self.walk(direction, 2, time_on_air, phase_offsets)
 
-    def walk(self, direction, type, time_on_air, phase_offsets):        
+    def walk(self, direction, type_, time_on_air, phase_offsets):        
         distance = 35
-        while(self.time <= period):
+        while(self.time <= 2 * period - time_on_air):            
             for i in self.leg:
                 if self.time >= phase_offsets[i] * period:
                     leg_time = self.time - phase_offsets[i] * period
                     if leg_time <= time_on_air:
                         phase = (leg_time * 180)/time_on_air
-                        turn_distance = walk_cycle["on_air"][type] * distance
-                        self.leg[i].calculateWalk(phase, direction, turn_distance)
+                        self.leg[i].calculateWalk(phase, direction, distance, type_)
                     else:
                         phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
-                        turn_distance = walk_cycle["on_ground"][type] * distance
-                        self.leg[i].calculateWalk(phase, direction, turn_distance)
+                        self.leg[i].calculateWalk(phase, direction, distance, type_)
             self.runleg()
             self.time += steps
         self.time = 0
@@ -176,7 +174,7 @@ class Spider:
     #     self.time = 0
 
     def gaitChange(self, inp):
-        self.gait = inp
+        self.gait = gait[inp]
 
     def runleg(self):
         for i in self.leg:
