@@ -44,6 +44,32 @@ class Leg:
     #     print("position: ", self.x,",",self.y,",",self.z)
     #     self.IK()
 
+    def walknbalance(self, phase, direction, distance, type_, pitch, roll):
+        if phase <= 180:
+            turn_distance = walk_cycle["on_air"][type_] * distance
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ > 0 else 0)
+            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            self.z = - distance * sin(radians(phase)) + z_offset
+        else:
+            turn_distance = walk_cycle["on_ground"][type_] * distance
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ < 2 else 0)
+            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            self.z = z_offset
+        new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+        self.x = x_offset + new_vec[0]
+        self.y = y_offset + new_vec[1]
+        if phase > 180:
+            R_c = R(self.offset, self.offset_angle, roll, pitch) 
+            roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+            pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+            self.x += roll_vec[0] + pitch_vec[0]
+            self.y += roll_vec[1] + pitch_vec[1]
+            self.z += R_c[0][2] + R_c[1][2]
+        print(f"leg: {self.leg} in {phase} has x = {x}, y = {y}, moving to {self.x, self.y}")
+        self.IK()
+
+
+
     def calculateWalk(self, phase, direction, distance, type_):
         if phase <= 180:
             turn_distance = walk_cycle["on_air"][type_] * distance
@@ -60,7 +86,6 @@ class Leg:
         self.y = y_offset + new_vec[1]
         print(f"leg: {self.leg} in {phase} has x = {x}, y = {y}, moving to {self.x, self.y}")
         self.IK()
-
 
     '''
     def calculateWalk(self, type, time): # 0 : start, 1 : moving, 2 : end
