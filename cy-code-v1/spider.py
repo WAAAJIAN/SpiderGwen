@@ -30,16 +30,29 @@ class Spider:
             print(f"Error encounter: {e}")
 
     def balance(self):
-        global roll, pitch
+        roll, pitch = 0,0
         error_sum_x, error_sum_y = 0, 0
+
+        roll_max_I = pid["roll"]["max_I"]
+        pitch_max_I = pid["pitch"]["max_I"]
+
+        roll_filter_coe = pid["roll"]["filter_coe"]
+        pitch_filter_coe = pid["pitch"]["filter_coe"]
+        
+        roll_kp = pid["roll"]["kp"]
+        pitch_kp = pid["pitch"]["kp"]
+
+        roll_ki = pid["roll"]["ki"]
+        pitch_ki = pid["pitch"]["ki"]
+
         while True:
             ax,ay,az,gx,gy,gz = get_gyro()
 
             roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
             pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
-            
-            roll  = filtercoe * (roll + gy * dt) + (1 - filtercoe) * roll_acc
-            pitch = filtercoe * (pitch + gx * dt) + (1 - filtercoe) * pitch_acc
+
+            roll  = roll_filter_coe * (roll + gy * dt) + (1 - roll_filter_coe) * roll_acc
+            pitch = pitch_filter_coe * (pitch + gx * dt) + (1 - pitch_filter_coe) * pitch_acc
 
             error_x = 0 - pitch 
             error_y = 0 - roll
@@ -47,13 +60,13 @@ class Spider:
             error_sum_x += error_x * dt
             error_sum_y += error_y * dt
 
-            if error_sum_x > max_I: error_sum_x = max_I
-            elif error_sum_x < -max_I: error_sum_x = -max_I
-            if error_sum_y > max_I: error_sum_y = max_I
-            elif error_sum_y < -max_I: error_sum_y = -max_I
+            if error_sum_x > pitch_max_I: error_sum_x = pitch_max_I
+            elif error_sum_x < -pitch_max_I: error_sum_x = -pitch_max_I
+            if error_sum_y > roll_max_I: error_sum_y = roll_max_I
+            elif error_sum_y < -roll_max_I: error_sum_y = -roll_max_I
 
-            correction_x = - (kp * error_x + ki * error_sum_x)
-            correction_y = kp * error_y + ki * error_sum_y
+            correction_x = - (pitch_kp * error_x + pitch_ki * error_sum_x)
+            correction_y = roll_kp * error_y + roll_ki * error_sum_y
             # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
             print("error sum", error_sum_x, error_sum_y)
             print("correction angle:", correction_x, correction_y,"\n")
@@ -61,21 +74,6 @@ class Spider:
                 self.leg[i].rotating(correction_x, correction_y)
             self.runleg()
             sleep(dt)
-
-    def rotate_x(self, angle): # roll
-        for i in self.leg:
-            turning_angle = angle
-            if i == 0 or i == 5 or i == 4: 
-                turning_angle = -turning_angle
-            # print(f"leg {i} turning angle {turning_angle}")
-            self.leg[i].rotating(0, turning_angle)
-        self.runleg()
-        # sleep(dt)
-        
-    def rotate_y(self, angle): # pitch
-        for i in self.leg:
-            self.leg[i].rotating(1, angle)
-        self.runleg()
         
     def stop_leg(self):
         for i in self.leg:
@@ -110,72 +108,72 @@ class Spider:
             self.time += steps
         self.time = 0
 
-    def triCycle(self, direction):
-        time_on_air = 0.5
-        while (self.time <= 1.5 * period):
-            if self.time <= period:
-                self.leg[0].calculateWalk(self.time, time_on_air, direction)
-                self.leg[2].calculateWalk(self.time, time_on_air, direction)
-                self.leg[4].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= period * 0.45:
-                self.leg[1].calculateWalk(self.time - period * 0.5, time_on_air, direction)
-                self.leg[3].calculateWalk(self.time - period * 0.5 , time_on_air, direction)
-                self.leg[5].calculateWalk(self.time - period * 0.5, time_on_air, direction)
-            self.runleg()
-            self.time += steps
-        self.time = 0
+    # def triCycle(self, direction):
+    #     time_on_air = 0.5
+    #     while (self.time <= 1.5 * period):
+    #         if self.time <= period:
+    #             self.leg[0].calculateWalk(self.time, time_on_air, direction)
+    #             self.leg[2].calculateWalk(self.time, time_on_air, direction)
+    #             self.leg[4].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time >= period * 0.45:
+    #             self.leg[1].calculateWalk(self.time - period * 0.5, time_on_air, direction)
+    #             self.leg[3].calculateWalk(self.time - period * 0.5 , time_on_air, direction)
+    #             self.leg[5].calculateWalk(self.time - period * 0.5, time_on_air, direction)
+    #         self.runleg()
+    #         self.time += steps
+    #     self.time = 0
 
-    def waveCycle(self, direction):
-        time_on_air = 1/6
-        while (self.time <= (11/6) * period):
-            if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= (1/6) * period and self.time <= (7/6) * period: self.leg[5].calculateWalk(self.time - (1/6) * period, time_on_air, direction)
-            if self.time >= (2/6) * period and self.time <= (8/6) * period: self.leg[4].calculateWalk(self.time - (2/6) * period, time_on_air, direction)
-            if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[3].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
-            if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[2].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
-            if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
-            self.runleg()
-            self.time += steps
-        self.time = 0
+    # def waveCycle(self, direction):
+    #     time_on_air = 1/6
+    #     while (self.time <= (11/6) * period):
+    #         if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time >= (1/6) * period and self.time <= (7/6) * period: self.leg[5].calculateWalk(self.time - (1/6) * period, time_on_air, direction)
+    #         if self.time >= (2/6) * period and self.time <= (8/6) * period: self.leg[4].calculateWalk(self.time - (2/6) * period, time_on_air, direction)
+    #         if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[3].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
+    #         if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[2].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
+    #         if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
+    #         self.runleg()
+    #         self.time += steps
+    #     self.time = 0
 
-    def rippleCycle(self, direction):
-        time_on_air = 1/6
-        while (self.time <= (11/6) * period):
-            if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= (1/6) * period and self.time <= (7/6) * period: self.leg[3].calculateWalk(self.time - (1/6) * period, time_on_air, direction)
-            if self.time >= (2/6) * period and self.time <= (8/6) * period: self.leg[5].calculateWalk(self.time - (2/6) * period, time_on_air, direction)
-            if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[2].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
-            if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[4].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
-            if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
-            self.runleg()
-            self.time += steps
-        self.time = 0
+    # def rippleCycle(self, direction):
+    #     time_on_air = 1/6
+    #     while (self.time <= (11/6) * period):
+    #         if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time >= (1/6) * period and self.time <= (7/6) * period: self.leg[3].calculateWalk(self.time - (1/6) * period, time_on_air, direction)
+    #         if self.time >= (2/6) * period and self.time <= (8/6) * period: self.leg[5].calculateWalk(self.time - (2/6) * period, time_on_air, direction)
+    #         if self.time >= (3/6) * period and self.time <= (9/6) * period: self.leg[2].calculateWalk(self.time - (3/6) * period, time_on_air, direction)
+    #         if self.time >= (4/6) * period and self.time <= (10/6) * period: self.leg[4].calculateWalk(self.time - (4/6) * period, time_on_air, direction)
+    #         if self.time >= (5/6) * period and self.time <= (11/6) * period: self.leg[1].calculateWalk(self.time - (5/6) * period, time_on_air, direction)
+    #         self.runleg()
+    #         self.time += steps
+    #     self.time = 0
 
-    def biCycle(self, direction):
-        time_on_air = 1/3
-        while (self.time <= (11/6) * period):
-            if self.time <= period: self.leg[2].calculateWalk(self.time, time_on_air, direction)
-            if self.time <= period: self.leg[5].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[4].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
-            if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
-            if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[0].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
-            if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[3].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
-            self.runleg()
-            self.time += steps
-        self.time = 0
+    # def biCycle(self, direction):
+    #     time_on_air = 1/3
+    #     while (self.time <= (11/6) * period):
+    #         if self.time <= period: self.leg[2].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time <= period: self.leg[5].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[4].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
+    #         if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
+    #         if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[0].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+    #         if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[3].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+    #         self.runleg()
+    #         self.time += steps
+    #     self.time = 0
 
-    def tetraCycle(self, direction):
-        time_on_air = 1/3
-        while (self.time <= (11/6) * period):
-            if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
-            if self.time <= period: self.leg[3].calculateWalk(self.time, time_on_air, direction)
-            if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[5].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
-            if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
-            if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[4].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
-            if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[2].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
-            self.runleg()
-            self.time += steps
-        self.time = 0
+    # def tetraCycle(self, direction):
+    #     time_on_air = 1/3
+    #     while (self.time <= (11/6) * period):
+    #         if self.time <= period: self.leg[0].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time <= period: self.leg[3].calculateWalk(self.time, time_on_air, direction)
+    #         if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[5].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
+    #         if self.time >= (1/3) * period and self.time <= (4/3) * period: self.leg[1].calculateWalk(self.time - (1/3) * period, time_on_air, direction)
+    #         if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[4].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+    #         if self.time >= (2/3) * period and self.time <= (5/3) * period: self.leg[2].calculateWalk(self.time - (2/3) * period, time_on_air, direction)
+    #         self.runleg()
+    #         self.time += steps
+    #     self.time = 0
 
     def gaitChange(self, inp):
         self.gait = inp

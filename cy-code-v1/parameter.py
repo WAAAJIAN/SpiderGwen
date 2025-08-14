@@ -7,7 +7,7 @@ x_offset = 0     # initial x position of leg (vertical axis)
 y_offset = 120   # initial y position of leg (horizontal axis from the center)
 z_offset = 120  # initial z position of leg (height of bot)
 
-ctc = (71.77, 90.31) # ctc[0] for middle legs, ctc[1] for corner legs
+ctc = (71.77, 90.31)   # ctc[0] for middle legs, ctc[1] for corner legs
 cl = 55.65 # length of coxa
 fl = 60    # length of femur
 tl = 157.21   # length of tibia
@@ -24,18 +24,33 @@ M2 = [[1, 0], [0, 1]]                                                           
 M3 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
 M4 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
 M5 = [[-1, 0], [0, 1]]                                                                # leg 5
-transformMat = {0: M0, 1: M1, 2: M2, 3: M3, 4: M4, 5: M5}
+transformMat = {
+    0: M0, 
+    1: M1, 
+    2: M2, 
+    3: M3, 
+    4: M4, 
+    5: M5
+}
 
 # ==== pid ====
-kp = 2.4
-ki = 2.5
-kd = 0
+pid = {
+    "roll": {
+        "kp" : 2.4,
+        "ki" : 2.5,
+        "kd" : 0,
+        "filter_coe" : 0.93,
+        "max_I" : 25
+    },
+    "pitch":{
+        "kp" : 2.4,
+        "ki" : 2.5,
+        "kd" : 0,
+        "filter_coe" : 0.93,
+        "max_I" : 25
+    }
+}
 dt = 0.01
-filtercoe = 0.93
-max_I = 25
-
-pitch = 0
-roll = 0
 
 # Rotation "Matrix"
 R = lambda x, offset, roll=0, pitch=0 : (
