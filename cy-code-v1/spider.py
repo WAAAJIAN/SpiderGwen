@@ -22,13 +22,6 @@ class Spider:
             4 (0,2)   3 (1,2)
         '''
         self.time = 0
-        self.gaitFunction = {
-            0: self.triCycle, 
-            1: self.waveCycle, 
-            2: self.rippleCycle, 
-            3: self.biCycle, 
-            4: self.tetraCycle
-            }
         self.gait = 0
         self.runleg()
         try:
@@ -87,6 +80,35 @@ class Spider:
     def stop_leg(self):
         for i in self.leg:
             self.leg[i].clean()
+
+    def walkCycle(self, loop, direction):
+        time_on_air = gait_params[self.gait]["time_on_air"] * period
+        phase_offsets = gait_params[self.gait]["phase_offsets"]
+
+        self.walk(direction, 0, time_on_air, phase_offsets)
+        
+        for i in range(loop):
+            self.walk(direction, 1)
+        
+        self.walk(direction, 2)
+
+    def walk(self, direction, type, time_on_air, phase_offsets):        
+        distance = 35
+        while(self.time <= period):
+            for i in self.leg:
+                if self.time >= phase_offsets[i] * period:
+                    leg_time = self.time - phase_offsets[i] * period
+                    if leg_time <= time_on_air:
+                        phase = (leg_time * 180)/time_on_air
+                        turn_distance = walk_cycle["on_air"][type] * distance
+                        self.leg[i].calculateWalk(phase, direction, turn_distance)
+                    else:
+                        phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
+                        turn_distance = walk_cycle["on_ground"][type] * distance
+                        self.leg[i].calculateWalk(phase, direction, turn_distance)
+            self.runleg()
+            self.time += steps
+        self.time = 0
 
     def triCycle(self, direction):
         time_on_air = 0.5

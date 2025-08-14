@@ -21,25 +21,40 @@ class Leg:
         self.offset_angle = offset_angle_map[self.leg]
         self.IK()
 
-    def calculateWalk(self, time, time_on_air, direction):
-        distance = 35
-        if(time <= ((time_on_air)*period)):
-            phase = (time * 180)/(period * time_on_air)
-            x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5) 
-            y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
-            self.z = -distance * sin(radians(phase)) + z_offset
+    # def calculateWalk(self, time, time_on_air, direction):
+    #     distance = 35
+    #     if(time <= ((time_on_air)*period)):
+    #         phase = (time * 180)/(period * time_on_air)
+    #         x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5) 
+    #         y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
+    #         self.z = -distance * sin(radians(phase)) + z_offset
+    #     else:
+    #         temp_x = time_on_air * period
+    #         phase = 180 + ((time - temp_x) * 180)/(period - temp_x)
+    #         x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5)
+    #         y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
+    #         self.z = z_offset
+    #     print(self.leg, ",", time, ",", phase)
+    #     new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+    #     self.x = x_offset + new_vec[0]
+    #     self.y = y_offset + new_vec[1]
+    #     print("position: ", self.x,",",self.y,",",self.z)
+    #     self.IK()
+
+    def calculateWalk(self, phase, direction, turn_distance):
+        if phase <= 180:
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) 
+            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            self.z = -turn_distance * sin(radians(phase)) + z_offset
         else:
-            temp_x = time_on_air * period
-            phase = 180 + ((time - temp_x) * 180)/(period - temp_x)
-            x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5)
-            y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
-        print(self.leg, ",", time, ",", phase)
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        print("position: ", self.x,",",self.y,",",self.z)
         self.IK()
+
 
     '''
     def calculateWalk(self, type, time): # 0 : start, 1 : moving, 2 : end
