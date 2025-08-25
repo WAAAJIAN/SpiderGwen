@@ -1,6 +1,7 @@
 from parameter import *
 import maestro
 servo = maestro.Controller('/dev/ttyAMA0')
+import traceback
 
 # to be implemented: find the limit for both ik and actual leg
 
@@ -169,21 +170,33 @@ class Leg:
     #         self.IK()
     #         sleep(delays)
 
-
     def IK(self):
-        y3 = self.y#-ctc[self.offset]
-        y2 = sqrt((self.y**2)+(self.x**2))-cl
-        theta = atan(self.z/y2)
-        l = sqrt((y2**2)+(self.z**2))
+        try:
+            y = self.y - sqrt(cl**2 - self.x**2) 
+            k = sqrt((y**2)+(self.z**2))
+            theta = asin(self.z/k)
 
-        self.a = degrees(atan(self.x/y3))
-        self.b = degrees(acos(((fl**2)+(l**2)-(tl**2))/(2*fl*l))-theta)
-        self.c = degrees(acos(((fl**2)+(tl**2)-(l**2))/(2*fl*tl)))
-        # print(f"x={self.x:.2f}, y3={y3:.2f}, y2={y2:.2f}, l={l:.2f}, theta={degrees(theta):.2f}")
+            self.a = degrees(atan(self.x/self.y))
+            self.a 
+            theta2 = acos(((fl**2)+(k**2)-(tl**2))/(2*fl*k))
+            if self.y >= 0:
+                self.b = degrees(theta2 - theta)
+            else:
+                self.b = degrees(-pi + theta + theta2)
+            self.c = degrees(acos(((fl**2)+(tl**2)-(k**2))/(2*fl*tl)))
+            if self.a > coxa_range[1] or self.a < coxa_range[0] or self.b > femur_range[1] or self.b < femur_range[0] or self.c > tibia_range[1] or self.c < tibia_range[0]:
+                print(f"angle exceed with {self.a, self.b, self.c}")
+                self.a = 0
+                self.b = 0
+                self.c = 0
+        except Exception as e:
+            traceback.print_exc()
+            self.a = 0
+            self.b = 0
+            self.c = 0
         # print("angle: ",self.a,",",self.b,",",self.c)
         self.angleToDC()
-        # self.run()
-
+        
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((-100 * self.b)/3 + 6000)

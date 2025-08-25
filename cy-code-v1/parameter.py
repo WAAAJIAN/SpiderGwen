@@ -1,8 +1,14 @@
 from math import *
 from time import sleep  
 
+# ===== Leg =====
 period = 30000   # period of a leg cycle 
 steps = 2000     # speed of motion
+
+coxa_range = (-60, 60)
+femur_range = (-60, 60)
+tibia_range = (50, 170)
+
 x_offset = 0     # initial x position of leg (vertical axis)
 y_offset = 120   # initial y position of leg (horizontal axis from the center)
 z_offset = 120  # initial z position of leg (height of bot)
