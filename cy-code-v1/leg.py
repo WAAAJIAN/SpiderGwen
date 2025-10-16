@@ -85,7 +85,7 @@ class Leg:
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        print(f"leg: {self.leg} in {phase} has x = {x}, y = {y}, moving to {self.x, self.y}")
+        print(f"leg: {self.leg} in {phase} on type {type_} has x = {x}, y = {y}, moving to {self.x, self.y}")
         self.IK()
 
     '''
