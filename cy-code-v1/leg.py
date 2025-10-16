@@ -85,7 +85,7 @@ class Leg:
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        print(f"leg: {self.leg} in {phase} has x = {x}, y = {y}, moving to {self.x, self.y}")
+        print(f"leg: {self.leg} in {phase} on type {type_} has x = {x}, y = {y}, moving to {self.x, self.y}")
         self.IK()
 
     '''
@@ -184,6 +184,7 @@ class Leg:
             else:
                 self.b = degrees(-pi + theta + theta2)
             self.c = degrees(acos(((fl**2)+(tl**2)-(k**2))/(2*fl*tl)))
+            print("angle: ", self.a, self.b, self.c, "\n")
             if self.a > coxa_range[1] or self.a < coxa_range[0] or self.b > femur_range[1] or self.b < femur_range[0] or self.c > tibia_range[1] or self.c < tibia_range[0]:
                 print(f"angle exceed with {self.a, self.b, self.c}")
                 self.a = 0
