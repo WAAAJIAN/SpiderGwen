@@ -20,9 +20,11 @@ import csv
 
 # ---------------------- USER PARAMETERS ----------------------
 # link lengths (mm)
-L1 = 139.5 # femur length
+# L1 = 139.5 # femur length
 # L2 = 180 # tibia length
-L2 = L1*1.4
+# L2 = L1*1.4
+L1 = 100
+L2 = 130
 
 # joint limits in degrees (relative to link axes)
 # femur: rotation around hip pitch (measured from body-horizontal forward = 0 deg, positive down)

@@ -5,12 +5,12 @@ from gyroscope import *
 class Spider:
     def __init__(self):
         self.leg = {
-            0: Leg(0, 6, 23, 12), 
-            5: Leg(5, 7, 22, 13), 
-            4: Leg(4, 8, 21, 14), 
-            1: Leg(1, 11, 18, 17), 
+            # 0: Leg(0, 6, 23, 12), 
+            # 5: Leg(5, 7, 22, 13), 
+            # 4: Leg(4, 8, 21, 14), 
+            # 1: Leg(1, 11, 18, 17), 
             2: Leg(2, 10, 19, 16), 
-            3: Leg(3, 9, 20, 15)
+            # 3: Leg(3, 9, 20, 15)
         }
         '''
             0 (0,0)   1 (1,0)
@@ -156,7 +156,7 @@ class Spider:
                     else:
                         phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
                         self.leg[i].walknbalance(phase, direction, distance, type_, correction_x, correction_y)
-            self.runleg()
+            # self.runleg()
             sleep(dt)
             self.time += steps
         self.time = 0

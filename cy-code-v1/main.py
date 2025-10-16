@@ -1,13 +1,14 @@
 from spider import *
 
 def main():
-    gwen = Spider()
+    # gwen = Spider()
     try:
+        print(R(0, 0, 30))
         # sleep(2)
-        # gwen.balance()
-        while(1):
-            inp = input("enter: ")
-            if inp[0] == 'w' : gwen.walkCycle(int(inp[1:]), [0,1])
+        # # gwen.balance()
+        # while(1):
+        #     inp = input("enter: ")
+        #     if inp[0] == 'w' : gwen.walkCycle(int(inp[1:]), [0,1])
         #     elif inp[0] == 'd' : gwen.walkCycle(int(inp[1:]), [1,0])
         #     elif inp[0] == 's' : gwen.walkCycle(int(inp[1:]), [0,-1])
         #     elif inp[0] == 'a' : gwen.walkCycle(int(inp[1:]), [-1,0])
@@ -27,7 +28,7 @@ def main():
 
     except KeyboardInterrupt:
         print("Stopping Spider.....")
-        gwen.stop_leg()
+        # gwen.stop_leg()
 
 if __name__ == "__main__":
     main()
