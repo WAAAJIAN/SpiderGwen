@@ -5,11 +5,11 @@ from gyroscope import *
 class Spider:
     def __init__(self):
         self.leg = {
-             0: Leg(0, 6, 23, 12), 
-             5: Leg(5, 7, 22, 13), 
-             4: Leg(4, 8, 21, 14), 
-            1: Leg(1, 11, 18, 17), 
-            2: Leg(2, 10, 19, 16), 
+            #  0: Leg(0, 6, 23, 12), 
+            #  5: Leg(5, 7, 22, 13), 
+            #  4: Leg(4, 8, 21, 14), 
+            # 1: Leg(1, 11, 18, 17), 
+            1: Leg(1, 10, 19, 16), 
             # 3: Leg(3, 9, 20, 15)
         }
         '''
@@ -91,7 +91,7 @@ class Spider:
         self.walk(direction, 2, time_on_air, phase_offsets)
 
     def walk(self, direction, type_, time_on_air, phase_offsets):        
-        distance = 40
+        distance = 50
         while(self.time <= 2 * period - time_on_air):            
             for i in self.leg:
                 if self.time >= phase_offsets[i] * period:
@@ -162,59 +162,59 @@ class Spider:
     #         self.time += steps
     #     self.time = 0
 
-    def walk(self, direction, type_, time_on_air, phase_offsets):
-        roll, pitch = 0,0
-        error_sum_x, error_sum_y = 0, 0
+    # def walk(self, direction, type_, time_on_air, phase_offsets):
+    #     roll, pitch = 0,0
+    #     error_sum_x, error_sum_y = 0, 0
 
-        roll_max_I = pid["roll"]["max_I"]
-        pitch_max_I = pid["pitch"]["max_I"]
+    #     roll_max_I = pid["roll"]["max_I"]
+    #     pitch_max_I = pid["pitch"]["max_I"]
 
-        roll_filter_coe = pid["roll"]["filter_coe"]
-        pitch_filter_coe = pid["pitch"]["filter_coe"]
+    #     roll_filter_coe = pid["roll"]["filter_coe"]
+    #     pitch_filter_coe = pid["pitch"]["filter_coe"]
         
-        roll_kp = pid["roll"]["kp"]
-        pitch_kp = pid["pitch"]["kp"]
+    #     roll_kp = pid["roll"]["kp"]
+    #     pitch_kp = pid["pitch"]["kp"]
 
-        roll_ki = pid["roll"]["ki"]
-        pitch_ki = pid["pitch"]["ki"]
+    #     roll_ki = pid["roll"]["ki"]
+    #     pitch_ki = pid["pitch"]["ki"]
        
-        distance = 35
-        while(self.time <= 2 * period - time_on_air):
-            ax,ay,az,gx,gy,gz = get_gyro()
+    #     distance = 35
+    #     while(self.time <= 2 * period - time_on_air):
+    #         ax,ay,az,gx,gy,gz = get_gyro()
 
-            roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
-            pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
+    #         roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
+    #         pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
 
-            roll  = roll_filter_coe * (roll + gy * dt) + (1 - roll_filter_coe) * roll_acc
-            pitch = pitch_filter_coe * (pitch + gx * dt) + (1 - pitch_filter_coe) * pitch_acc
+    #         roll  = roll_filter_coe * (roll + gy * dt) + (1 - roll_filter_coe) * roll_acc
+    #         pitch = pitch_filter_coe * (pitch + gx * dt) + (1 - pitch_filter_coe) * pitch_acc
 
-            error_x = 0 - pitch 
-            error_y = 0 - roll
+    #         error_x = 0 - pitch 
+    #         error_y = 0 - roll
             
-            error_sum_x += error_x * dt
-            error_sum_y += error_y * dt
+    #         error_sum_x += error_x * dt
+    #         error_sum_y += error_y * dt
 
-            if error_sum_x > pitch_max_I: error_sum_x = pitch_max_I
-            elif error_sum_x < -pitch_max_I: error_sum_x = -pitch_max_I
-            if error_sum_y > roll_max_I: error_sum_y = roll_max_I
-            elif error_sum_y < -roll_max_I: error_sum_y = -roll_max_I
+    #         if error_sum_x > pitch_max_I: error_sum_x = pitch_max_I
+    #         elif error_sum_x < -pitch_max_I: error_sum_x = -pitch_max_I
+    #         if error_sum_y > roll_max_I: error_sum_y = roll_max_I
+    #         elif error_sum_y < -roll_max_I: error_sum_y = -roll_max_I
 
-            correction_x = - (pitch_kp * error_x + pitch_ki * error_sum_x)
-            correction_y = roll_kp * error_y + roll_ki * error_sum_y            
+    #         correction_x = - (pitch_kp * error_x + pitch_ki * error_sum_x)
+    #         correction_y = roll_kp * error_y + roll_ki * error_sum_y            
             
-            for i in self.leg:
-                if self.time >= phase_offsets[i] * period:
-                    leg_time = self.time - phase_offsets[i] * period
-                    if leg_time <= time_on_air:
-                        phase = (leg_time * 180)/time_on_air
-                        self.leg[i].walknbalance(phase, direction, distance, type_, correction_x, correction_y)
-                    else:
-                        phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
-                        self.leg[i].walknbalance(phase, direction, distance, type_, correction_x, correction_y)
-            # self.runleg()
-            sleep(dt)
-            self.time += steps
-        self.time = 0
+    #         for i in self.leg:
+    #             if self.time >= phase_offsets[i] * period:
+    #                 leg_time = self.time - phase_offsets[i] * period
+    #                 if leg_time <= time_on_air:
+    #                     phase = (leg_time * 180)/time_on_air
+    #                     self.leg[i].walknbalance(phase, direction, distance, type_, correction_x, correction_y)
+    #                 else:
+    #                     phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
+    #                     self.leg[i].walknbalance(phase, direction, distance, type_, correction_x, correction_y)
+    #         # self.runleg()
+    #         sleep(dt)
+    #         self.time += steps
+    #     self.time = 0
 
     # def waveCycle(self, direction):
     #     time_on_air = 1/6

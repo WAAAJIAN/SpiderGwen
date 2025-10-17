@@ -8,7 +8,7 @@ calibratedleg = set()
 def neutralleg(pin):
     target = 6000
     if pin[-1] == '_': 
-        target = 9000
+        target = 4000
         pin = pin[:-1]
     servo.setTarget(int(pin), target)
 

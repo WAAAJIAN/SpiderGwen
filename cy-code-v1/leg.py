@@ -187,6 +187,7 @@ class Leg:
             self.b = degrees(theta2 - theta) # femur angle
 
             self.c = 180 - degrees(acos(max(-1, min(1, ((fl**2)+(tl**2)-(k**2))/(2*fl*tl))))) # tibia angle from femur
+            print(f"Current angle: {self.a, self.b, self.c} \n")
             if self.a > coxa_range[1] or self.a < coxa_range[0] or self.b > femur_range[1] or self.b < femur_range[0] or self.c > tibia_range[1] or self.c < tibia_range[0]:
                 print(f"angle exceed with {self.a, self.b, self.c}")
                 raise ValueError("Angle exceeded.")
@@ -200,8 +201,8 @@ class Leg:
         
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
-        self.b = int((-100 * self.b)/3 + 6000)
-        self.c = int((-100 * self.c)/3 + 8000)
+        self.b = int((100 * self.b)/3 + 6000)
+        self.c = int((100 * self.c)/3 + 4000)
 
     def clean(self):
         servo.setTarget(self.coxa, 0)
