@@ -1,5 +1,6 @@
 
 import maestro
+import time
 
 servo = maestro.Controller('/dev/ttyAMA0')
 
@@ -7,6 +8,12 @@ calibratedleg = set()
 
 def neutralleg(pin):
     target = 6000
+    if pin[-1] == '+':
+        pin = pin[:-1]
+        for i in range(4000, 8001, 200):
+            servo.setTarget(int(pin), i)
+            time.sleep(0.2)
+        return
     if pin[-1] == '_': 
         target = 4000
         pin = pin[:-1]
@@ -27,7 +34,7 @@ try:
                  print(f"Servo {leg} cleaned")
         else:
             neutralleg(pin)
-            if pin[-1] == '_': 
+            if pin[-1] == '_' or pin[-1] == '+': 
                 pin = pin[:-1]
             calibratedleg.add(int(pin))
 except KeyboardInterrupt:

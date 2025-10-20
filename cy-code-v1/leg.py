@@ -79,7 +79,7 @@ class Leg:
             self.z = - distance * sin(radians(phase)) + z_offset
         else:
             turn_distance = walk_cycle["on_ground"][type_] * distance
-            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ < 2 else 0)
+            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) # - (distance if type_ < 2 else 0)
             y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
