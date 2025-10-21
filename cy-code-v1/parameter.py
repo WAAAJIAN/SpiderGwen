@@ -99,7 +99,7 @@ gait_params = {
 }
 
 walk_cycle = {
-    "on_air": [1, 2, 1],
+    "on_air": [0.5, 1, 0.5],
     "on_ground": [2, 2, 0]
 }
 
