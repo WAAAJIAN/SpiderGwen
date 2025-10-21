@@ -23,8 +23,8 @@ import csv
 # L1 = 139.5 # femur length
 # L2 = 180 # tibia length
 # L2 = L1*1.4
-L1 = 100
-L2 = 130
+L1 = 110
+L2 = 145.4
 
 # joint limits in degrees (relative to link axes)
 # femur: rotation around hip pitch (measured from body-horizontal forward = 0 deg, positive down)
@@ -36,7 +36,7 @@ femur_limits = (-60, 60) # degrees (relative pitch of the femur link)
 tibia_limits = (50, 170) # internal femur-tibia angle in degrees (avoid 180 straight singularity)
 
 # sampling resolution
-theta_samples = 801 # resolution for theta1 / theta2 sampling; higher -> smoother workspace
+theta_samples = 181 # resolution for theta1 / theta2 sampling; higher -> smoother workspace
 
 # plot options
 show_inner_boundary = True
@@ -236,13 +236,13 @@ def on_click(event):
     x = event.xdata
     y = event.ydata
     sol = ik_two_link(x, y, L1, L2, elbow_up=True)
-    # sol2 = ik_cal(x, y, L1, L2)
+    sol2 = ik_cal(x, y, L1, L2)
     if sol is None:
         print(f'Point ({x:.1f}, {y:.1f}) unreachable')
         return
-    # if sol2 is None:
-    #     print(f'Point ({x:.1f}, {y:.1f}) failed to calculate')
-    #     return
+    if sol2 is None:
+        print(f'Point ({x:.1f}, {y:.1f}) failed to calculate')
+        return
     theta1, I_internal = sol
     theta2 = np.pi - (I_internal * deg2rad)
     tibia_abs = theta1 + theta2
@@ -264,32 +264,32 @@ def on_click(event):
             text_artist.remove()
         except Exception:
             pass
-    # IKtheta1, IKI_internal = sol2
-    # IKtheta1 = IKtheta1 * deg2rad
-    # IKtheta2 = np.pi - (IKI_internal * deg2rad)
-    # IKtibia_abs = IKtheta1 + IKtheta2
-    # IKxk = [0, L1 * np.cos(IKtheta1), L1 * np.cos(IKtheta1) + L2 * np.cos(IKtibia_abs)]
-    # IKyk = [0, L1 * np.sin(IKtheta1), L1 * np.sin(IKtheta1) + L2 * np.sin(IKtibia_abs)]
-    # if selected_point_artist_2 is not None:
-    #     try:
-    #         selected_point_artist_2.remove()
-    #     except Exception:
-    #         pass
-    # if line_artist_2 is not None:
-    #     try:
-    #         line_artist_2.remove()
-    #     except Exception:
-    #         pass
-    # if text_artist_2 is not None:
-    #     try:
-    #         text_artist_2.remove()
-    #     except Exception:
-    #         pass
+    IKtheta1, IKI_internal = sol2
+    IKtheta1 = IKtheta1 * deg2rad
+    IKtheta2 = np.pi - (IKI_internal * deg2rad)
+    IKtibia_abs = IKtheta1 + IKtheta2
+    IKxk = [0, L1 * np.cos(IKtheta1), L1 * np.cos(IKtheta1) + L2 * np.cos(IKtibia_abs)]
+    IKyk = [0, L1 * np.sin(IKtheta1), L1 * np.sin(IKtheta1) + L2 * np.sin(IKtibia_abs)]
+    if selected_point_artist_2 is not None:
+        try:
+            selected_point_artist_2.remove()
+        except Exception:
+            pass
+    if line_artist_2 is not None:
+        try:
+            line_artist_2.remove()
+        except Exception:
+            pass
+    if text_artist_2 is not None:
+        try:
+            text_artist_2.remove()
+        except Exception:
+            pass
 
-    # selected_point_artist_2 = ax.plot(x, y, 'rx', markersize=8)[0]
-    # line_artist_2 = ax.plot(IKxk, IKyk, '-o', color='yellow', linewidth=2, markersize=6)[0]
-    # angle_text_2 = f"theta2={IKtheta1*rad2deg:.1f}° knee_internal2={IKI_internal:.1f}°"
-    # text_artist_2 = ax.text(0.02, 0.95, angle_text_2, transform=ax.transAxes, va='top', bbox=dict(boxstyle='round', fc='w'))
+    selected_point_artist_2 = ax.plot(x, y, 'rx', markersize=8)[0]
+    line_artist_2 = ax.plot(IKxk, IKyk, '-o', color='yellow', linewidth=2, markersize=6)[0]
+    angle_text_2 = f"theta2={IKtheta1*rad2deg:.1f}° knee_internal2={IKI_internal:.1f}°"
+    text_artist_2 = ax.text(0.02, 0.95, angle_text_2, transform=ax.transAxes, va='top', bbox=dict(boxstyle='round', fc='w'))
 
     selected_point_artist = ax.plot(x, y, 'rx', markersize=8)[0]
     line_artist = ax.plot(xk, yk, '-o', color='green', linewidth=2, markersize=6)[0]
