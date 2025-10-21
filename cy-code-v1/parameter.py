@@ -3,20 +3,22 @@ from time import sleep
 
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
-steps = 2000     # speed of motion
+steps = 1000   # speed of motion
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
-tibia_range = (0, 120)
+tibia_range = (30, 150)
+
+# tested highest point (0, 206, -206)
 
 x_offset = 0     # initial x position of leg (vertical axis)
-y_offset = 180   # initial y position of leg (horizontal axis from the coxa)
-z_offset = 140  # initial z position of leg (height of bot)
+y_offset = 250  # initial y position of leg (horizontal axis from the coxa)
+z_offset = 70  # initial z position of leg (height of bot)
 
 ctc = (71.77, 90.31)   # ctc[0] for middle legs, ctc[1] for corner legs
 cl = 55.65 # length of coxa
 fl = 110    # length of femur
-tl = 155   # length of tibia
+tl = 145.4   # length of tibia
 
 offset_angle = 54
 offset_angle_map = {0: offset_angle + 90, 1: offset_angle, 

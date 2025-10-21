@@ -1,10 +1,9 @@
 from spider import *
 
 def main():
-    # gwen = Spider()
+    gwen = Spider()
     try:
-        print(R(0, 0, 30))
-        # sleep(2)
+        sleep(2)
         # gwen.balance()
         while(1):
             inp = input("enter: ")
@@ -14,11 +13,11 @@ def main():
             elif inp[0] == 'a' : gwen.walkCycle(int(inp[1:]), [-1,0])
             elif inp[0] == 'e' : gwen.walkCycle(int(inp[1:]), polarVector(45))
             elif inp[0] == 'q' : gwen.walkCycle(int(inp[1:]), polarVector(135))
-            elif inp == '0' : gwen.gaitChange(0)
-            elif inp == '1' : gwen.gaitChange(1)
-            elif inp == '2' : gwen.gaitChange(2)
-            elif inp == '3' : gwen.gaitChange(3)
-            elif inp == '4' : gwen.gaitChange(4)
+        #     elif inp == '0' : gwen.gaitChange(0)
+        #     elif inp == '1' : gwen.gaitChange(1)
+        #     elif inp == '2' : gwen.gaitChange(2)
+        #     elif inp == '3' : gwen.gaitChange(3)
+        #     elif inp == '4' : gwen.gaitChange(4)
 
             # angle = int(input("enter angle:"))
             # gwen.rotate_x(angle)
@@ -28,7 +27,7 @@ def main():
 
     except KeyboardInterrupt:
         print("Stopping Spider.....")
-        # gwen.stop_leg()
+        gwen.stop_leg()
 
 if __name__ == "__main__":
     main()
