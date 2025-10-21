@@ -3,8 +3,6 @@ import maestro
 servo = maestro.Controller('/dev/ttyAMA0')
 import traceback
 
-# to be implemented: find the limit for both ik and actual leg
-
 class Leg:
     def __init__(self, leg, c, f, t):
         self.leg = leg             # 0 ~ 5, No. of leg, reference to graph on top
@@ -24,28 +22,6 @@ class Leg:
         self.offset = 0 if self.leg in (2, 5) else 1
         self.offset_angle = offset_angle_map[self.leg]
         self.IK()
-        
-        '''
-    def calculateWalk(self, time, time_on_air, direction):
-        distance = 35
-        if(time <= ((time_on_air)*period)):
-            phase = (time * 180)/(period * time_on_air)
-            x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5) 
-            y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
-            self.z = -distance * sin(radians(phase)) + z_offset
-        else:
-            temp_x = time_on_air * period
-            phase = 180 + ((time - temp_x) * 180)/(period - temp_x)
-            x = direction[1] * distance * (cos(radians(phase)) * -0.5 + 0.5)
-            y = -direction[0] * distance * (cos(radians(phase)) * -0.5 + 0.5)
-            self.z = z_offset
-        print(self.leg, ",", time, ",", phase)
-        new_vec = transformBodyCoortoLeg(self.leg, [x,y])
-        self.x = x_offset + new_vec[0]
-        self.y = y_offset + new_vec[1]
-        print("position: ", self.x,",",self.y,",",self.z)
-        self.IK()
-        '''
 
     def walknbalance(self, phase, direction, distance, type_, pitch, roll):
         if phase <= 180:
@@ -74,65 +50,19 @@ class Leg:
     def calculateWalk(self, phase, direction, distance, type_):
         if phase <= 180:
             turn_distance = walk_cycle["on_air"][type_] * distance
-            x = direction[1] * turn_distance * cos(radians(180 - phase)) + distance * walk_offset[type_]
-            # y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            x = direction[1] * (turn_distance * cos(radians(180 - phase)) + distance * walk_offset[type_]) 
+            y = direction[0] * - (turn_distance * cos(radians(180 - phase)) + distance * walk_offset[type_]) 
             self.z = - distance * sin(radians(phase)) + z_offset
         else:
             turn_distance = walk_cycle["on_ground"][type_] * distance
-            x = - direction[1] * turn_distance * ((phase/180) - 1) + (distance if type_ < 2 else 0) 
-            # y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            x = direction[1] * (-1 * turn_distance * ((phase/180) - 1) + (distance if type_ < 2 else 0)) 
+            y = direction[0] * - (-1 * turn_distance * ((phase/180) - 1) + (distance if type_ < 2 else 0)) 
             self.z = z_offset
-        new_vec = transformBodyCoortoLeg(self.leg, [x,0])
+        new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        print(f"leg: {self.leg} in {phase} on type {type_} has x = {x}, y = {0}, moving to {self.x, self.y}")
+        print(f"leg: {self.leg} in {phase} on type {type_} has x = {x}, y = {y}, moving to {self.x, self.y}")
         self.IK()
-
-    '''
-    def calculateWalk(self, type, time): # 0 : start, 1 : moving, 2 : end
-        phase = (time/(0.5*period)) * 360
-        distance = 25
-        #input()
-        \'''
-        if(time <= (0.25*period)):
-            if type == 0:
-                self.x = - (distance*cos(radians(phase)) + x_offset - distance)
-                self.y = y_offset
-                self.z = -distance*sin(radians(phase)) + z_offset
-            elif type == 1:
-                self.x = -2*distance*cos(radians(phase))
-                self.y = y_offset
-                self.z = - 2*distance*sin(radians(phase)) + z_offset
-            else:
-                self.x = - distance*(cos(radians(phase)) + 1)
-                self.y = y_offset
-                self.z = - distance*sin(radians(phase)) + z_offset
-        \'''
-        if(time <= (0.25*period)):
-            if type == 0:
-                self.x = - (distance*cos(radians(phase)) + x_offset - distance)
-                self.y = y_offset
-                self.z = - 50 + z_offset
-            elif type == 1:
-                self.x = -2*distance*cos(radians(phase))
-                self.y = y_offset
-                self.z = - 50 + z_offset
-            else:
-                self.x = - distance*(cos(radians(phase)) + 1)
-                self.y = y_offset
-                self.z = - 50 + z_offset
-        else:
-            if type == 0 or type == 1:
-                self.x = -2*distance*cos(radians(phase))
-                self.z = z_offset
-                self.y = y_offset
-        #print(phase)
-        #print([self.facing, self.pos], "position (before transform): ", self.x,",",self.y,",",self.z)
-        self.transformCoor()
-        #print([self.facing, self.pos], "position: ", self.x,",",self.y,",",self.z)
-        self.IK()
-        self.run()
-    '''
 
     # def rotating(self, type_, angle): # type : 0 = roll, 1 = pitch, 2 = yaw (not working yet)
     #     R_c = R(self.offset, angle, self.offset_angle)[type_]
@@ -196,13 +126,12 @@ class Leg:
             self.a = 0
             self.b = 0
             self.c = 0
-        # print("angle: ",self.a,",",self.b,",",self.c)
         self.angleToDC()
         
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((100 * self.b)/3 + 6000)
-        self.c = int((100 * self.c)/3 + 4000)
+        self.c = int((100 * self.c)/3 + 3000)
 
     def clean(self):
         servo.setTarget(self.coxa, 0)
