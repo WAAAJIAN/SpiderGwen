@@ -103,6 +103,12 @@ walk_cycle = {
     "on_ground": [2, 2, 0]
 }
 
+walk_offset = {
+    0 : 0.5,
+    1 : 0,
+    2 : -0.5
+}
+
 # ===== helper function =====
 def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
     m3 = [(m1[0][0])*(m2[0]) + (m1[0][1])*(m2[1]), (m1[1][0])*(m2[0]) + (m1[1][1])*(m2[1])]

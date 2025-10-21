@@ -74,15 +74,15 @@ class Leg:
     def calculateWalk(self, phase, direction, distance, type_):
         if phase <= 180:
             turn_distance = walk_cycle["on_air"][type_] * distance
-            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) - (distance if type_ > 0 else 0)
-            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            x = direction[1] * turn_distance * cos(radians(180 - phase)) + distance * walk_offset[type_]
+            # y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = - distance * sin(radians(phase)) + z_offset
         else:
             turn_distance = walk_cycle["on_ground"][type_] * distance
-            x = direction[1] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5) # - (distance if type_ < 2 else 0)
-            y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
+            x = direction[1] * turn_distance * ((phase/180) - 1) 
+            # y = -direction[0] * turn_distance * (cos(radians(phase)) * -0.5 + 0.5)
             self.z = z_offset
-        new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+        new_vec = transformBodyCoortoLeg(self.leg, [x,0])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
         print(f"leg: {self.leg} in {phase} on type {type_} has x = {x}, y = {y}, moving to {self.x, self.y}")
