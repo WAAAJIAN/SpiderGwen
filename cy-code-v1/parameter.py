@@ -9,6 +9,16 @@ coxa_range = (-60, 60)
 femur_range = (-60, 60)
 tibia_range = (30, 150)
 
+switch = {
+    2 : 17,
+    3 : 27,
+    4 : 22,
+    5 : 10,
+    0 : 9,
+    1 : 11
+}
+
+
 # tested highest point (0, 206, -206)
 
 x_offset = 0     # initial x position of leg (vertical axis)
