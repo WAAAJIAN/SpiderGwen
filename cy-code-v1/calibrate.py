@@ -10,7 +10,7 @@ def neutralleg(pin):
     target = 6000
     if pin[-1] == '+':
         pin = pin[:-1]
-        for i in range(2000, 8001, 200):
+        for i in range(4000, 8001, 200):
             servo.setTarget(int(pin), i)
             time.sleep(0.5)
         return
