@@ -9,6 +9,16 @@ coxa_range = (-60, 60)
 femur_range = (-60, 60)
 tibia_range = (30, 150)
 
+switch = {
+    2 : 17,
+    3 : 27,
+    4 : 22,
+    5 : 10,
+    0 : 9,
+    1 : 11
+}
+
+
 # tested highest point (0, 206, -206)
 
 x_offset = 0     # initial x position of leg (vertical axis)
@@ -26,11 +36,11 @@ offset_angle_map = {0: offset_angle + 90, 1: offset_angle,
                     3: offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
 #Matrix for transform coordinate on each leg (second version)
-M0 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))],[sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
-M1 = [[cos(radians(offset_angle)), -sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1
+M0 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))],[-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
+M1 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1
 M2 = [[1, 0], [0, 1]]                                                                 # leg 2
-M3 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
-M4 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
+M3 = [[cos(radians(offset_angle)), -sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
+M4 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
 M5 = [[-1, 0], [0, 1]]                                                                # leg 5
 transformMat = {
     0: M0, 
@@ -99,7 +109,7 @@ gait_params = {
 }
 
 walk_cycle = {
-    "on_air": [1, 2, 1],
+    "on_air": [0.5, 1, 0.5],
     "on_ground": [2, 2, 0]
 }
 
