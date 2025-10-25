@@ -12,8 +12,8 @@ tibia_range = (30, 150)
 # tested highest point (0, 206, -206)
 
 x_offset = 0     # initial x position of leg (vertical axis)
-y_offset = 250  # initial y position of leg (horizontal axis from the coxa)
-z_offset = 70  # initial z position of leg (height of bot)
+y_offset = 150  # initial y position of leg (horizontal axis from the coxa)
+z_offset = 150  # initial z position of leg (height of bot)
 
 ctc = (71.77, 90.31)   # ctc[0] for middle legs, ctc[1] for corner legs
 cl = 55.65 # length of coxa
@@ -23,7 +23,7 @@ tl = 145.4   # length of tibia
 offset_angle = 54
 offset_angle_map = {0: offset_angle + 90, 1: offset_angle, 
                     2: 0, 5: 180, 
-                    3: -offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
+                    3: offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
 #Matrix for transform coordinate on each leg (second version)
 M0 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))],[sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
