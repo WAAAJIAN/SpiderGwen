@@ -82,9 +82,9 @@ class Spider:
     def walkCycle(self, loop, direction):
         phase_offsets = gait_params[self.gait]["phase_offsets"]
         stop_time = gait_params[self.gait]["stop_time"]
-        phase_count = (sampling + stop_time) * 2
+        phase_count = sampling + stop_time * 2
         step = period / phase_count 
-        time_on_air = gait_params[self.gait]["time_on_air"] * step
+        time_on_air = gait_params[self.gait]["time_on_air"] * sampling * step
         time_on_ground = (time_on_air + stop_time * step, period - stop_time * step)
 
         self.walk(direction, 0, time_on_air, phase_offsets, step, time_on_ground)
@@ -115,15 +115,19 @@ class Spider:
     def walk(self, direction, type_, time_on_air, phase_offsets, step, time_on_ground):        
         while(self.time <= 2 * period - time_on_air):            
             for i in self.leg:
+                if i in (0,4,5):
+                    direction_ = [direction[0], -direction[1]]
+                else:
+                    direction_ = direction
                 if self.time >= phase_offsets[i] * period:
                     leg_time = self.time - phase_offsets[i] * period
                     if leg_time <= time_on_air:
-                        phase = (leg_time * 180)/time_on_air
-                        self.leg[i].calculateWalk(phase, direction, walk_distance, type_)
+                        phase = (leg_time * 180)/ time_on_air 
+                        self.leg[i].calculateWalk(phase, direction_, walk_distance, type_)
                     elif leg_time < time_on_ground[1] or leg_time >= time_on_ground[0]:
-                        phase = 180 + ((leg_time - time_on_air) * 180)/ time_on_ground
+                        phase = 180 + ((leg_time - time_on_air) * 180)/ (time_on_ground[1] - time_on_ground[0])
                         if phase <= 360:
-                            self.leg[i].calculateWalk(phase, direction, walk_distance, type_)
+                            self.leg[i].calculateWalk(phase, direction_, walk_distance, type_)
                     else:
                         pass
             self.runleg()
