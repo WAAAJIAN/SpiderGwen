@@ -4,6 +4,7 @@ from time import sleep
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
 steps = 1000   # speed of motion
+sampling = 10
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
@@ -17,7 +18,6 @@ switch = {
     0 : 9,
     1 : 11
 }
-
 
 # tested highest point (0, 206, -206)
 
@@ -35,13 +35,14 @@ offset_angle_map = {0: offset_angle + 90, 1: offset_angle,
                     2: 0, 5: 180, 
                     3: offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
-#Matrix for transform coordinate on each leg (second version)
+#Matrix for transform coordinate on each leg 
 M0 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))],[-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
 M1 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1
 M2 = [[1, 0], [0, 1]]                                                                 # leg 2
 M3 = [[cos(radians(offset_angle)), -sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
 M4 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
 M5 = [[-1, 0], [0, 1]]                                                                # leg 5
+
 transformMat = {
     0: M0, 
     1: M1, 
@@ -88,7 +89,8 @@ gait = {
 gait_params = {
     "tripod": {
         "time_on_air": 0.5, 
-        "phase_offsets": [0.0, 0.5, 0.0, 0.5, 0.0, 0.5]
+        "phase_offsets": [0.0, 0.5, 0.0, 0.5, 0.0, 0.5],
+        "stop_time" : 1 # per half cycle
     },
     "wave": {
         "time_on_air": 1/6, 
@@ -118,6 +120,8 @@ walk_offset = {
     1 : 0,
     2 : -0.5
 }
+
+walk_distance = 60
 
 # ===== helper function =====
 def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
