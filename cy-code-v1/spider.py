@@ -5,12 +5,12 @@ from gyroscope import *
 class Spider:
     def __init__(self):
         self.leg = {
-            0: Leg(0, 6, 23, 12), 
-            5: Leg(5, 7, 22, 13), 
-            4: Leg(4, 8, 21, 14), 
-            1: Leg(1, 11, 18, 17), 
+            # 0: Leg(0, 6, 23, 12), 
+            # 5: Leg(5, 7, 22, 13), 
+            # 4: Leg(4, 8, 21, 14), 
+            # 1: Leg(1, 11, 18, 17), 
             2: Leg(2, 10, 19, 16),
-            3: Leg(3, 9, 20, 15)
+            # 3: Leg(3, 9, 20, 15)
         }
         '''
             0 (0,0)   1 (1,0)
@@ -118,32 +118,42 @@ class Spider:
             5 : 0
         }
         count = 0        
-        while count <= loop:            
+        while count <= loop + 1:            
             for i in self.leg:
                 if i in (0,4,5):
                     direction_ = [direction[0], -direction[1]]
                 else:
                     direction_ = direction
-                phase_time = (self.time - phase_offsets[i] * period) % period if self.time >= period else self.time
-                if phase_time >= phase_offsets[i] * period:
-                    if phase_time % period <= time_on_air:
-                        phase = (phase_time * 180)/ time_on_air 
+                if self.time >= period * 0.5:
+                    phase_time = (self.time - phase_offsets[i] * period) % period
+                else:
+                    phase_time = self.time
+                # print(i, self.time, phase_time, count) 
+                if self.time >= phase_offsets[i] * period:
+                    if phase_time <= time_on_air:
+                        phase = (phase_time * 180)/ time_on_air
+                        # print(phase) 
                         self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_type[i])
                     elif phase_time < time_on_ground[1] or phase_time >= time_on_ground[0]:
                         phase = 180 + ((phase_time - time_on_air) * 180)/ (time_on_ground[1] - time_on_ground[0])
                         if phase <= 360:
                             self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_type[i])
+                    
                     if phase_time >= time_on_ground[1]:
                         if leg_type[i] == 0:
-                            leg_type[i] = 1
+                            if count == loop:
+                                leg_type[i] = 2
+                            else:
+                                leg_type[i] = 1
                         elif leg_type[i] == 1:
-                            if count == loop - 1: leg_type[i] = 2
-                            count += 1
-                        else:
-                            count += 1
+                            if count == loop + 1:
+                                leg_type[i] = 2
             self.runleg()
             sleep(dt)
             self.time += step
+            print(self.time, count, count * period + period + time_on_air)
+            if self.time >= count * period + period + time_on_air:
+                count += 1
         self.time = 0
 
     # def walk(self, direction, type_, time_on_air, phase_offsets):
