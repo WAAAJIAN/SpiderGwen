@@ -109,13 +109,13 @@ class Spider:
     #     self.time = 0
 
     def walk(self, direction, time_on_air, phase_offsets, step, time_on_ground, loop):
-        leg_type = {
-            0 : 0,
-            1 : 0,
-            2 : 0,
-            3 : 0,
-            4 : 0,
-            5 : 0
+        leg_config = {
+            0 : [0,0],
+            1 : [0,0],
+            2 : [0,0],
+            3 : [0,0],
+            4 : [0,0],
+            5 : [0,0]
         }
         count = 0        
         while count <= loop + 1:            
@@ -124,6 +124,7 @@ class Spider:
                     direction_ = [direction[0], -direction[1]]
                 else:
                     direction_ = direction
+
                 if self.time >= period * 0.5:
                     phase_time = (self.time - phase_offsets[i] * period) % period
                 else:
@@ -133,21 +134,21 @@ class Spider:
                     if phase_time <= time_on_air:
                         phase = (phase_time * 180)/ time_on_air
                         # print(phase) 
-                        self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_type[i])
+                        self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_config[i][0])
                     elif phase_time < time_on_ground[1] or phase_time >= time_on_ground[0]:
                         phase = 180 + ((phase_time - time_on_air) * 180)/ (time_on_ground[1] - time_on_ground[0])
                         if phase <= 360:
-                            self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_type[i])
+                            self.leg[i].calculateWalk(phase, direction_, walk_distance, leg_config[i][0])
                     
                     if phase_time >= time_on_ground[1]:
-                        if leg_type[i] == 0:
+                        if leg_config[i][0] == 0:
                             if count == loop:
-                                leg_type[i] = 2
+                                leg_config[i][0] = 2
                             else:
-                                leg_type[i] = 1
-                        elif leg_type[i] == 1:
+                                leg_config[i][0] = 1
+                        elif leg_config[i][0] == 1:
                             if count == loop + 1:
-                                leg_type[i] = 2
+                                leg_config[i][0] = 2
             self.runleg()
             sleep(dt)
             self.time += step
