@@ -1,0 +1,538 @@
+[0.000000] (-) TimerEvent: {}
+[0.001913] (hexapod_msgs) JobQueued: {'identifier': 'hexapod_msgs', 'dependencies': OrderedDict()}
+[0.002132] (hexapod_msgs) JobStarted: {'identifier': 'hexapod_msgs'}
+[0.039938] (hexapod_msgs) JobProgress: {'identifier': 'hexapod_msgs', 'progress': 'cmake'}
+[0.043281] (hexapod_msgs) Command: {'cmd': ['/usr/bin/cmake', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src', '-DCMAKE_INSTALL_PREFIX=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs'], 'cwd': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'spider'), ('SSH_CLIENT', '10.185.252.62 54130 22'), ('XDG_SESSION_TYPE', 'tty'), ('GIT_ASKPASS', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/helpers/browser.sh'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/spider'), ('OLDPWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-bced589f-8185-44f6-a289-03912116152d.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/node'), ('SSL_CERT_FILE', '/usr/lib/ssl/certs/ca-certificates.crt'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'spider'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('XDG_SESSION_ID', '2557'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/remote-cli:/home/spider/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/spider/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('SSL_CERT_DIR', '/usr/lib/ssl/certs'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-c47e3bccd2.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs'), ('SSH_CONNECTION', '10.185.252.62 54130 10.185.252.34 22'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros')]), 'shell': False}
+[0.099219] (-) TimerEvent: {}
+[0.100967] (hexapod_msgs) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.199425] (-) TimerEvent: {}
+[0.300203] (-) TimerEvent: {}
+[0.401887] (-) TimerEvent: {}
+[0.503737] (-) TimerEvent: {}
+[0.604545] (-) TimerEvent: {}
+[0.705434] (-) TimerEvent: {}
+[0.776584] (hexapod_msgs) StdoutLine: {'line': b'-- Found std_msgs: 4.9.0 (/opt/ros/humble/share/std_msgs/cmake)\n'}
+[0.806442] (-) TimerEvent: {}
+[0.907297] (-) TimerEvent: {}
+[0.969510] (hexapod_msgs) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.993063] (hexapod_msgs) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[1.007515] (-) TimerEvent: {}
+[1.027699] (hexapod_msgs) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[1.096529] (hexapod_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.107775] (-) TimerEvent: {}
+[1.168500] (hexapod_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.208117] (-) TimerEvent: {}
+[1.287411] (hexapod_msgs) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[1.308298] (-) TimerEvent: {}
+[1.404705] (hexapod_msgs) StdoutLine: {'line': b'-- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)\n'}
+[1.408503] (-) TimerEvent: {}
+[1.509324] (-) TimerEvent: {}
+[1.610155] (-) TimerEvent: {}
+[1.711163] (-) TimerEvent: {}
+[1.811955] (-) TimerEvent: {}
+[1.914013] (-) TimerEvent: {}
+[2.015192] (-) TimerEvent: {}
+[2.116593] (-) TimerEvent: {}
+[2.217499] (-) TimerEvent: {}
+[2.318698] (-) TimerEvent: {}
+[2.419415] (-) TimerEvent: {}
+[2.520584] (-) TimerEvent: {}
+[2.621983] (-) TimerEvent: {}
+[2.722687] (-) TimerEvent: {}
+[2.823360] (-) TimerEvent: {}
+[2.924065] (-) TimerEvent: {}
+[3.024975] (-) TimerEvent: {}
+[3.045724] (hexapod_msgs) StdoutLine: {'line': b'-- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)\n'}
+[3.125165] (-) TimerEvent: {}
+[3.225900] (-) TimerEvent: {}
+[3.327331] (-) TimerEvent: {}
+[3.429076] (-) TimerEvent: {}
+[3.530557] (-) TimerEvent: {}
+[3.631430] (-) TimerEvent: {}
+[3.732186] (-) TimerEvent: {}
+[3.833014] (-) TimerEvent: {}
+[3.933796] (-) TimerEvent: {}
+[4.034562] (-) TimerEvent: {}
+[4.135311] (-) TimerEvent: {}
+[4.236077] (-) TimerEvent: {}
+[4.336845] (-) TimerEvent: {}
+[4.438048] (-) TimerEvent: {}
+[4.539468] (-) TimerEvent: {}
+[4.640978] (-) TimerEvent: {}
+[4.742126] (-) TimerEvent: {}
+[4.856745] (-) TimerEvent: {}
+[4.957609] (-) TimerEvent: {}
+[5.058833] (-) TimerEvent: {}
+[5.159591] (-) TimerEvent: {}
+[5.260862] (-) TimerEvent: {}
+[5.361651] (-) TimerEvent: {}
+[5.462464] (-) TimerEvent: {}
+[5.563262] (-) TimerEvent: {}
+[5.668054] (-) TimerEvent: {}
+[5.673238] (hexapod_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[5.768293] (-) TimerEvent: {}
+[5.869176] (-) TimerEvent: {}
+[5.969916] (-) TimerEvent: {}
+[6.070892] (-) TimerEvent: {}
+[6.172886] (-) TimerEvent: {}
+[6.274075] (-) TimerEvent: {}
+[6.375439] (-) TimerEvent: {}
+[6.476147] (-) TimerEvent: {}
+[6.576866] (-) TimerEvent: {}
+[6.625869] (hexapod_msgs) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[6.677134] (-) TimerEvent: {}
+[6.750350] (hexapod_msgs) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") \n'}
+[6.771624] (hexapod_msgs) StdoutLine: {'line': b'-- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)\n'}
+[6.777369] (-) TimerEvent: {}
+[6.878507] (-) TimerEvent: {}
+[6.925523] (hexapod_msgs) StdoutLine: {'line': b'-- Found PythonLibs: /usr/lib/aarch64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") \n'}
+[6.926763] (hexapod_msgs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[6.927479] (hexapod_msgs) StdoutLine: {'line': b'-- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10\n'}
+[6.928145] (hexapod_msgs) StdoutLine: {'line': b'-- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.10.so\n'}
+[6.978665] (-) TimerEvent: {}
+[7.045899] (hexapod_msgs) StdoutLine: {'line': b'-- Found PythonExtra: .so  \n'}
+[7.078858] (-) TimerEvent: {}
+[7.179590] (-) TimerEvent: {}
+[7.280350] (-) TimerEvent: {}
+[7.381659] (-) TimerEvent: {}
+[7.482671] (hexapod_msgs) StdoutLine: {'line': b'-- Configuring done\n'}
+[7.483355] (-) TimerEvent: {}
+[7.583928] (-) TimerEvent: {}
+[7.685665] (-) TimerEvent: {}
+[7.708678] (hexapod_msgs) StdoutLine: {'line': b'-- Generating done\n'}
+[7.768458] (hexapod_msgs) StdoutLine: {'line': b'-- Build files have been written to: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs\n'}
+[7.786035] (-) TimerEvent: {}
+[7.818206] (hexapod_msgs) CommandEnded: {'returncode': 0}
+[7.824716] (hexapod_msgs) JobProgress: {'identifier': 'hexapod_msgs', 'progress': 'build'}
+[7.825475] (hexapod_msgs) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs', '--', '-j4', '-l4'], 'cwd': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'spider'), ('SSH_CLIENT', '10.185.252.62 54130 22'), ('XDG_SESSION_TYPE', 'tty'), ('GIT_ASKPASS', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/helpers/browser.sh'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/spider'), ('OLDPWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-bced589f-8185-44f6-a289-03912116152d.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/node'), ('SSL_CERT_FILE', '/usr/lib/ssl/certs/ca-certificates.crt'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'spider'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('XDG_SESSION_ID', '2557'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/remote-cli:/home/spider/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/spider/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('SSL_CERT_DIR', '/usr/lib/ssl/certs'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-c47e3bccd2.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs'), ('SSH_CONNECTION', '10.185.252.62 54130 10.185.252.34 22'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros')]), 'shell': False}
+[7.886259] (-) TimerEvent: {}
+[7.988087] (-) TimerEvent: {}
+[8.030877] (hexapod_msgs) StdoutLine: {'line': b'[  2%] \x1b[34m\x1b[1mGenerating C code for ROS interfaces\x1b[0m\n'}
+[8.088332] (-) TimerEvent: {}
+[8.142671] (hexapod_msgs) StdoutLine: {'line': b'[  5%] \x1b[34m\x1b[1mGenerating C++ code for ROS interfaces\x1b[0m\n'}
+[8.148328] (hexapod_msgs) StdoutLine: {'line': b'[  5%] Built target ament_cmake_python_copy_hexapod_msgs\n'}
+[8.190455] (-) TimerEvent: {}
+[8.302200] (-) TimerEvent: {}
+[8.405099] (-) TimerEvent: {}
+[8.507158] (-) TimerEvent: {}
+[8.608911] (-) TimerEvent: {}
+[8.710770] (-) TimerEvent: {}
+[8.818979] (-) TimerEvent: {}
+[8.920274] (-) TimerEvent: {}
+[9.021719] (-) TimerEvent: {}
+[9.122907] (-) TimerEvent: {}
+[9.224391] (-) TimerEvent: {}
+[9.325733] (-) TimerEvent: {}
+[9.427131] (-) TimerEvent: {}
+[9.528343] (-) TimerEvent: {}
+[9.629543] (-) TimerEvent: {}
+[9.730886] (-) TimerEvent: {}
+[9.834341] (-) TimerEvent: {}
+[9.935065] (-) TimerEvent: {}
+[10.036303] (-) TimerEvent: {}
+[10.137907] (-) TimerEvent: {}
+[10.239840] (-) TimerEvent: {}
+[10.341926] (-) TimerEvent: {}
+[10.422763] (hexapod_msgs) StdoutLine: {'line': b'running egg_info\n'}
+[10.437113] (hexapod_msgs) StdoutLine: {'line': b'creating hexapod_msgs.egg-info\n'}
+[10.440303] (hexapod_msgs) StdoutLine: {'line': b'writing hexapod_msgs.egg-info/PKG-INFO\n'}
+[10.443736] (-) TimerEvent: {}
+[10.445868] (hexapod_msgs) StdoutLine: {'line': b'writing dependency_links to hexapod_msgs.egg-info/dependency_links.txt\n'}
+[10.448794] (hexapod_msgs) StdoutLine: {'line': b'writing top-level names to hexapod_msgs.egg-info/top_level.txt\n'}
+[10.453837] (hexapod_msgs) StdoutLine: {'line': b"writing manifest file 'hexapod_msgs.egg-info/SOURCES.txt'\n"}
+[10.457454] (hexapod_msgs) StdoutLine: {'line': b"reading manifest file 'hexapod_msgs.egg-info/SOURCES.txt'\n"}
+[10.460873] (hexapod_msgs) StdoutLine: {'line': b"writing manifest file 'hexapod_msgs.egg-info/SOURCES.txt'\n"}
+[10.497665] (hexapod_msgs) StdoutLine: {'line': b'[  5%] Built target hexapod_msgs__cpp\n'}
+[10.543964] (-) TimerEvent: {}
+[10.579038] (hexapod_msgs) StdoutLine: {'line': b'[  7%] \x1b[34m\x1b[1mGenerating C++ type support dispatch for ROS interfaces\x1b[0m\n'}
+[10.611049] (hexapod_msgs) StdoutLine: {'line': b'[ 10%] \x1b[34m\x1b[1mGenerating C++ type support for eProsima Fast-RTPS\x1b[0m\n'}
+[10.623553] (hexapod_msgs) StdoutLine: {'line': b'[ 12%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_generator_c.dir/rosidl_generator_c/hexapod_msgs/msg/detail/servo_target__functions.c.o\x1b[0m\n'}
+[10.648115] (-) TimerEvent: {}
+[10.676029] (hexapod_msgs) StdoutLine: {'line': b'[ 12%] Built target ament_cmake_python_build_hexapod_msgs_egg\n'}
+[10.748328] (-) TimerEvent: {}
+[10.787066] (hexapod_msgs) StdoutLine: {'line': b'[ 15%] \x1b[34m\x1b[1mGenerating C++ introspection for ROS interfaces\x1b[0m\n'}
+[10.848599] (-) TimerEvent: {}
+[10.952529] (-) TimerEvent: {}
+[11.054889] (-) TimerEvent: {}
+[11.166237] (-) TimerEvent: {}
+[11.269508] (-) TimerEvent: {}
+[11.371489] (-) TimerEvent: {}
+[11.477659] (-) TimerEvent: {}
+[11.586091] (-) TimerEvent: {}
+[11.606009] (hexapod_msgs) StdoutLine: {'line': b'[ 17%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_generator_c.dir/rosidl_generator_c/hexapod_msgs/msg/detail/servo_target_array__functions.c.o\x1b[0m\n'}
+[11.686295] (-) TimerEvent: {}
+[11.788485] (-) TimerEvent: {}
+[11.892668] (-) TimerEvent: {}
+[11.998819] (-) TimerEvent: {}
+[12.105915] (hexapod_msgs) StdoutLine: {'line': b'[ 20%] \x1b[32m\x1b[1mLinking C shared library libhexapod_msgs__rosidl_generator_c.so\x1b[0m\n'}
+[12.108526] (-) TimerEvent: {}
+[12.212674] (-) TimerEvent: {}
+[12.313493] (-) TimerEvent: {}
+[12.415752] (-) TimerEvent: {}
+[12.517448] (-) TimerEvent: {}
+[12.619282] (-) TimerEvent: {}
+[12.630323] (hexapod_msgs) StdoutLine: {'line': b'[ 20%] Built target hexapod_msgs__rosidl_generator_c\n'}
+[12.722692] (-) TimerEvent: {}
+[12.795381] (hexapod_msgs) StdoutLine: {'line': b'[ 23%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/hexapod_msgs/msg/servo_target__type_support.cpp.o\x1b[0m\n'}
+[12.822347] (hexapod_msgs) StdoutLine: {'line': b'[ 25%] \x1b[34m\x1b[1mGenerating C type support for eProsima Fast-RTPS\x1b[0m\n'}
+[12.825090] (-) TimerEvent: {}
+[12.926323] (-) TimerEvent: {}
+[13.027682] (-) TimerEvent: {}
+[13.037557] (hexapod_msgs) StdoutLine: {'line': b'[ 28%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/hexapod_msgs/msg/detail/dds_fastrtps/servo_target__type_support.cpp.o\x1b[0m\n'}
+[13.127876] (-) TimerEvent: {}
+[13.229642] (-) TimerEvent: {}
+[13.336519] (-) TimerEvent: {}
+[13.437381] (-) TimerEvent: {}
+[13.501451] (hexapod_msgs) StdoutLine: {'line': b'[ 30%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/hexapod_msgs/msg/detail/servo_target__type_support.cpp.o\x1b[0m\n'}
+[13.539326] (-) TimerEvent: {}
+[13.654043] (-) TimerEvent: {}
+[13.755557] (-) TimerEvent: {}
+[13.870772] (-) TimerEvent: {}
+[13.975181] (-) TimerEvent: {}
+[14.076023] (-) TimerEvent: {}
+[14.186181] (-) TimerEvent: {}
+[14.287261] (-) TimerEvent: {}
+[14.388234] (-) TimerEvent: {}
+[14.493902] (-) TimerEvent: {}
+[14.599634] (-) TimerEvent: {}
+[14.706345] (-) TimerEvent: {}
+[14.810180] (-) TimerEvent: {}
+[14.911155] (-) TimerEvent: {}
+[15.014221] (-) TimerEvent: {}
+[15.118153] (-) TimerEvent: {}
+[15.219150] (-) TimerEvent: {}
+[15.320752] (-) TimerEvent: {}
+[15.423514] (-) TimerEvent: {}
+[15.444984] (hexapod_msgs) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/hexapod_msgs/msg/detail/servo_target__type_support_c.cpp.o\x1b[0m\n'}
+[15.523788] (-) TimerEvent: {}
+[15.628312] (-) TimerEvent: {}
+[15.739121] (-) TimerEvent: {}
+[15.840317] (-) TimerEvent: {}
+[15.942473] (-) TimerEvent: {}
+[16.044148] (-) TimerEvent: {}
+[16.137236] (hexapod_msgs) StdoutLine: {'line': b'[ 35%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/hexapod_msgs/msg/servo_target_array__type_support.cpp.o\x1b[0m\n'}
+[16.155541] (-) TimerEvent: {}
+[16.257891] (-) TimerEvent: {}
+[16.361591] (-) TimerEvent: {}
+[16.490143] (-) TimerEvent: {}
+[16.598194] (-) TimerEvent: {}
+[16.700356] (-) TimerEvent: {}
+[16.814146] (-) TimerEvent: {}
+[16.917512] (-) TimerEvent: {}
+[17.023844] (-) TimerEvent: {}
+[17.126803] (-) TimerEvent: {}
+[17.229393] (-) TimerEvent: {}
+[17.331947] (-) TimerEvent: {}
+[17.434672] (-) TimerEvent: {}
+[17.542355] (-) TimerEvent: {}
+[17.651510] (-) TimerEvent: {}
+[17.761841] (-) TimerEvent: {}
+[17.764162] (hexapod_msgs) StdoutLine: {'line': b'[ 38%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/hexapod_msgs/msg/detail/dds_fastrtps/servo_target_array__type_support.cpp.o\x1b[0m\n'}
+[17.862550] (-) TimerEvent: {}
+[17.964126] (-) TimerEvent: {}
+[18.065547] (-) TimerEvent: {}
+[18.130040] (hexapod_msgs) StdoutLine: {'line': b'[ 41%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/hexapod_msgs/msg/detail/servo_target_array__type_support.cpp.o\x1b[0m\n'}
+[18.165777] (-) TimerEvent: {}
+[18.248651] (hexapod_msgs) StdoutLine: {'line': b'[ 43%] \x1b[32m\x1b[1mLinking CXX shared library libhexapod_msgs__rosidl_typesupport_cpp.so\x1b[0m\n'}
+[18.266783] (-) TimerEvent: {}
+[18.370385] (-) TimerEvent: {}
+[18.473601] (-) TimerEvent: {}
+[18.578090] (-) TimerEvent: {}
+[18.682922] (-) TimerEvent: {}
+[18.690355] (hexapod_msgs) StdoutLine: {'line': b'[ 43%] Built target hexapod_msgs__rosidl_typesupport_cpp\n'}
+[18.781107] (hexapod_msgs) StdoutLine: {'line': b'[ 46%] \x1b[34m\x1b[1mGenerating C introspection for ROS interfaces\x1b[0m\n'}
+[18.784166] (-) TimerEvent: {}
+[18.887324] (-) TimerEvent: {}
+[18.989634] (-) TimerEvent: {}
+[19.092451] (-) TimerEvent: {}
+[19.196292] (-) TimerEvent: {}
+[19.298709] (-) TimerEvent: {}
+[19.401347] (-) TimerEvent: {}
+[19.504099] (-) TimerEvent: {}
+[19.539515] (hexapod_msgs) StdoutLine: {'line': b'[ 48%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/hexapod_msgs/msg/detail/servo_target_array__type_support_c.cpp.o\x1b[0m\n'}
+[19.614355] (-) TimerEvent: {}
+[19.717113] (-) TimerEvent: {}
+[19.822172] (-) TimerEvent: {}
+[19.923689] (-) TimerEvent: {}
+[20.024919] (-) TimerEvent: {}
+[20.126175] (-) TimerEvent: {}
+[20.227403] (-) TimerEvent: {}
+[20.328593] (-) TimerEvent: {}
+[20.429813] (-) TimerEvent: {}
+[20.531277] (-) TimerEvent: {}
+[20.634004] (-) TimerEvent: {}
+[20.737535] (-) TimerEvent: {}
+[20.839200] (-) TimerEvent: {}
+[20.940769] (-) TimerEvent: {}
+[21.042621] (-) TimerEvent: {}
+[21.144625] (-) TimerEvent: {}
+[21.274425] (-) TimerEvent: {}
+[21.337443] (hexapod_msgs) StdoutLine: {'line': b'[ 51%] \x1b[32m\x1b[1mLinking CXX shared library libhexapod_msgs__rosidl_typesupport_fastrtps_cpp.so\x1b[0m\n'}
+[21.374684] (-) TimerEvent: {}
+[21.476611] (-) TimerEvent: {}
+[21.578471] (-) TimerEvent: {}
+[21.680281] (-) TimerEvent: {}
+[21.726598] (hexapod_msgs) StdoutLine: {'line': b'[ 53%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/hexapod_msgs/msg/detail/servo_target__type_support.c.o\x1b[0m\n'}
+[21.780507] (-) TimerEvent: {}
+[21.829120] (hexapod_msgs) StdoutLine: {'line': b'[ 53%] Built target hexapod_msgs__rosidl_typesupport_fastrtps_cpp\n'}
+[21.880686] (hexapod_msgs) StdoutLine: {'line': b'[ 56%] \x1b[34m\x1b[1mGenerating C type support dispatch for ROS interfaces\x1b[0m\n'}
+[21.881524] (-) TimerEvent: {}
+[21.963998] (hexapod_msgs) StdoutLine: {'line': b'[ 58%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/hexapod_msgs/msg/detail/servo_target_array__type_support.c.o\x1b[0m\n'}
+[21.981759] (-) TimerEvent: {}
+[22.083186] (-) TimerEvent: {}
+[22.134981] (hexapod_msgs) StdoutLine: {'line': b'[ 61%] \x1b[32m\x1b[1mLinking CXX shared library libhexapod_msgs__rosidl_typesupport_introspection_cpp.so\x1b[0m\n'}
+[22.183390] (-) TimerEvent: {}
+[22.285251] (-) TimerEvent: {}
+[22.316898] (hexapod_msgs) StdoutLine: {'line': b'[ 64%] \x1b[32m\x1b[1mLinking C shared library libhexapod_msgs__rosidl_typesupport_introspection_c.so\x1b[0m\n'}
+[22.385536] (-) TimerEvent: {}
+[22.487583] (-) TimerEvent: {}
+[22.594036] (-) TimerEvent: {}
+[22.631163] (hexapod_msgs) StdoutLine: {'line': b'[ 64%] Built target hexapod_msgs__rosidl_typesupport_introspection_c\n'}
+[22.694410] (-) TimerEvent: {}
+[22.753763] (hexapod_msgs) StdoutLine: {'line': b'[ 64%] Built target hexapod_msgs__rosidl_typesupport_introspection_cpp\n'}
+[22.794826] (-) TimerEvent: {}
+[22.897017] (-) TimerEvent: {}
+[22.998063] (-) TimerEvent: {}
+[23.098767] (-) TimerEvent: {}
+[23.199765] (-) TimerEvent: {}
+[23.301468] (-) TimerEvent: {}
+[23.392675] (hexapod_msgs) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/hexapod_msgs/msg/servo_target__type_support.cpp.o\x1b[0m\n'}
+[23.395190] (hexapod_msgs) StdoutLine: {'line': b'[ 69%] \x1b[32mBuilding CXX object CMakeFiles/hexapod_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/hexapod_msgs/msg/servo_target_array__type_support.cpp.o\x1b[0m\n'}
+[23.401682] (-) TimerEvent: {}
+[23.507172] (-) TimerEvent: {}
+[23.608988] (-) TimerEvent: {}
+[23.635362] (hexapod_msgs) StdoutLine: {'line': b'[ 71%] \x1b[32m\x1b[1mLinking CXX shared library libhexapod_msgs__rosidl_typesupport_c.so\x1b[0m\n'}
+[23.709213] (-) TimerEvent: {}
+[23.721856] (hexapod_msgs) StdoutLine: {'line': b'[ 74%] \x1b[32m\x1b[1mLinking CXX shared library libhexapod_msgs__rosidl_typesupport_fastrtps_c.so\x1b[0m\n'}
+[23.809557] (-) TimerEvent: {}
+[23.886471] (hexapod_msgs) StdoutLine: {'line': b'[ 74%] Built target hexapod_msgs__rosidl_typesupport_c\n'}
+[23.911524] (-) TimerEvent: {}
+[24.013126] (-) TimerEvent: {}
+[24.114160] (-) TimerEvent: {}
+[24.143959] (hexapod_msgs) StdoutLine: {'line': b'[ 74%] Built target hexapod_msgs__rosidl_typesupport_fastrtps_c\n'}
+[24.214498] (-) TimerEvent: {}
+[24.242241] (hexapod_msgs) StdoutLine: {'line': b'[ 74%] Built target hexapod_msgs\n'}
+[24.315112] (-) TimerEvent: {}
+[24.349733] (hexapod_msgs) StdoutLine: {'line': b'[ 76%] \x1b[34m\x1b[1mGenerating Python code for ROS interfaces\x1b[0m\n'}
+[24.415287] (-) TimerEvent: {}
+[24.516418] (-) TimerEvent: {}
+[24.617204] (-) TimerEvent: {}
+[24.718065] (-) TimerEvent: {}
+[24.818892] (-) TimerEvent: {}
+[24.919794] (-) TimerEvent: {}
+[25.020767] (-) TimerEvent: {}
+[25.121647] (-) TimerEvent: {}
+[25.222449] (-) TimerEvent: {}
+[25.323279] (-) TimerEvent: {}
+[25.424072] (-) TimerEvent: {}
+[25.525042] (-) TimerEvent: {}
+[25.625717] (-) TimerEvent: {}
+[25.726415] (-) TimerEvent: {}
+[25.830187] (-) TimerEvent: {}
+[25.930887] (-) TimerEvent: {}
+[26.031880] (-) TimerEvent: {}
+[26.133490] (-) TimerEvent: {}
+[26.190077] (hexapod_msgs) StdoutLine: {'line': b'[ 76%] Built target hexapod_msgs__py\n'}
+[26.233778] (-) TimerEvent: {}
+[26.298862] (hexapod_msgs) StdoutLine: {'line': b'[ 79%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_generator_py.dir/rosidl_generator_py/hexapod_msgs/msg/_servo_target_array_s.c.o\x1b[0m\n'}
+[26.299565] (hexapod_msgs) StdoutLine: {'line': b'[ 82%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_generator_py.dir/rosidl_generator_py/hexapod_msgs/msg/_servo_target_s.c.o\x1b[0m\n'}
+[26.334152] (-) TimerEvent: {}
+[26.435884] (-) TimerEvent: {}
+[26.536734] (-) TimerEvent: {}
+[26.637578] (-) TimerEvent: {}
+[26.738446] (-) TimerEvent: {}
+[26.839319] (-) TimerEvent: {}
+[26.940271] (-) TimerEvent: {}
+[27.031105] (hexapod_msgs) StdoutLine: {'line': b'[ 84%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/hexapod_msgs/libhexapod_msgs__rosidl_generator_py.so\x1b[0m\n'}
+[27.040574] (-) TimerEvent: {}
+[27.141454] (-) TimerEvent: {}
+[27.244952] (-) TimerEvent: {}
+[27.280099] (hexapod_msgs) StdoutLine: {'line': b'[ 84%] Built target hexapod_msgs__rosidl_generator_py\n'}
+[27.347309] (-) TimerEvent: {}
+[27.400639] (hexapod_msgs) StdoutLine: {'line': b'[ 87%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o\x1b[0m\n'}
+[27.448388] (-) TimerEvent: {}
+[27.500295] (hexapod_msgs) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_introspection_c.c.o\x1b[0m\n'}
+[27.534184] (hexapod_msgs) StdoutLine: {'line': b'[ 92%] \x1b[32mBuilding C object CMakeFiles/hexapod_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_c.c.o\x1b[0m\n'}
+[27.557500] (-) TimerEvent: {}
+[27.665424] (-) TimerEvent: {}
+[27.766491] (-) TimerEvent: {}
+[27.867321] (-) TimerEvent: {}
+[27.968251] (-) TimerEvent: {}
+[28.069199] (-) TimerEvent: {}
+[28.170172] (-) TimerEvent: {}
+[28.233624] (hexapod_msgs) StdoutLine: {'line': b'[ 94%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[28.256022] (hexapod_msgs) StdoutLine: {'line': b'[ 97%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[28.274894] (-) TimerEvent: {}
+[28.279998] (hexapod_msgs) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking C shared library rosidl_generator_py/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[28.375198] (-) TimerEvent: {}
+[28.478436] (-) TimerEvent: {}
+[28.582689] (-) TimerEvent: {}
+[28.664877] (hexapod_msgs) StdoutLine: {'line': b'[100%] Built target hexapod_msgs__rosidl_typesupport_fastrtps_c__pyext\n'}
+[28.682162] (-) TimerEvent: {}
+[28.699435] (hexapod_msgs) StdoutLine: {'line': b'[100%] Built target hexapod_msgs__rosidl_typesupport_c__pyext\n'}
+[28.703134] (hexapod_msgs) StdoutLine: {'line': b'[100%] Built target hexapod_msgs__rosidl_typesupport_introspection_c__pyext\n'}
+[28.747842] (hexapod_msgs) CommandEnded: {'returncode': 0}
+[28.752620] (hexapod_msgs) JobProgress: {'identifier': 'hexapod_msgs', 'progress': 'install'}
+[28.782664] (-) TimerEvent: {}
+[28.784247] (hexapod_msgs) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs'], 'cwd': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'spider'), ('SSH_CLIENT', '10.185.252.62 54130 22'), ('XDG_SESSION_TYPE', 'tty'), ('GIT_ASKPASS', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/helpers/browser.sh'), ('MOTD_SHOWN', 'pam'), ('HOME', '/home/spider'), ('OLDPWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/1000/vscode-ipc-bced589f-8185-44f6-a289-03912116152d.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/node'), ('SSL_CERT_FILE', '/usr/lib/ssl/certs/ca-certificates.crt'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('COLCON_PREFIX_PATH', '/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'spider'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('XDG_SESSION_ID', '2557'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/remote-cli:/home/spider/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/spider/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('SSL_CERT_DIR', '/usr/lib/ssl/certs'), ('LANG', 'en_US.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-c47e3bccd2.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs'), ('SSH_CONNECTION', '10.185.252.62 54130 10.185.252.34 22'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble:/home/spider/GWEN_V2/SpiderGwen/hexapod_ros/install/hexapod_ros')]), 'shell': False}
+[28.820096] (hexapod_msgs) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[28.822957] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/ament_index/resource_index/rosidl_interfaces/hexapod_msgs\n'}
+[28.825633] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.827987] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.830353] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.832782] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__functions.c\n'}
+[28.835087] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__struct.h\n'}
+[28.837488] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__functions.c\n'}
+[28.839892] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__functions.h\n'}
+[28.842323] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__type_support.h\n'}
+[28.844528] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__type_support.h\n'}
+[28.848790] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__struct.h\n'}
+[28.851979] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__functions.h\n'}
+[28.854539] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/servo_target_array.h\n'}
+[28.855585] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/servo_target.h\n'}
+[28.856240] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/rosidl_generator_c__visibility_control.h\n'}
+[28.856708] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/library_path.sh\n'}
+[28.857142] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/library_path.dsv\n'}
+[28.857595] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_generator_c.so\n'}
+[28.858251] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_generator_c.so" to ""\n'}
+[28.858676] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.858997] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.859325] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.859667] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__rosidl_typesupport_fastrtps_c.h\n'}
+[28.859961] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__rosidl_typesupport_fastrtps_c.h\n'}
+[28.860248] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[28.860542] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_fastrtps_c.so\n'}
+[28.861170] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_fastrtps_c.so" to ""\n'}
+[28.861680] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.862130] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.862470] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.862890] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__builder.hpp\n'}
+[28.863909] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__type_support.hpp\n'}
+[28.865178] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__type_support.hpp\n'}
+[28.866590] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__struct.hpp\n'}
+[28.867879] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__traits.hpp\n'}
+[28.869082] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__builder.hpp\n'}
+[28.870406] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__traits.hpp\n'}
+[28.875425] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__struct.hpp\n'}
+[28.876105] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[28.876605] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/servo_target.hpp\n'}
+[28.881075] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/servo_target_array.hpp\n'}
+[28.881770] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.882260] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.882592] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.883782] (-) TimerEvent: {}
+[28.884262] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[28.884989] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/dds_fastrtps\n'}
+[28.885524] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[28.885983] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[28.886521] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_fastrtps_cpp.so\n'}
+[28.888073] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""\n'}
+[28.889517] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.892327] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.892929] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.893518] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__rosidl_typesupport_introspection_c.h\n'}
+[28.894851] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__type_support.c\n'}
+[28.896583] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__rosidl_typesupport_introspection_c.h\n'}
+[28.898491] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__type_support.c\n'}
+[28.900241] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[28.903382] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_introspection_c.so\n'}
+[28.905888] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_introspection_c.so" to ""\n'}
+[28.910506] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_c.so\n'}
+[28.912921] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_c.so" to ""\n'}
+[28.915179] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs\n'}
+[28.917467] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg\n'}
+[28.921448] (hexapod_msgs) StdoutLine: {'line': b'-- Up-to-date: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail\n'}
+[28.924847] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__type_support.cpp\n'}
+[28.925355] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target_array__rosidl_typesupport_introspection_cpp.hpp\n'}
+[28.925764] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__rosidl_typesupport_introspection_cpp.hpp\n'}
+[28.926724] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/include/hexapod_msgs/hexapod_msgs/msg/detail/servo_target__type_support.cpp\n'}
+[28.927362] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_introspection_cpp.so\n'}
+[28.927840] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_introspection_cpp.so" to ""\n'}
+[28.928238] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_cpp.so\n'}
+[28.928635] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_typesupport_cpp.so" to ""\n'}
+[28.929439] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/pythonpath.sh\n'}
+[28.930393] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/pythonpath.dsv\n'}
+[28.931868] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs-0.0.0-py3.10.egg-info\n'}
+[28.932619] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs-0.0.0-py3.10.egg-info/dependency_links.txt\n'}
+[28.935253] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs-0.0.0-py3.10.egg-info/top_level.txt\n'}
+[28.936753] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs-0.0.0-py3.10.egg-info/SOURCES.txt\n'}
+[28.938939] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs-0.0.0-py3.10.egg-info/PKG-INFO\n'}
+[28.942759] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs\n'}
+[28.943406] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[28.944161] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[28.946251] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[28.948391] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[28.950520] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/libhexapod_msgs__rosidl_generator_py.so\n'}
+[28.952558] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[28.954354] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg\n'}
+[28.955532] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target_s.c\n'}
+[28.957041] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target.py\n'}
+[28.958583] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target_array_s.c\n'}
+[28.960868] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target_array.py\n'}
+[28.962035] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/__init__.py\n'}
+[28.963512] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/__init__.py\n'}
+[28.964862] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_c.c\n'}
+[28.984003] (-) TimerEvent: {}
+[29.085545] (-) TimerEvent: {}
+[29.154299] (hexapod_msgs) StdoutLine: {'line': b"Listing '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs'...\n"}
+[29.155683] (hexapod_msgs) StdoutLine: {'line': b"Compiling '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/__init__.py'...\n"}
+[29.156822] (hexapod_msgs) StdoutLine: {'line': b"Listing '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg'...\n"}
+[29.158200] (hexapod_msgs) StdoutLine: {'line': b"Compiling '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/__init__.py'...\n"}
+[29.159467] (hexapod_msgs) StdoutLine: {'line': b"Compiling '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target.py'...\n"}
+[29.160718] (hexapod_msgs) StdoutLine: {'line': b"Compiling '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/msg/_servo_target_array.py'...\n"}
+[29.182800] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so\n'}
+[29.185746] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[29.186449] (-) TimerEvent: {}
+[29.187436] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so\n'}
+[29.190388] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[29.191939] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so\n'}
+[29.195001] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages/hexapod_msgs/hexapod_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" to ""\n'}
+[29.197136] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_generator_py.so\n'}
+[29.198534] (hexapod_msgs) StdoutLine: {'line': b'-- Set runtime path of "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib/libhexapod_msgs__rosidl_generator_py.so" to ""\n'}
+[29.199340] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/msg/ServoTarget.idl\n'}
+[29.200705] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/msg/ServoTargetArray.idl\n'}
+[29.202067] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/msg/ServoTarget.msg\n'}
+[29.203313] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/msg/ServoTargetArray.msg\n'}
+[29.205097] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/ament_index/resource_index/package_run_dependencies/hexapod_msgs\n'}
+[29.207077] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/ament_index/resource_index/parent_prefix_path/hexapod_msgs\n'}
+[29.208545] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/ament_prefix_path.sh\n'}
+[29.209875] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/ament_prefix_path.dsv\n'}
+[29.211326] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/path.sh\n'}
+[29.212763] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/environment/path.dsv\n'}
+[29.214506] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/local_setup.bash\n'}
+[29.215823] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/local_setup.sh\n'}
+[29.218424] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/local_setup.zsh\n'}
+[29.219798] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/local_setup.dsv\n'}
+[29.221096] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/package.dsv\n'}
+[29.222999] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/ament_index/resource_index/packages/hexapod_msgs\n'}
+[29.224838] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_generator_cExport.cmake\n'}
+[29.226498] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_generator_cExport-noconfig.cmake\n'}
+[29.228363] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[29.231749] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[29.232646] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_generator_cppExport.cmake\n'}
+[29.233759] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[29.235619] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[29.237304] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_introspection_cExport.cmake\n'}
+[29.239023] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[29.240692] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_cExport.cmake\n'}
+[29.242295] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[29.244041] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[29.245694] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[29.247481] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_cppExport.cmake\n'}
+[29.249012] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgs__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[29.250794] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_generator_pyExport.cmake\n'}
+[29.252436] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/export_hexapod_msgs__rosidl_generator_pyExport-noconfig.cmake\n'}
+[29.253908] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/rosidl_cmake-extras.cmake\n'}
+[29.255337] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[29.256858] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[29.258398] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[29.259937] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[29.261363] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[29.262920] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[29.264434] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgsConfig.cmake\n'}
+[29.265618] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/cmake/hexapod_msgsConfig-version.cmake\n'}
+[29.267179] (hexapod_msgs) StdoutLine: {'line': b'-- Installing: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/share/hexapod_msgs/package.xml\n'}
+[29.274845] (hexapod_msgs) CommandEnded: {'returncode': 0}
+[29.287200] (-) TimerEvent: {}
+[29.379447] (hexapod_msgs) JobEnded: {'identifier': 'hexapod_msgs', 'rc': 0}
+[29.383020] (-) EventReactorShutdown: {}
