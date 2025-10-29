@@ -4,7 +4,7 @@ from time import sleep
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
 steps = 1000   # speed of motion
-sampling = 10
+sampling = 10 # for full cycle
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
