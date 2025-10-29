@@ -1,4 +1,5 @@
 from spider import *
+# import time
 
 def main():
     gwen = Spider()
@@ -10,6 +11,7 @@ def main():
         # walk in different direction
         while(1):
             inp = input("enter: ")
+            # time_ = time.time()
             if inp[0] == 'w' : gwen.walkCycle(int(inp[1:]), [1,0])
             elif inp[0] == 'd' : gwen.walkCycle(int(inp[1:]), [0,1])
             elif inp[0] == 's' : gwen.walkCycle(int(inp[1:]), [-1,0])
@@ -21,6 +23,7 @@ def main():
             elif inp == '2' : gwen.gaitChange(2)
             elif inp == '3' : gwen.gaitChange(3)
             elif inp == '4' : gwen.gaitChange(4)
+            # print("time spent:", time.time() - time_)
 
         # roll 
         # while (1):
