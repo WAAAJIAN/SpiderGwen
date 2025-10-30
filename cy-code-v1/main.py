@@ -1,5 +1,5 @@
 from spider import *
-# import time
+import time
 
 def main():
     gwen = Spider()

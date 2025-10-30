@@ -161,7 +161,7 @@ class Spider:
         }
         count = 0        
         while count < loop:            
-            for i in self.leg:
+            for i in self.leg: 
                 if i in (0,4,5): direction_ = [direction[0], -direction[1]]
                 else: direction_ = direction
                 
@@ -179,7 +179,7 @@ class Spider:
                     if phase_time >= time_on_ground[1]:
                         leg_config[i] += 1
             # print(phase_time, count)
-            self.runleg()
+            self.runleg() # 0.1s at most
             self.time += step
             if self.time >= count * period + period + time_on_air:
                 count += 1
