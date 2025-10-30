@@ -88,25 +88,6 @@ class Spider:
         time_on_ground = (time_on_air + stop_time * step, period - stop_time * step)
         
         self.walk(direction, time_on_air, phase_offsets, step, time_on_ground, loop)
-        
-
-    # def walk(self, direction, type_, time_on_air, phase_offsets):        
-    #     distance = 60
-    #     while(self.time <= 2 * period - time_on_air):            
-    #         for i in self.leg:
-    #             if self.time >= phase_offsets[i] * period:
-    #                 leg_time = self.time - phase_offsets[i] * period
-    #                 if leg_time <= time_on_air:
-    #                     phase = (leg_time * 180)/time_on_air
-    #                     self.leg[i].calculateWalk(phase, direction, distance, type_)
-    #                 else:
-    #                     phase = 180 + ((leg_time - time_on_air) * 180)/(period - time_on_air)
-    #                     if phase <= 360:
-    #                         self.leg[i].calculateWalk(phase, direction, distance, type_)
-    #         self.runleg()
-    #         sleep(dt)
-    #         self.time += steps
-    #     self.time = 0
 
     # def walk(self, direction, time_on_air, phase_offsets, step, time_on_ground, loop):
     #     leg_config = {
