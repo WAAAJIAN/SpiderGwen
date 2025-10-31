@@ -1,4 +1,5 @@
 from .parameter import *
+# from parameter import *
 import traceback
 
 class Leg:
@@ -62,3 +63,11 @@ class Leg:
         self.a = int((100 * self.a)/3 + 6000)
         self.b = int((100 * self.b)/3 + 6000)
         self.c = int((100 * self.c)/3 + 3000)
+
+    def curr_angle(self):
+        return (self.a, self.b, self.c)
+
+    # def run(self):
+    #     servo.setTarget(spider_servo[self.leg][0], self.a)
+    #     servo.setTarget(spider_servo[self.leg][1], self.b)
+    #     servo.setTarget(spider_servo[self.leg][2], self.c)

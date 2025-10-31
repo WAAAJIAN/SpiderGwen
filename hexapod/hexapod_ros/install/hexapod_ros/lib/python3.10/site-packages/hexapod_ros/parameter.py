@@ -36,7 +36,7 @@ spider_servo = { # (coxa, femur, tibia)
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
 steps = 1000   # speed of motion
-sampling = 10
+sampling = 8
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
@@ -45,8 +45,8 @@ tibia_range = (30, 150)
 # tested highest point (0, 206, -206)
 
 x_offset = 0     # initial x position of leg (vertical axis)
-y_offset = 200  # initial y position of leg (horizontal axis from the coxa)
-z_offset = 100  # initial z position of leg (height of bot)
+y_offset = 150  # initial y position of leg (horizontal axis from the coxa)
+z_offset = 150  # initial z position of leg (height of bot)
 
 ctc = (71.77, 90.31)   # ctc[0] for middle legs, ctc[1] for corner legs
 cl = 55.65 # length of coxa
@@ -59,12 +59,12 @@ offset_angle_map = {0: offset_angle + 90, 1: offset_angle,
                     3: -offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
 #Matrix for transform coordinate on each leg (second version)
-M0 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))],[sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
-M1 = [[cos(radians(offset_angle)), -sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1
+M0 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))],[-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
+M1 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1
 M2 = [[1, 0], [0, 1]]                                                                 # leg 2
-M3 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
-M4 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
-M5 = [[-1, 0], [0, 1]]                                                                # leg 5
+M3 = [[cos(radians(offset_angle)), -sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 3
+M4 = [[-cos(radians(offset_angle)), sin(radians(offset_angle))], [sin(radians(offset_angle)), cos(radians(offset_angle))]]  # leg 4
+M5 = [[-1, 0], [0, 1]]                                                                      # leg 5
 transformMat = {
     0: M0, 
     1: M1, 
@@ -146,10 +146,10 @@ walk_offset = {
 walk_distance = 60
 
 direction = {
-    'w' : [0,1],
-    's' : [0,-1],
-    'a' : [-1,0],
-    'd' : [1,0],
+    'w' : [1,0],
+    's' : [-1,0],
+    'a' : [0,-1],
+    'd' : [0,1],
     'q' : polarVector(45),
     'e' : polarVector(135),
     'z' : polarVector(225),

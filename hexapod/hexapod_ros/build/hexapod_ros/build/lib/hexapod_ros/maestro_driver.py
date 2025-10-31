@@ -14,7 +14,7 @@ class MaestroDriver(Node):
         self._action_server = ActionServer(self, Servo, 'servo_action', self.execute_callback)
 
     async def execute_callback(self, goal):
-        self.get_logger().info(f"Received target: {goal.request.servo_targets}")
+        # self.get_logger().info(f"Received target: {goal.request.servo_targets}")
 
         for data in goal.request.servo_targets.targets:
             servo_id = data.servo_id

@@ -17,7 +17,8 @@ class HexapodController(Node):
         # self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
         # self.servo_pub = self.create_publisher(ServoTargetArray, '/hexapod/servo_targets', 10)
         self._action_client = ActionClient(self, Servo, 'servo_action')
-        self.timer = self.create_timer(0.05, self.loop)
+        self.timer = self.create_timer(0.12, self.loop)
+        # self.timer = self.create_timer(0.4, self.loop)        
         self.active = False
     
     def teleop_cb(self, msg):
@@ -27,7 +28,6 @@ class HexapodController(Node):
         else:
             self.get_logger().info(f"Receive command: {command}")
             self.spider.add_move(command) 
-            self.active = True
 
     def imu_cb(self, msg):
         Ax = msg.linear_acceleration.x
@@ -49,21 +49,27 @@ class HexapodController(Node):
     def goal_response_callback(self, future):
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().info('Goal rejected :(')
+            # self.get_logger().info('Goal rejected :(')
             return
-        self.get_logger().info('Goal accepted :)')
+        # self.get_logger().info('Goal accepted :)')
         self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
+        # self._get_result_future.add_done_callback(self.get_result_callback)
+        self.active = False
 
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info(f'Result: success={result.success}"')
 
     def loop(self):
-        if self.active:
+        if not self.active:
+            self.active = True
             self.spider.walk()
             action = self.spider.step()
-            self.get_logger().info(f"Received target: {action}")
+            # self.get_logger().info(f"Received target: {action}")
+            self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}")
+            for leg, config in self.spider.leg.items():
+                self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
+            self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
             result = ServoTargetArray()
             for leg, servos in action.items():
                 for servo in servos:
@@ -71,8 +77,8 @@ class HexapodController(Node):
                     submsg.servo_id = servo[0]
                     submsg.target_position = servo[1]
                     result.targets.append(submsg)
-            if result.targets: self.send_goal(result)
-            else: self.acitve = False
+            self.send_goal(result)
+            
 
 def main():
     rclpy.init()
