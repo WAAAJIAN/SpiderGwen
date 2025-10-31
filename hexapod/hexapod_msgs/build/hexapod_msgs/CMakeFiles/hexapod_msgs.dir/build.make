@@ -68,6 +68,8 @@ include CMakeFiles/hexapod_msgs.dir/progress.make
 
 CMakeFiles/hexapod_msgs: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/msg/ServoTarget.msg
 CMakeFiles/hexapod_msgs: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/msg/ServoTargetArray.msg
+CMakeFiles/hexapod_msgs: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/action/Walk.action
+CMakeFiles/hexapod_msgs: /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/action/Servo.action
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/std_msgs/msg/Bool.idl
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/std_msgs/msg/Byte.idl
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/std_msgs/msg/ByteMultiArray.idl
@@ -126,6 +128,10 @@ CMakeFiles/hexapod_msgs: /opt/ros/humble/share/sensor_msgs/msg/RelativeHumidity.
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/sensor_msgs/msg/Temperature.idl
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/sensor_msgs/msg/TimeReference.idl
 CMakeFiles/hexapod_msgs: /opt/ros/humble/share/sensor_msgs/srv/SetCameraInfo.idl
+CMakeFiles/hexapod_msgs: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
+CMakeFiles/hexapod_msgs: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
+CMakeFiles/hexapod_msgs: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
+CMakeFiles/hexapod_msgs: /opt/ros/humble/share/action_msgs/srv/CancelGoal.idl
 
 hexapod_msgs: CMakeFiles/hexapod_msgs
 hexapod_msgs: CMakeFiles/hexapod_msgs.dir/build.make

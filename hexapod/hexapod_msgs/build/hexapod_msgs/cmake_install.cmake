@@ -364,11 +364,27 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/action" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs/action/Walk.idl")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/action" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs/action/Servo.idl")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/msg" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/msg/ServoTarget.msg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/msg" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/msg/ServoTargetArray.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/action" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/action/Walk.action")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/hexapod_msgs/action" TYPE FILE FILES "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src/action/Servo.action")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

@@ -30,6 +30,7 @@ class Leg:
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
         self.IK()
+        return (self.a, self.b, self.c)
 
     def IK(self):
         try:
@@ -56,7 +57,6 @@ class Leg:
             self.b = 0
             self.c = 0
         self.angleToDC()
-        return self.a, self.b, self.c
         
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)

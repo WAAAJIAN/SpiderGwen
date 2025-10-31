@@ -2,6 +2,8 @@
   "package_name": "hexapod_msgs",
   "non_idl_tuples": [
     "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src:msg/ServoTarget.msg",
-    "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src:msg/ServoTargetArray.msg"
+    "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src:msg/ServoTargetArray.msg",
+    "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src:action/Walk.action",
+    "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/src:action/Servo.action"
   ]
 }

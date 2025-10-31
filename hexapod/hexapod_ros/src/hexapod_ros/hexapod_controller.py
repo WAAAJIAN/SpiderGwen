@@ -1,9 +1,9 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.action import ActionClient
+from hexapod_msgs.action import Servo
 from hexapod_msgs.msg import ServoTarget
 from hexapod_msgs.msg import ServoTargetArray
-from hexapod_msgs.action import Walk
 from sensor_msgs.msg import Imu
 from std_msgs.msg import String
 from .spider import Spider
@@ -12,11 +12,11 @@ from time import sleep
 class HexapodController(Node):
     def __init__(self):
         super().__init__('hexapod_controller')
-
+        self.spider = Spider()
         self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
         # self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
-        self.servo_pub = self.create_publisher(ServoTargetArray, '/hexapod/servo_targets', 10)
-        self._action_client = ActionClient(self, Walk, 'walk_action')
+        # self.servo_pub = self.create_publisher(ServoTargetArray, '/hexapod/servo_targets', 10)
+        self._action_client = ActionClient(self, Servo, 'servo_action')
         self.timer = self.create_timer(0.05, self.loop)
         self.active = False
     
@@ -39,8 +39,9 @@ class HexapodController(Node):
         pass
         # self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
 
-    def send_goal(self):
-        goal_msg = Walk.Goal()
+    def send_goal(self, goal):
+        goal_msg = Servo.Goal()
+        goal_msg.servo_targets = goal
         self._action_client.wait_for_server()
         self._send_goal_future = self._action_client.send_goal_async(goal_msg)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -56,16 +57,22 @@ class HexapodController(Node):
 
     def get_result_callback(self, future):
         result = future.result().result
-        target_msg = result.target()
-        self.get_logger().info(f'Result: {target_msg}"')
-        if target_msg:
-            self.publisher.publish(target_msg)
-        else:
-            self.active = False
+        self.get_logger().info(f'Result: success={result.success}"')
 
     def loop(self):
         if self.active:
-            self.send_goal()
+            self.spider.walk()
+            action = self.spider.step()
+            self.get_logger().info(f"Received target: {action}")
+            result = ServoTargetArray()
+            for leg, servos in action.items():
+                for servo in servos:
+                    submsg = ServoTarget()
+                    submsg.servo_id = servo[0]
+                    submsg.target_position = servo[1]
+                    result.targets.append(submsg)
+            if result.targets: self.send_goal(result)
+            else: self.acitve = False
 
 def main():
     rclpy.init()
@@ -73,3 +80,21 @@ def main():
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+    async def execute_callback(self, goal_handle):
+        self.get_logger().info(f"Received goal...")
+        state = self.walk()
+        if state:
+            goal_handle.succeed()
+            result = ServoTargetArray()
+            for leg in range(6):
+                if not self.step_queue[leg].empty():
+                    servo_lst = self.step_queue[leg].get()
+                    for servo in servo_lst:
+                        submsg = ServoTarget()
+                        submsg.servo_id = servo[0]
+                        submsg.target_position = servo[1]
+                        result.targets.append(submsg)
+            if result.targets: return result  
+            else: return None
+        else: goal_handle.abort()

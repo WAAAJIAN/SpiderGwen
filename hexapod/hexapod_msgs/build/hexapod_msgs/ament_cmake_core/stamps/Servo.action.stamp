@@ -1,0 +1,10 @@
+# Goal definition (empty)
+ServoTargetArray servo_targets
+
+---
+# Result definition
+bool success
+
+---
+# Feedback definition (empty)
+

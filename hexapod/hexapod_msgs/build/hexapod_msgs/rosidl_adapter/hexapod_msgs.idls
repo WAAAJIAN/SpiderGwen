@@ -1,2 +1,4 @@
 /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs:msg/ServoTarget.idl
 /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs:msg/ServoTargetArray.idl
+/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs:action/Walk.idl
+/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_adapter/hexapod_msgs:action/Servo.idl

@@ -11,6 +11,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ServoTarget.msg"
   "msg/ServoTargetArray.msg"
   "action/Walk.action"
+  "action/Servo.action"
   DEPENDENCIES std_msgs sensor_msgs
 )
 

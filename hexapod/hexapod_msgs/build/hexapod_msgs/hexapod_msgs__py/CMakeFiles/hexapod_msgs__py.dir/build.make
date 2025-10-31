@@ -71,9 +71,14 @@ hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/_
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_c.c
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target.py
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target_array.py
+hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_walk.py
+hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_servo.py
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/__init__.py
+hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/__init__.py
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target_s.c
 hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target_array_s.c
+hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_walk_s.c
+hexapod_msgs__py/CMakeFiles/hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_servo_s.c
 
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/lib/rosidl_generator_py/rosidl_generator_py
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_py/__init__.py
@@ -90,6 +95,8 @@ rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/rosidl_generator_py/resource/_srv.py.em
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/hexapod_msgs/msg/ServoTarget.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/hexapod_msgs/msg/ServoTargetArray.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/hexapod_msgs/action/Walk.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/hexapod_msgs/action/Servo.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/std_msgs/msg/Bool.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/std_msgs/msg/Byte.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/std_msgs/msg/ByteMultiArray.idl
@@ -182,6 +189,11 @@ rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/geometry_msgs/msg/VelocityStamped.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/geometry_msgs/msg/Wrench.idl
 rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/geometry_msgs/msg/WrenchStamped.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalInfo.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalStatus.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/msg/GoalStatusArray.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/action_msgs/srv/CancelGoal.idl
+rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/share/unique_identifier_msgs/msg/UUID.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code for ROS interfaces"
 	cd /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/hexapod_msgs__py && /usr/bin/python3 /opt/ros/humble/share/rosidl_generator_py/cmake/../../../lib/rosidl_generator_py/rosidl_generator_py --generator-arguments-file /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/build/hexapod_msgs/rosidl_generator_py__arguments.json --typesupport-impls "rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c;rosidl_typesupport_c"
 
@@ -197,8 +209,17 @@ rosidl_generator_py/hexapod_msgs/msg/_servo_target.py: rosidl_generator_py/hexap
 rosidl_generator_py/hexapod_msgs/msg/_servo_target_array.py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/msg/_servo_target_array.py
 
+rosidl_generator_py/hexapod_msgs/action/_walk.py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/action/_walk.py
+
+rosidl_generator_py/hexapod_msgs/action/_servo.py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/action/_servo.py
+
 rosidl_generator_py/hexapod_msgs/msg/__init__.py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/msg/__init__.py
+
+rosidl_generator_py/hexapod_msgs/action/__init__.py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/action/__init__.py
 
 rosidl_generator_py/hexapod_msgs/msg/_servo_target_s.c: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/msg/_servo_target_s.c
@@ -206,10 +227,21 @@ rosidl_generator_py/hexapod_msgs/msg/_servo_target_s.c: rosidl_generator_py/hexa
 rosidl_generator_py/hexapod_msgs/msg/_servo_target_array_s.c: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/msg/_servo_target_array_s.c
 
+rosidl_generator_py/hexapod_msgs/action/_walk_s.c: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/action/_walk_s.c
+
+rosidl_generator_py/hexapod_msgs/action/_servo_s.c: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/hexapod_msgs/action/_servo_s.c
+
 hexapod_msgs__py: hexapod_msgs__py/CMakeFiles/hexapod_msgs__py
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_c.c
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/_hexapod_msgs_s.ep.rosidl_typesupport_introspection_c.c
+hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/__init__.py
+hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_servo.py
+hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_servo_s.c
+hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_walk.py
+hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/action/_walk_s.c
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/__init__.py
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target.py
 hexapod_msgs__py: rosidl_generator_py/hexapod_msgs/msg/_servo_target_array.py
