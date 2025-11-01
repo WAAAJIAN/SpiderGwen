@@ -1,11 +1,13 @@
-from .parameter import *
-from .leg import *
-# import maestro
-# servo = maestro.Controller('/dev/ttyAMA0')
-# from parameter import *
-# from leg import *
-# import time
+# from .parameter import *
+# from .leg import *
+import maestro
+servo = maestro.Controller('/dev/ttyAMA0')
+from parameter import *
+from leg import *
+import time
+from gyroscope import *
 from queue import Queue
+
 
 class Spider():
     def __init__(self):
@@ -30,6 +32,10 @@ class Spider():
         }
         self.curr_move = None
         self.main_time = 0
+        try:
+            MPU_Init()
+        except Exception as e:
+            print(f"Error encounter: {e}")
 
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
@@ -130,13 +136,60 @@ class Spider():
     #         self.step_queue[leg].put(lst)
             
 
-    # def runleg(self, servos):
-    #     for i in servos:
-    #         servo.setTarget(i[0], i[1])
+    def runleg(self, servos):
+        for i in servos:
+            servo.setTarget(i[0], i[1])
 
+    def balance(self):
+        roll, pitch = 0,0
+        error_sum_x, error_sum_y = 0, 0
 
+        roll_max_I = pid["roll"]["max_I"]
+        pitch_max_I = pid["pitch"]["max_I"]
 
-# s = Spider()
+        roll_filter_coe = pid["roll"]["filter_coe"]
+        pitch_filter_coe = pid["pitch"]["filter_coe"]
+        
+        roll_kp = pid["roll"]["kp"]
+        pitch_kp = pid["pitch"]["kp"]
+
+        roll_ki = pid["roll"]["ki"]
+        pitch_ki = pid["pitch"]["ki"]
+
+        while True:
+            ax,ay,az,gx,gy,gz = get_gyro()
+
+            roll_acc  = atan2(ay, sqrt(ax**2 + az**2)) * 180 / pi
+            pitch_acc = atan2(ax, sqrt(ay**2 + az**2)) * 180 / pi
+
+            roll  = roll_filter_coe * (roll + gy * dt) + (1 - roll_filter_coe) * roll_acc
+            pitch = pitch_filter_coe * (pitch + gx * dt) + (1 - pitch_filter_coe) * pitch_acc
+
+            error_x = 0 - pitch 
+            error_y = 0 - roll
+            
+            error_sum_x += error_x * dt
+            error_sum_y += error_y * dt
+
+            if error_sum_x > pitch_max_I: error_sum_x = pitch_max_I
+            elif error_sum_x < -pitch_max_I: error_sum_x = -pitch_max_I
+            if error_sum_y > roll_max_I: error_sum_y = roll_max_I
+            elif error_sum_y < -roll_max_I: error_sum_y = -roll_max_I
+            correction_x = - (pitch_kp * error_x + pitch_ki * error_sum_x)
+            correction_y = roll_kp * error_y + roll_ki * error_sum_y
+            # correction =  kp*error_x + ki*error_sum + kd*(error_x - last_error)
+            print("error sum", error_sum_x, error_sum_y)
+            print("correction angle:", correction_x, correction_y,"\n")
+            move = []
+            for i in self.leg:
+                leg_step = self.leg[i][0].rotating(correction_x, correction_y)
+                servos = spider_servo[i]
+                for k in range(3): move.append([servos[k], leg_step[k]])
+            self.runleg(move)
+            sleep(dt)
+
+s = Spider()
+s.balance()
 # s.add_move('w')
 # s.add_move('w')
 # s.add_move('w')

@@ -1,5 +1,5 @@
-from .parameter import *
-# from parameter import *
+# from .parameter import *
+from parameter import *
 import traceback
 
 class Leg:
@@ -30,6 +30,17 @@ class Leg:
         new_vec = transformBodyCoortoLeg(self.leg, [x,y])
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
+        self.IK()
+        return (self.a, self.b, self.c)
+
+    def rotating(self, pitch, roll): 
+        R_c = R(self.offset, self.offset_angle, roll, pitch) 
+        roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+        pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+        self.x = x_offset + roll_vec[0] + pitch_vec[0]
+        self.y = y_offset + roll_vec[1] + pitch_vec[1]
+        self.z = z_offset + R_c[0][2] + R_c[1][2]
+        # print(f"leg: {self.leg} with {roll, pitch} moving to {self.x, self.y, self.z}")
         self.IK()
         return (self.a, self.b, self.c)
 
