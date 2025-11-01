@@ -45,8 +45,9 @@ class Spider():
     def walk(self): # one cycle took 5ms at most to calculate
         if not self.curr_move: 
             if not self.move_queue.empty(): 
-                if self.main_time == 0:
+                if self.main_time == 0 or self.main_time == period/2:
                     self.curr_move = self.move_queue.get()
+                    self.main_time = 0
             else: self.curr_move = None
 
         phase_offsets = [k * period for k in gait_params[self.gait]["phase_offsets"]]
@@ -87,7 +88,7 @@ class Spider():
                         self.leg[i][2] += step
                 else:
                     self.leg[i][2] += step
-                if phase_time >= period:
+                if self.leg[i][2] >= period:
                     self.leg[i][1] = None
                     self.leg[i][2] = 0
 
@@ -113,6 +114,22 @@ class Spider():
     def gaitChange(self, inp):
         self.gait = gait[inp]
 
+    # def shutdown(self):
+    #     while not self.move_queue.empty():
+    #         try: self.move_queue.get_nowait()
+    #         except: break
+    #     for j in range(6):
+    #         while not self.step_queue[j].empty():
+    #             try: self.step_queue[j].get_nowait()
+    #             except: break
+    #     for leg in self.leg:
+    #         servos = spider_servo[leg]
+    #         lst = []
+    #         for i in range(3):
+    #             lst.append([servos[i], 0])
+    #         self.step_queue[leg].put(lst)
+            
+
     # def runleg(self, servos):
     #     for i in servos:
     #         servo.setTarget(i[0], i[1])
@@ -123,13 +140,14 @@ class Spider():
 # s.add_move('w')
 # s.add_move('w')
 # s.add_move('w')
-# for i in range(50):
+# for i in range(20):
 #     print(f"time: {s.main_time}, direction: {s.curr_move}")
 #     s.walk()
 #     dct = s.step()
-#     for leg, servos in dct.items():
+#     print(f"time: {s.main_time}, direction: {s.curr_move}")
+#     # for leg, servos in dct.items():
 #         # print(f"leg: {leg}, target: {servos}")
-#         s.runleg(servos)
+#         # s.runleg(servos)
 #     for leg, config in s.leg.items():
 #         print(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
 #     print("\n")

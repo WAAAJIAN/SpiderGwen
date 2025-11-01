@@ -66,10 +66,9 @@ class HexapodController(Node):
             self.spider.walk()
             action = self.spider.step()
             # self.get_logger().info(f"Received target: {action}")
-            self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}")
-            for leg, config in self.spider.leg.items():
-                self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
-            self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
+            # for leg, config in self.spider.leg.items():
+            #     self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
+            # self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
             result = ServoTargetArray()
             for leg, servos in action.items():
                 for servo in servos:
@@ -81,26 +80,11 @@ class HexapodController(Node):
             
 
 def main():
-    rclpy.init()
-    node = HexapodController()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
-
-    async def execute_callback(self, goal_handle):
-        self.get_logger().info(f"Received goal...")
-        state = self.walk()
-        if state:
-            goal_handle.succeed()
-            result = ServoTargetArray()
-            for leg in range(6):
-                if not self.step_queue[leg].empty():
-                    servo_lst = self.step_queue[leg].get()
-                    for servo in servo_lst:
-                        submsg = ServoTarget()
-                        submsg.servo_id = servo[0]
-                        submsg.target_position = servo[1]
-                        result.targets.append(submsg)
-            if result.targets: return result  
-            else: return None
-        else: goal_handle.abort()
+    try:
+        rclpy.init()
+        node = HexapodController()
+        rclpy.spin(node)
+        node.destroy_node()
+        rclpy.shutdown()
+    except KeyboardInterrupt:
+        node.get_logger().info("KeyboardInterrupt received...")

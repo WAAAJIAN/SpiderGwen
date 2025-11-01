@@ -151,9 +151,9 @@ direction = {
     'a' : [0,-1],
     'd' : [0,1],
     'q' : polarVector(45),
-    'e' : polarVector(135),
+    'e' : polarVector(315), 
     'z' : polarVector(225),
-    'x' : polarVector(315)
+    'x' : polarVector(135)
 }
 
 
