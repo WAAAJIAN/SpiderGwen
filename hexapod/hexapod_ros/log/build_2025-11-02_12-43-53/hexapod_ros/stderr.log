@@ -1,0 +1,5 @@
+  File "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/hexapod_ros/hexapod_teleop.py", line 35
+    elif key == '\x1b[C'
+                        ^
+SyntaxError: expected ':'
+

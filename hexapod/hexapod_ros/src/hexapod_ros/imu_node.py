@@ -1,5 +1,5 @@
 import rclpy
-from rclpy import Node
+from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from .gyroscope import get_gyro, MPU_Init
 
@@ -7,7 +7,7 @@ class IMUNode(Node):
     def __init__(self):
         super().__init__('imu_node')
         self.publisher = self.create_publisher(Imu, '/imu/data_raw', 10)
-        self.timer = self.create_timer(0.05, self.loop)
+        self.timer = self.create_timer(0.12, self.loop)
         MPU_Init()
         
     def loop(self):

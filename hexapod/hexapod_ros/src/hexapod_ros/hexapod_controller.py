@@ -32,10 +32,11 @@ class HexapodController(Node):
         Ax = msg.linear_acceleration.x
         Ay = msg.linear_acceleration.y
         Az = msg.linear_acceleration.z
-        Gx = msg.angular_acceleration.x
-        Gy = msg.angular_acceleration.y
-        Gz = msg.angular_acceleration.z
+        Gx = msg.angular_velocity.x
+        Gy = msg.angular_velocity.y
+        Gz = msg.angular_velocity.z
         self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
+        self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}")
 
     def send_goal(self, goal):
         goal_msg = Servo.Goal()

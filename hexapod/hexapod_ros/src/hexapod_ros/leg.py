@@ -1,5 +1,5 @@
-# from .parameter import *
-from parameter import *
+from .parameter import *
+# from parameter import *
 import traceback
 
 class Leg:

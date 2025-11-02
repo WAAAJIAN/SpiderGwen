@@ -1,5 +1,6 @@
 [console_scripts]
 hexapod_controller = hexapod_ros.hexapod_controller:main
+imu_node = hexapod_ros.imu_node:main
 maestro_driver = hexapod_ros.maestro_driver:main
 teleop = hexapod_ros.hexapod_teleop:main
 

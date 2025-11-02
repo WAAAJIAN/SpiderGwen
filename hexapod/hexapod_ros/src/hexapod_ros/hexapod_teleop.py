@@ -32,6 +32,10 @@ class HexapodTeleop(Node):
                 cmd.data = 'stop'
             elif key in avail_command:
                 cmd.data = key
+            elif key == '\x1b[C':
+                cmd.data = 'rc'
+            elif key == '\x1b[D':
+                cmd.data = 'rcc'
             else:
                 continue
 

@@ -73,7 +73,7 @@ class Spider:
             for i in self.leg:
                 self.leg[i].rotating(correction_x, correction_y)
             self.runleg()
-            sleep(dt)
+            sleep(0.12)
         
     def stop_leg(self):
         for i in self.leg:
