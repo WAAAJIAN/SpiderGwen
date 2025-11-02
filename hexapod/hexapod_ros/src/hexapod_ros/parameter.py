@@ -91,7 +91,7 @@ pid = {
         "max_I" : 25
     }
 }
-dt = 0.05
+dt = 0.12
 
 # Rotation "Matrix"
 R = lambda x, offset, roll=0, pitch=0 : (
@@ -112,7 +112,7 @@ gait_params = {
     "tripod": {
         "time_on_air": 0.5, 
         "phase_offsets": [0.0, 0.5, 0.0, 0.5, 0.0, 0.5],
-        "stop_time" : 1 # per half cycle
+        "stop_time" : 0.5 # per half cycle
     },
     "wave": {
         "time_on_air": 1/6, 
@@ -153,7 +153,9 @@ direction = {
     'q' : polarVector(45),
     'e' : polarVector(315), 
     'z' : polarVector(225),
-    'x' : polarVector(135)
+    'x' : polarVector(135),
+    'rc': [1,0,1],
+    'rcc': [-1,0,1]
 }
 
 
