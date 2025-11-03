@@ -31,13 +31,13 @@ class Leg:
         else: new_vec = [x, y]
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
-        # if phase > 180:
-        #     R_c = R(self.offset, self.offset_angle, roll, pitch) 
-        #     roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
-        #     pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
-        #     self.x += roll_vec[0] + pitch_vec[0]
-        #     self.y += roll_vec[1] + pitch_vec[1]
-        #     self.z += R_c[0][2] + R_c[1][2]
+        if phase > 180:
+            R_c = R(self.offset, self.offset_angle, roll, pitch) 
+            roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+            pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+            self.x += roll_vec[0] + pitch_vec[0]
+            self.y += roll_vec[1] + pitch_vec[1]
+            self.z += R_c[0][2] + R_c[1][2]
         self.IK()
         return (self.a, self.b, self.c)
 

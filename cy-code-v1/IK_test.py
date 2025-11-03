@@ -162,7 +162,7 @@ def FK(a, b, c):
         z = tl * cos(theta) + fl * sin(b)
     return x, y, z
 
-pos = (0, 250, 70)
+pos = (0, 150, 150)
 
 # Run IK
 x, y, z = pos

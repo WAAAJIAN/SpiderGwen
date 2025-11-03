@@ -1,11 +1,11 @@
-# from .parameter import *
-# from .leg import *
-import maestro
-servo = maestro.Controller('/dev/ttyAMA0')
-from parameter import *
-from leg import *
-import time
-from gyroscope import *
+from .parameter import *
+from .leg import *
+# import maestro
+# servo = maestro.Controller('/dev/ttyAMA0')
+# from parameter import *
+# from leg import *
+# import time
+# from gyroscope import *
 from queue import Queue
 
 
@@ -41,10 +41,10 @@ class Spider():
         }
         self.curr_move = None
         self.main_time = 0
-        try:
-            MPU_Init()
-        except Exception as e:
-            print(f"Error encounter: {e}")
+        # try:
+        #     MPU_Init()
+        # except Exception as e:
+        #     print(f"Error encounter: {e}")
 
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
@@ -158,9 +158,9 @@ class Spider():
     def gaitChange(self, inp):
         self.gait = gait[inp]
 
-    def runleg(self, servos):
-        for i in servos:
-            servo.setTarget(i[0], i[1])
+    # def runleg(self, servos):
+    #     for i in servos:
+    #         servo.setTarget(i[0], i[1])
 
 # s = Spider()
 # s.add_move('w')
