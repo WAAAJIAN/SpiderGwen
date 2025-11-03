@@ -19,6 +19,7 @@ class HexapodController(Node):
         self.timer = self.create_timer(0.12, self.loop)
         # self.timer = self.create_timer(0.4, self.loop)        
         self.active = False
+        self.spider.stand()
     
     def teleop_cb(self, msg):
         command = msg.data
@@ -35,6 +36,7 @@ class HexapodController(Node):
         Gx = msg.angular_velocity.x
         Gy = msg.angular_velocity.y
         Gz = msg.angular_velocity.z
+        self.get_logger().info(f"Gy: {Gy} Gz: {Gz}")
         self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
         self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}")
 
@@ -68,14 +70,15 @@ class HexapodController(Node):
             # for leg, config in self.spider.leg.items():
             #     self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
             # self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
-            result = ServoTargetArray()
-            for leg, servos in action.items():
-                for servo in servos:
-                    submsg = ServoTarget()
-                    submsg.servo_id = servo[0]
-                    submsg.target_position = servo[1]
-                    result.targets.append(submsg)
-            self.send_goal(result)
+            if action:
+                result = ServoTargetArray()
+                for leg, servos in action.items():
+                    for servo in servos:
+                        submsg = ServoTarget()
+                        submsg.servo_id = servo[0]
+                        submsg.target_position = servo[1]
+                        result.targets.append(submsg)
+                self.send_goal(result)
             
 
 def main():

@@ -54,6 +54,17 @@ class Spider():
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
 
+    def stand(self):
+        l = 3
+        for i in range(l):
+            for leg in self.leg:
+                servos = spider_servo[leg]
+                lst = []
+                curr = self.leg[leg][0].stand(l, i)
+                for j in range(3):
+                    lst.append([servos[j], curr[j]])
+                self.step_queue[i].put(lst)   
+
     def update_imu(self, Ax, Ay, Az, Gx, Gy, Gz): # consider adding bias
         # roll
         roll_max_I = pid["roll"]["max_I"]
