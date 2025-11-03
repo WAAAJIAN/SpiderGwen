@@ -29,21 +29,12 @@ class Spider():
             4 : Queue(),
             5 : Queue()
         }
-        self.angle = {
-            'roll': 0,
-            'pitch': 0,
-            'yaw': 0
-        }
-        self.error = {
-            'roll': 0,
-            'pitch': 0,
-            'yaw': 0
-        }
-        self.error_sum = {
-            'roll': 0,
-            'pitch': 0,
-            'yaw': 0
-        }
+        self.angle = {'roll': 0, 'pitch': 0, 'yaw': 0}
+        self.error = {'roll': 0, 'pitch': 0, 'yaw': 0}
+        self.error_sum = {'roll': 0, 'pitch': 0, 'yaw': 0}
+        self.bias_sample = {'Gx': 0, 'Gy': 0, 'Gz': 0, 'count': 0}
+        self.bias = {'Gx': 0, 'Gy': 0, 'Gz': 0}
+        self.bias_added = False
         self.curr_move = None
         self.main_time = 0
         # try:
@@ -54,7 +45,11 @@ class Spider():
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
 
+    def rbias(self):
+        return (self.bias['Gy'], self.bias['Gz'])
+
     def stand(self):
+        res = []
         l = 3
         for i in range(l):
             for leg in self.leg:
@@ -63,9 +58,19 @@ class Spider():
                 curr = self.leg[leg][0].stand(l, i)
                 for j in range(3):
                     lst.append([servos[j], curr[j]])
-                self.step_queue[i].put(lst)   
+                res.append(lst)
+        return res
 
     def update_imu(self, Ax, Ay, Az, Gx, Gy, Gz): # consider adding bias
+        if self.bias_added == False:
+            if self.bias_sample['count'] < 100:
+                self.bias_sample['Gx'] += Gx
+                self.bias_sample['Gy'] += Gy
+            elif self.bias_sample['count'] == 100:
+                self.bias['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
+                self.bias['Gy'] = self.bias_sample['Gy']/self.bias_sample['count']
+                self.bias_added = True
+
         # roll
         roll_max_I = pid["roll"]["max_I"]
         roll_filter_coe = pid["roll"]["filter_coe"]
@@ -73,7 +78,8 @@ class Spider():
         roll_ki = pid["roll"]["ki"]
 
         roll_acc  = atan2(Ay, sqrt(Ax**2 + Az**2)) * 180 / pi
-        self.angle['roll'] = roll_filter_coe * (self.angle['roll'] + Gy * dt) + (1 - roll_filter_coe) * roll_acc
+        if self.bias_added: self.angle['roll'] = roll_filter_coe * (self.angle['roll'] + (Gy - self.bias['Gy'])* dt) + (1 - roll_filter_coe) * roll_acc
+        else: self.angle['roll'] = roll_acc
         error_y = 0 - self.angle['roll']
         self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_y * dt), roll_max_I)
         self.error['roll'] = roll_kp * error_y + roll_ki * self.error_sum['roll']       
@@ -86,12 +92,12 @@ class Spider():
         pitch_ki = pid["pitch"]["ki"]
 
         pitch_acc = atan2(Ax, sqrt(Ay**2 + Az**2)) * 180 / pi
-        self.angle['pitch'] = pitch_filter_coe * (self.angle['pitch'] + Gx * dt) + (1 - pitch_filter_coe) * pitch_acc
+        if self.bias_added: self.angle['pitch'] = pitch_filter_coe * (self.angle['pitch'] + (Gx - self.bias['Gx']) * dt) + (1 - pitch_filter_coe) * pitch_acc
+        else: self.angle['pitch'] = pitch_acc
         error_x = 0 - self.angle['pitch'] 
         self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_x * dt), pitch_max_I)
         self.error['pitch'] = - (pitch_kp * error_x + pitch_ki * self.error_sum['pitch'])
         # print("pitch", self.error['pitch'], self.error_sum['pitch'], '\n')
-        
 
     def stop(self):
         while not self.move_queue.empty():
@@ -176,9 +182,9 @@ class Spider():
     def gaitChange(self, inp):
         self.gait = gait[inp]
 
-    def runleg(self, servos):
-        for i in servos:
-            servo.setTarget(i[0], i[1])
+    # def runleg(self, servos):
+    #     for i in servos:
+    #         servo.setTarget(i[0], i[1])
 
 # s = Spider()
 # while True:

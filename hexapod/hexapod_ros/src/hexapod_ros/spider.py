@@ -33,7 +33,7 @@ class Spider():
         self.error = {'roll': 0, 'pitch': 0, 'yaw': 0}
         self.error_sum = {'roll': 0, 'pitch': 0, 'yaw': 0}
         self.bias_sample = {'Gx': 0, 'Gy': 0, 'Gz': 0, 'count': 0}
-        self.bias = {'Gx': 0, 'Gy': 0, 'Gz':0}
+        self.bias = {'Gx': 0, 'Gy': 0, 'Gz': 0}
         self.bias_added = False
         self.curr_move = None
         self.main_time = 0
@@ -45,7 +45,11 @@ class Spider():
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
 
+    def rbias(self):
+        return (self.bias['Gy'], self.bias['Gz'])
+
     def stand(self):
+        res = []
         l = 3
         for i in range(l):
             for leg in self.leg:
@@ -54,16 +58,18 @@ class Spider():
                 curr = self.leg[leg][0].stand(l, i)
                 for j in range(3):
                     lst.append([servos[j], curr[j]])
-                self.step_queue[i].put(lst)   
+                res.append(lst)
+        return res
 
     def update_imu(self, Ax, Ay, Az, Gx, Gy, Gz): # consider adding bias
-        if self.bias_sample['count'] < 100:
-            self.bias_sample['Gx'] += Gx
-            self.bias_sample['Gy'] += Gy
-        elif self.bias_sample['count'] == 100:
-            self.bias['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
-            self.bias['Gy'] = self.bias_sample['Gy']/self.bias_sample['count']
-            self.bias_added = True
+        if self.bias_added == False:
+            if self.bias_sample['count'] < 100:
+                self.bias_sample['Gx'] += Gx
+                self.bias_sample['Gy'] += Gy
+            elif self.bias_sample['count'] == 100:
+                self.bias['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
+                self.bias['Gy'] = self.bias_sample['Gy']/self.bias_sample['count']
+                self.bias_added = True
 
         # roll
         roll_max_I = pid["roll"]["max_I"]

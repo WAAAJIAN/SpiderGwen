@@ -19,7 +19,7 @@ class HexapodController(Node):
         self.timer = self.create_timer(0.12, self.loop)
         # self.timer = self.create_timer(0.4, self.loop)        
         self.active = False
-        self.spider.stand()
+        self.stand()
     
     def teleop_cb(self, msg):
         command = msg.data
@@ -38,7 +38,10 @@ class HexapodController(Node):
         Gz = msg.angular_velocity.z
         self.get_logger().info(f"Gy: {Gy} Gz: {Gz}")
         self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
-        self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}")
+        res = self.spider.rbias()
+        self.get_logger().info(f"Gy_bias: {res[0]} Gz_bias: {res[1]}")
+        self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}\n")
+
 
     def send_goal(self, goal):
         goal_msg = Servo.Goal()
@@ -60,6 +63,22 @@ class HexapodController(Node):
     def get_result_callback(self, future):
         result = future.result().result
         self.get_logger().info(f'Result: success={result.success}"')
+
+    def stand(self):
+        actionlst = self.spider.stand()
+        self.get_logger().info(f'lst={actionlst}"')
+        while(actionlst):
+            if not self.active:
+                self.active = True
+                action = actionlst.pop(0)
+                self.get_logger().info(f'lst={action}"')
+                result = ServoTargetArray()
+                for servo in action:
+                    submsg = ServoTarget()
+                    submsg.servo_id = servo[0]
+                    submsg.target_position = servo[1]
+                    result.targets.append(submsg)
+                self.send_goal(result)
 
     def loop(self):
         if not self.active:
