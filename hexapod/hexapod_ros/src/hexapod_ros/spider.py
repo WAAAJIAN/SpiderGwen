@@ -29,6 +29,11 @@ class Spider():
             4 : Queue(),
             5 : Queue()
         }
+        self.angle = {
+            'roll': 0,
+            'pitch': 0,
+            'yaw': 0
+        }
         self.error = {
             'roll': 0,
             'pitch': 0,
@@ -49,7 +54,18 @@ class Spider():
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
 
-    def update_imu(self, Ax, Ay, Az, Gx, Gy, Gz):
+    def stand(self):
+        l = 3
+        for i in range(l):
+            for leg in self.leg:
+                servos = spider_servo[leg]
+                lst = []
+                curr = self.leg[leg][0].stand(l, i)
+                for j in range(3):
+                    lst.append([servos[j], curr[j]])
+                self.step_queue[i].put(lst)   
+
+    def update_imu(self, Ax, Ay, Az, Gx, Gy, Gz): # consider adding bias
         # roll
         roll_max_I = pid["roll"]["max_I"]
         roll_filter_coe = pid["roll"]["filter_coe"]
@@ -57,10 +73,11 @@ class Spider():
         roll_ki = pid["roll"]["ki"]
 
         roll_acc  = atan2(Ay, sqrt(Ax**2 + Az**2)) * 180 / pi
-        roll  = roll_filter_coe * (roll + Gy * dt) + (1 - roll_filter_coe) * roll_acc
-        error_y = 0 - roll
-        self.error_sum['roll'] = max(min(-roll_max_I, self.error_sum['roll'] + error_y * dt), roll_max_I)
+        self.angle['roll'] = roll_filter_coe * (self.angle['roll'] + Gy * dt) + (1 - roll_filter_coe) * roll_acc
+        error_y = 0 - self.angle['roll']
+        self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_y * dt), roll_max_I)
         self.error['roll'] = roll_kp * error_y + roll_ki * self.error_sum['roll']       
+        # print("roll", self.error['roll'], self.error_sum['roll'])
 
         # pitch
         pitch_max_I = pid["pitch"]["max_I"]
@@ -69,11 +86,12 @@ class Spider():
         pitch_ki = pid["pitch"]["ki"]
 
         pitch_acc = atan2(Ax, sqrt(Ay**2 + Az**2)) * 180 / pi
-        pitch = pitch_filter_coe * (pitch + Gx * dt) + (1 - pitch_filter_coe) * pitch_acc
-        error_x = 0 - pitch 
-        self.error_sum['pitch'] = max(min(-pitch_max_I, self.error_sum['pitch'] + error_x * dt), pitch_max_I)
+        self.angle['pitch'] = pitch_filter_coe * (self.angle['pitch'] + Gx * dt) + (1 - pitch_filter_coe) * pitch_acc
+        error_x = 0 - self.angle['pitch'] 
+        self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_x * dt), pitch_max_I)
         self.error['pitch'] = - (pitch_kp * error_x + pitch_ki * self.error_sum['pitch'])
-
+        # print("pitch", self.error['pitch'], self.error_sum['pitch'], '\n')
+        
 
     def stop(self):
         while not self.move_queue.empty():
@@ -163,6 +181,10 @@ class Spider():
     #         servo.setTarget(i[0], i[1])
 
 # s = Spider()
+# while True:
+#     ax,ay,az,gx,gy,gz = get_gyro()
+#     s.update_imu(ax,ay,az,gx,gy,gz)
+#     time.sleep(0.5)
 # s.add_move('w')
 # s.add_move('w')
 # s.add_move('w')

@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'imu_node = hexapod_ros.imu_node:main',
             'teleop = hexapod_ros.hexapod_teleop:main',
             'hexapod_controller = hexapod_ros.hexapod_controller:main',
             'maestro_driver = hexapod_ros.maestro_driver:main',

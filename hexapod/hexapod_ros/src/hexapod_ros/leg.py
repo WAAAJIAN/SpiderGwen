@@ -1,5 +1,5 @@
-# from .parameter import *
-from parameter import *
+from .parameter import *
+# from parameter import *
 import traceback
 
 class Leg:
@@ -39,6 +39,15 @@ class Leg:
             self.y += roll_vec[1] + pitch_vec[1]
             self.z += R_c[0][2] + R_c[1][2]
         self.IK()
+        self.angleToDC()
+        return (self.a, self.b, self.c)
+
+    def stand(self,l,c):
+        self.IK()
+        d = 30 - (30/l)*c
+        self.b += d
+        self.c += d
+        self.angleToDC()
         return (self.a, self.b, self.c)
 
     def balance(self, pitch, roll): 
@@ -49,6 +58,7 @@ class Leg:
         self.y = y_offset + roll_vec[1] + pitch_vec[1]
         self.z = z_offset + R_c[0][2] + R_c[1][2]
         self.IK()
+        self.angleToDC()
         return (self.a, self.b, self.c)
 
     def IK(self):
@@ -75,7 +85,6 @@ class Leg:
             self.a = 0
             self.b = 0
             self.c = 0
-        self.angleToDC()
         
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
@@ -84,8 +93,3 @@ class Leg:
 
     def curr_angle(self):
         return (self.a, self.b, self.c)
-
-    # def run(self):
-    #     servo.setTarget(spider_servo[self.leg][0], self.a)
-    #     servo.setTarget(spider_servo[self.leg][1], self.b)
-    #     servo.setTarget(spider_servo[self.leg][2], self.c)

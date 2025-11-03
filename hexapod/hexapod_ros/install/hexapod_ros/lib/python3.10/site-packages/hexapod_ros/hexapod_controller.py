@@ -14,12 +14,12 @@ class HexapodController(Node):
         super().__init__('hexapod_controller')
         self.spider = Spider()
         self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
-        # self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
-        # self.servo_pub = self.create_publisher(ServoTargetArray, '/hexapod/servo_targets', 10)
+        self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
         self._action_client = ActionClient(self, Servo, 'servo_action')
         self.timer = self.create_timer(0.12, self.loop)
         # self.timer = self.create_timer(0.4, self.loop)        
         self.active = False
+        self.spider.stand()
     
     def teleop_cb(self, msg):
         command = msg.data
@@ -33,11 +33,12 @@ class HexapodController(Node):
         Ax = msg.linear_acceleration.x
         Ay = msg.linear_acceleration.y
         Az = msg.linear_acceleration.z
-        Gx = msg.angular_acceleration.x
-        Gy = msg.angular_acceleration.y
-        Gz = msg.angular_acceleration.z
-        pass
-        # self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
+        Gx = msg.angular_velocity.x
+        Gy = msg.angular_velocity.y
+        Gz = msg.angular_velocity.z
+        self.get_logger().info(f"Gy: {Gy} Gz: {Gz}")
+        self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
+        self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}")
 
     def send_goal(self, goal):
         goal_msg = Servo.Goal()
@@ -49,7 +50,7 @@ class HexapodController(Node):
     def goal_response_callback(self, future):
         goal_handle = future.result()
         if not goal_handle.accepted:
-            # self.get_logger().info('Goal rejected :(')
+            # self.get_logger().i`nfo('Goal rejected :(')
             return
         # self.get_logger().info('Goal accepted :)')
         self._get_result_future = goal_handle.get_result_async()
@@ -69,14 +70,15 @@ class HexapodController(Node):
             # for leg, config in self.spider.leg.items():
             #     self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
             # self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
-            result = ServoTargetArray()
-            for leg, servos in action.items():
-                for servo in servos:
-                    submsg = ServoTarget()
-                    submsg.servo_id = servo[0]
-                    submsg.target_position = servo[1]
-                    result.targets.append(submsg)
-            self.send_goal(result)
+            if action:
+                result = ServoTargetArray()
+                for leg, servos in action.items():
+                    for servo in servos:
+                        submsg = ServoTarget()
+                        submsg.servo_id = servo[0]
+                        submsg.target_position = servo[1]
+                        result.targets.append(submsg)
+                self.send_goal(result)
             
 
 def main():

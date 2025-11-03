@@ -54,17 +54,17 @@ transformMat = {
 # ==== pid ====
 pid = {
     "roll": {
-        "kp" : 2.4,
-        "ki" : 2.5,
+        "kp" : 8.5,
+        "ki" : 7,
         "kd" : 0,
-        "filter_coe" : 0.93,
+        "filter_coe" : 0.9,
         "max_I" : 25
     },
     "pitch":{
-        "kp" : 2.4,
-        "ki" : 2.5,
+        "kp" : 6.5,
+        "ki" : 5,
         "kd" : 0,
-        "filter_coe" : 0.93,
+        "filter_coe" : 0.9,
         "max_I" : 25
     }
 }

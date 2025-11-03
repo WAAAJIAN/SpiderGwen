@@ -16,7 +16,7 @@ class Leg:
         self.offset_angle = offset_angle_map[self.leg]
         self.IK()
 
-    def calculateWalk(self, phase, direction, distance):
+    def calculateWalk(self, phase, direction, distance, pitch, roll, rotate):
         if phase <= 180:
             turn_distance = 0.5 * distance
             x = direction[0] * (turn_distance * cos(radians(180 - phase)) + turn_distance)
@@ -27,10 +27,38 @@ class Leg:
             x = direction[0] * (-1 * turn_distance * ((phase/180) - 1) + distance)
             y = direction[1] * - (-1 * turn_distance * ((phase/180) - 1) + distance)
             self.z = z_offset
-        new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+        if not rotate: new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+        else: new_vec = [x, y]
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
+        # if phase > 180:
+        #     R_c = R(self.offset, self.offset_angle, roll, pitch) 
+        #     roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+        #     pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+        #     self.x += roll_vec[0] + pitch_vec[0]
+        #     self.y += roll_vec[1] + pitch_vec[1]
+        #     self.z += R_c[0][2] + R_c[1][2]
         self.IK()
+        self.angleToDC()
+        return (self.a, self.b, self.c)
+
+    def stand(self,l,c):
+        self.IK()
+        d = 30 - (30/l)*c
+        self.b += d
+        self.c += d
+        self.angleToDC()
+        return (self.a, self.b, self.c)
+
+    def balance(self, pitch, roll): 
+        R_c = R(self.offset, self.offset_angle, roll, pitch) 
+        roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
+        pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+        self.x = x_offset + roll_vec[0] + pitch_vec[0]
+        self.y = y_offset + roll_vec[1] + pitch_vec[1]
+        self.z = z_offset + R_c[0][2] + R_c[1][2]
+        self.IK()
+        self.angleToDC()
         return (self.a, self.b, self.c)
 
     def IK(self):
@@ -57,7 +85,6 @@ class Leg:
             self.a = 0
             self.b = 0
             self.c = 0
-        self.angleToDC()
         
     def angleToDC(self): # 4000 - 8000
         self.a = int((100 * self.a)/3 + 6000)
@@ -66,8 +93,3 @@ class Leg:
 
     def curr_angle(self):
         return (self.a, self.b, self.c)
-
-    # def run(self):
-    #     servo.setTarget(spider_servo[self.leg][0], self.a)
-    #     servo.setTarget(spider_servo[self.leg][1], self.b)
-    #     servo.setTarget(spider_servo[self.leg][2], self.c)
