@@ -1,0 +1,16 @@
+hexapod_controller:
+  ros__parameters:
+    dt: 0.12
+    pid:
+      roll:
+        kp: 10
+        ki: 0
+        kd: 0
+        filter_coe: 0.95
+        max_I: 25
+      pitch:
+        kp: 0
+        ki: 0
+        kd: 0
+        filter_coe: 0.9
+        max_I: 25

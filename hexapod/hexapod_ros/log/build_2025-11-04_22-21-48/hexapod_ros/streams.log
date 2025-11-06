@@ -1,0 +1,31 @@
+[9.007s] Invoking command in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros': PYTHONPATH=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/hexapod_ros build --build-base /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build install --record /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log --single-version-externally-managed install_data
+[12.810s] running egg_info
+[12.818s] writing ../build/hexapod_ros/hexapod_ros.egg-info/PKG-INFO
+[12.821s] writing dependency_links to ../build/hexapod_ros/hexapod_ros.egg-info/dependency_links.txt
+[12.826s] writing entry points to ../build/hexapod_ros/hexapod_ros.egg-info/entry_points.txt
+[12.829s] writing requirements to ../build/hexapod_ros/hexapod_ros.egg-info/requires.txt
+[12.834s] writing top-level names to ../build/hexapod_ros/hexapod_ros.egg-info/top_level.txt
+[12.864s] reading manifest file '../build/hexapod_ros/hexapod_ros.egg-info/SOURCES.txt'
+[12.880s] writing manifest file '../build/hexapod_ros/hexapod_ros.egg-info/SOURCES.txt'
+[12.882s] running build
+[12.883s] running build_py
+[12.888s] copying src/spider.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src
+[12.893s] copying src/hexapod_controller.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src
+[12.900s] running install
+[12.907s] running install_lib
+[12.915s] copying /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src/spider.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src
+[12.920s] copying /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src/hexapod_controller.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src
+[12.931s] byte-compiling /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src/spider.py to spider.cpython-310.pyc
+[12.954s] byte-compiling /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src/hexapod_controller.py to hexapod_controller.cpython-310.pyc
+[12.967s] running install_data
+[12.970s] copying config/pid_params.yaml -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/config
+[12.972s] running install_egg_info
+[12.999s] removing '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/hexapod_ros-0.0.0-py3.10.egg-info' (and everything under it)
+[13.004s] Copying ../build/hexapod_ros/hexapod_ros.egg-info to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/hexapod_ros-0.0.0-py3.10.egg-info
+[13.024s] running install_scripts
+[13.257s] Installing hexapod_controller script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros
+[13.259s] Installing imu_node script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros
+[13.260s] Installing maestro_driver script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros
+[13.261s] Installing teleop script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros
+[13.278s] writing list of installed files to '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log'
+[13.548s] Invoked command in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros' returned '0': PYTHONPATH=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/hexapod_ros build --build-base /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build install --record /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log --single-version-externally-managed install_data

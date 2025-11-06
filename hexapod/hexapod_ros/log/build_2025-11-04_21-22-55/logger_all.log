@@ -1,0 +1,115 @@
+[1.572s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build']
+[1.574s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffffaaf81870>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffffab132800>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffffab132800>>, mixin_verb=('build',))
+[4.466s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[4.467s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[4.468s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[4.468s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[4.469s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[4.470s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[4.470s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros'
+[4.471s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[4.473s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[4.473s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[4.474s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[4.475s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[4.475s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[4.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[4.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[4.477s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[4.602s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[4.603s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[4.604s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[4.604s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[4.605s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[4.606s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[4.607s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[4.608s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[4.610s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extensions ['ignore', 'ignore_ament_install']
+[4.611s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extension 'ignore'
+[4.612s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extension 'ignore_ament_install'
+[4.613s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extensions ['colcon_pkg']
+[4.614s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extension 'colcon_pkg'
+[4.614s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extensions ['colcon_meta']
+[4.615s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extension 'colcon_meta'
+[4.615s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extensions ['ros']
+[4.616s] Level 1:colcon.colcon_core.package_identification:_identify(hexapod_ros) by extension 'ros'
+[4.645s] DEBUG:colcon.colcon_core.package_identification:Package 'hexapod_ros' with type 'ros.ament_python' and name 'hexapod_ros'
+[4.647s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[4.649s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[4.651s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[4.654s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[4.656s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[4.658s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[4.660s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[4.662s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[4.663s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[4.665s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[4.667s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[5.009s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[5.010s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[5.037s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 1 installed packages in /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install
+[5.046s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 1 installed packages in /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install
+[5.074s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 271 installed packages in /opt/ros/humble
+[5.096s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[5.482s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_args' from command line to 'None'
+[5.482s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_target' from command line to 'None'
+[5.483s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[5.483s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_clean_cache' from command line to 'False'
+[5.484s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_clean_first' from command line to 'False'
+[5.484s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'cmake_force_configure' from command line to 'False'
+[5.484s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'ament_cmake_args' from command line to 'None'
+[5.485s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'catkin_cmake_args' from command line to 'None'
+[5.485s] Level 5:colcon.colcon_core.verb:set package 'hexapod_ros' build argument 'catkin_skip_building_tests' from command line to 'False'
+[5.485s] DEBUG:colcon.colcon_core.verb:Building package 'hexapod_ros' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros', 'merge_install': False, 'path': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros', 'symlink_install': False, 'test_result_base': None}
+[5.487s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[5.495s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[5.500s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros' with build type 'ament_python'
+[5.503s] Level 1:colcon.colcon_core.shell:create_environment_hook('hexapod_ros', 'ament_prefix_path')
+[5.528s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[5.532s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/ament_prefix_path.ps1'
+[5.542s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/ament_prefix_path.dsv'
+[5.550s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/ament_prefix_path.sh'
+[5.563s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[5.564s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[9.542s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros'
+[9.545s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[9.546s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[14.515s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros': PYTHONPATH=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/hexapod_ros build --build-base /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build install --record /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log --single-version-externally-managed install_data
+[18.836s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros' returned '0': PYTHONPATH=/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/hexapod_ros build --build-base /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build install --record /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log --single-version-externally-managed install_data
+[18.880s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros' for CMake module files
+[18.902s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros' for CMake config files
+[18.923s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib'
+[18.926s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/bin'
+[18.927s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/pkgconfig/hexapod_ros.pc'
+[18.930s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages'
+[18.931s] Level 1:colcon.colcon_core.shell:create_environment_hook('hexapod_ros', 'pythonpath')
+[18.935s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/pythonpath.ps1'
+[18.941s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/pythonpath.dsv'
+[18.948s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/hook/pythonpath.sh'
+[18.956s] Level 1:colcon.colcon_core.environment:checking '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/bin'
+[18.957s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(hexapod_ros)
+[18.961s] INFO:colcon.colcon_core.shell:Creating package script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/package.ps1'
+[18.972s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/package.dsv'
+[18.980s] INFO:colcon.colcon_core.shell:Creating package script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/package.sh'
+[18.991s] INFO:colcon.colcon_core.shell:Creating package script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/package.bash'
+[19.002s] INFO:colcon.colcon_core.shell:Creating package script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/hexapod_ros/package.zsh'
+[19.011s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/share/colcon-core/packages/hexapod_ros)
+[19.022s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[19.023s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[19.024s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[19.024s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[19.106s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[19.108s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[19.109s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[19.126s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.ServiceUnknown: The name org.freedesktop.Notifications was not provided by any .service files
+[19.128s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[19.130s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/local_setup.ps1'
+[19.142s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/_local_setup_util_ps1.py'
+[19.160s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/setup.ps1'
+[19.177s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/local_setup.sh'
+[19.186s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/_local_setup_util_sh.py'
+[19.196s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/setup.sh'
+[19.213s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/local_setup.bash'
+[19.235s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/setup.bash'
+[19.254s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/local_setup.zsh'
+[19.279s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/setup.zsh'

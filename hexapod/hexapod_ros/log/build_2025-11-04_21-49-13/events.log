@@ -1,0 +1,168 @@
+[0.000000] (-) TimerEvent: {}
+[0.002677] (hexapod_ros) JobQueued: {'identifier': 'hexapod_ros', 'dependencies': OrderedDict()}
+[0.003152] (hexapod_ros) JobStarted: {'identifier': 'hexapod_ros'}
+[0.096604] (-) TimerEvent: {}
+[0.198840] (-) TimerEvent: {}
+[0.300278] (-) TimerEvent: {}
+[0.401821] (-) TimerEvent: {}
+[0.503098] (-) TimerEvent: {}
+[0.604504] (-) TimerEvent: {}
+[0.706311] (-) TimerEvent: {}
+[0.807736] (-) TimerEvent: {}
+[0.909170] (-) TimerEvent: {}
+[1.010778] (-) TimerEvent: {}
+[1.112137] (-) TimerEvent: {}
+[1.214098] (-) TimerEvent: {}
+[1.315356] (-) TimerEvent: {}
+[1.416701] (-) TimerEvent: {}
+[1.518078] (-) TimerEvent: {}
+[1.619396] (-) TimerEvent: {}
+[1.721264] (-) TimerEvent: {}
+[1.822934] (-) TimerEvent: {}
+[1.924669] (-) TimerEvent: {}
+[2.026289] (-) TimerEvent: {}
+[2.127800] (-) TimerEvent: {}
+[2.233416] (-) TimerEvent: {}
+[2.334987] (-) TimerEvent: {}
+[2.436321] (-) TimerEvent: {}
+[2.540803] (-) TimerEvent: {}
+[2.642230] (-) TimerEvent: {}
+[2.743644] (-) TimerEvent: {}
+[2.845123] (-) TimerEvent: {}
+[2.946684] (-) TimerEvent: {}
+[3.048208] (-) TimerEvent: {}
+[3.149835] (-) TimerEvent: {}
+[3.251355] (-) TimerEvent: {}
+[3.353034] (-) TimerEvent: {}
+[3.454721] (-) TimerEvent: {}
+[3.556142] (-) TimerEvent: {}
+[3.659477] (-) TimerEvent: {}
+[3.761852] (-) TimerEvent: {}
+[3.866402] (-) TimerEvent: {}
+[3.969914] (-) TimerEvent: {}
+[4.071814] (-) TimerEvent: {}
+[4.173910] (-) TimerEvent: {}
+[4.284542] (-) TimerEvent: {}
+[4.386003] (-) TimerEvent: {}
+[4.488842] (-) TimerEvent: {}
+[4.591428] (-) TimerEvent: {}
+[4.693136] (-) TimerEvent: {}
+[4.794878] (-) TimerEvent: {}
+[4.896533] (-) TimerEvent: {}
+[4.998677] (-) TimerEvent: {}
+[5.100127] (-) TimerEvent: {}
+[5.201666] (-) TimerEvent: {}
+[5.302943] (-) TimerEvent: {}
+[5.404298] (-) TimerEvent: {}
+[5.506450] (-) TimerEvent: {}
+[5.607725] (-) TimerEvent: {}
+[5.709135] (-) TimerEvent: {}
+[5.810467] (-) TimerEvent: {}
+[5.916420] (-) TimerEvent: {}
+[6.017968] (-) TimerEvent: {}
+[6.119702] (-) TimerEvent: {}
+[6.221160] (-) TimerEvent: {}
+[6.322583] (-) TimerEvent: {}
+[6.424030] (-) TimerEvent: {}
+[6.525554] (-) TimerEvent: {}
+[6.627793] (-) TimerEvent: {}
+[6.729322] (-) TimerEvent: {}
+[6.830789] (-) TimerEvent: {}
+[6.932734] (-) TimerEvent: {}
+[7.034456] (-) TimerEvent: {}
+[7.135850] (-) TimerEvent: {}
+[7.237170] (-) TimerEvent: {}
+[7.338439] (-) TimerEvent: {}
+[7.439719] (-) TimerEvent: {}
+[7.541565] (-) TimerEvent: {}
+[7.644890] (-) TimerEvent: {}
+[7.750610] (-) TimerEvent: {}
+[7.852121] (-) TimerEvent: {}
+[7.955255] (-) TimerEvent: {}
+[8.056700] (-) TimerEvent: {}
+[8.158275] (-) TimerEvent: {}
+[8.262102] (-) TimerEvent: {}
+[8.363512] (-) TimerEvent: {}
+[8.465260] (-) TimerEvent: {}
+[8.567192] (-) TimerEvent: {}
+[8.668716] (-) TimerEvent: {}
+[8.770223] (-) TimerEvent: {}
+[8.872023] (-) TimerEvent: {}
+[8.974386] (-) TimerEvent: {}
+[9.080783] (-) TimerEvent: {}
+[9.183038] (-) TimerEvent: {}
+[9.197580] (hexapod_ros) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../build/hexapod_ros', 'build', '--build-base', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build', 'install', '--record', '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/hexapod_ros', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'spider', 'SSH_CLIENT': '10.16.141.62 54812 22', 'XDG_SESSION_TYPE': 'tty', 'GIT_ASKPASS': '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass.sh', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'BROWSER': '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/helpers/browser.sh', 'MOTD_SHOWN': 'pam', 'HOME': '/home/spider', 'OLDPWD': '/home/spider/GWEN_V2/SpiderGwen', 'TERM_PROGRAM_VERSION': '1.105.1', 'VSCODE_IPC_HOOK_CLI': '/run/user/1000/vscode-ipc-c0c32903-e572-4d91-b25f-d9eb35742b19.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/node', 'SSL_CERT_FILE': '/usr/lib/ssl/certs/ca-certificates.crt', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'COLCON_PREFIX_PATH': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install', 'ROS_DISTRO': 'humble', 'LOGNAME': 'spider', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '8', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/home/spider/.vscode-server/cli/servers/Stable-7d842fb85a0275a4a8e4d7e040d2625abbf7f084/server/bin/remote-cli:/home/spider/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/spider/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand', 'XDG_RUNTIME_DIR': '/run/user/1000', 'SSL_CERT_DIR': '/usr/lib/ssl/certs', 'LANG': 'en_US.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-98988eaaa7.sock', 'TERM_PROGRAM': 'vscode', 'AMENT_PREFIX_PATH': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros:/opt/ros/humble', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros', 'SSH_CONNECTION': '10.16.141.62 54812 10.16.141.34 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs/local/lib/python3.10/dist-packages:/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_msgs/install/hexapod_msgs'}, 'shell': False}
+[9.283472] (-) TimerEvent: {}
+[9.386102] (-) TimerEvent: {}
+[9.487682] (-) TimerEvent: {}
+[9.589040] (-) TimerEvent: {}
+[9.690507] (-) TimerEvent: {}
+[9.792416] (-) TimerEvent: {}
+[9.893794] (-) TimerEvent: {}
+[9.995076] (-) TimerEvent: {}
+[10.096420] (-) TimerEvent: {}
+[10.201204] (-) TimerEvent: {}
+[10.307049] (-) TimerEvent: {}
+[10.408845] (-) TimerEvent: {}
+[10.510325] (-) TimerEvent: {}
+[10.612551] (-) TimerEvent: {}
+[10.713998] (-) TimerEvent: {}
+[10.815366] (-) TimerEvent: {}
+[10.916785] (-) TimerEvent: {}
+[11.018405] (-) TimerEvent: {}
+[11.119770] (-) TimerEvent: {}
+[11.221583] (-) TimerEvent: {}
+[11.322883] (-) TimerEvent: {}
+[11.424276] (-) TimerEvent: {}
+[11.525652] (-) TimerEvent: {}
+[11.627045] (-) TimerEvent: {}
+[11.730713] (-) TimerEvent: {}
+[11.832896] (-) TimerEvent: {}
+[11.936094] (-) TimerEvent: {}
+[12.037793] (-) TimerEvent: {}
+[12.151919] (-) TimerEvent: {}
+[12.253979] (-) TimerEvent: {}
+[12.361313] (-) TimerEvent: {}
+[12.462699] (-) TimerEvent: {}
+[12.565207] (-) TimerEvent: {}
+[12.666960] (-) TimerEvent: {}
+[12.768561] (-) TimerEvent: {}
+[12.873568] (-) TimerEvent: {}
+[12.975042] (-) TimerEvent: {}
+[13.078245] (-) TimerEvent: {}
+[13.116475] (hexapod_ros) StdoutLine: {'line': b'running egg_info\n'}
+[13.124296] (hexapod_ros) StdoutLine: {'line': b'writing ../build/hexapod_ros/hexapod_ros.egg-info/PKG-INFO\n'}
+[13.132545] (hexapod_ros) StdoutLine: {'line': b'writing dependency_links to ../build/hexapod_ros/hexapod_ros.egg-info/dependency_links.txt\n'}
+[13.142297] (hexapod_ros) StdoutLine: {'line': b'writing entry points to ../build/hexapod_ros/hexapod_ros.egg-info/entry_points.txt\n'}
+[13.143687] (hexapod_ros) StdoutLine: {'line': b'writing requirements to ../build/hexapod_ros/hexapod_ros.egg-info/requires.txt\n'}
+[13.166450] (hexapod_ros) StdoutLine: {'line': b'writing top-level names to ../build/hexapod_ros/hexapod_ros.egg-info/top_level.txt\n'}
+[13.171781] (hexapod_ros) StdoutLine: {'line': b"reading manifest file '../build/hexapod_ros/hexapod_ros.egg-info/SOURCES.txt'\n"}
+[13.176819] (hexapod_ros) StdoutLine: {'line': b"writing manifest file '../build/hexapod_ros/hexapod_ros.egg-info/SOURCES.txt'\n"}
+[13.178270] (-) TimerEvent: {}
+[13.179203] (hexapod_ros) StdoutLine: {'line': b'running build\n'}
+[13.180555] (hexapod_ros) StdoutLine: {'line': b'running build_py\n'}
+[13.185235] (hexapod_ros) StdoutLine: {'line': b'copying src/hexapod_controller.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src\n'}
+[13.193250] (hexapod_ros) StdoutLine: {'line': b'running install\n'}
+[13.198374] (hexapod_ros) StdoutLine: {'line': b'running install_lib\n'}
+[13.217115] (hexapod_ros) StdoutLine: {'line': b'copying /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/build/lib/src/hexapod_controller.py -> /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src\n'}
+[13.240708] (hexapod_ros) StdoutLine: {'line': b'byte-compiling /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src/hexapod_controller.py to hexapod_controller.cpython-310.pyc\n'}
+[13.260486] (hexapod_ros) StdoutLine: {'line': b'running install_data\n'}
+[13.265007] (hexapod_ros) StdoutLine: {'line': b'running install_egg_info\n'}
+[13.278686] (-) TimerEvent: {}
+[13.295197] (hexapod_ros) StdoutLine: {'line': b"removing '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/hexapod_ros-0.0.0-py3.10.egg-info' (and everything under it)\n"}
+[13.307270] (hexapod_ros) StdoutLine: {'line': b'Copying ../build/hexapod_ros/hexapod_ros.egg-info to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/hexapod_ros-0.0.0-py3.10.egg-info\n'}
+[13.327619] (hexapod_ros) StdoutLine: {'line': b'running install_scripts\n'}
+[13.379056] (-) TimerEvent: {}
+[13.481780] (-) TimerEvent: {}
+[13.556459] (hexapod_ros) StdoutLine: {'line': b'Installing hexapod_controller script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros\n'}
+[13.561495] (hexapod_ros) StdoutLine: {'line': b'Installing imu_node script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros\n'}
+[13.567171] (hexapod_ros) StdoutLine: {'line': b'Installing maestro_driver script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros\n'}
+[13.569171] (hexapod_ros) StdoutLine: {'line': b'Installing teleop script to /home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/hexapod_ros\n'}
+[13.575583] (hexapod_ros) StdoutLine: {'line': b"writing list of installed files to '/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/build/hexapod_ros/install.log'\n"}
+[13.582839] (-) TimerEvent: {}
+[13.686962] (-) TimerEvent: {}
+[13.790892] (-) TimerEvent: {}
+[13.830774] (hexapod_ros) CommandEnded: {'returncode': 0}
+[13.892783] (-) TimerEvent: {}
+[13.966974] (hexapod_ros) JobEnded: {'identifier': 'hexapod_ros', 'rc': 0}
+[13.973390] (-) EventReactorShutdown: {}
