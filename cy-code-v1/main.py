@@ -6,13 +6,13 @@ def main():
     try:
         sleep(2)
         # balance
-        gwen.balance()
+        # gwen.balance()
 
         # walk in different direction
-        # while(1):
-        #     inp = input("enter: ")
+        while(1):
+            inp = input("enter: ")
         #     # time_ = time.time()
-        #     if inp[0] == 'w' : gwen.walkCycle(int(inp[1:]), [1,0])
+            if inp[0] == 'w' : gwen.walkCycle(int(inp[1:]), [1,0])
         #     elif inp[0] == 'd' : gwen.walkCycle(int(inp[1:]), [0,1])
         #     elif inp[0] == 's' : gwen.walkCycle(int(inp[1:]), [-1,0])
         #     elif inp[0] == 'a' : gwen.walkCycle(int(inp[1:]), [0,-1])

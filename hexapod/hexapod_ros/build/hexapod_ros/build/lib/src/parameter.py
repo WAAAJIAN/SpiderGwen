@@ -91,7 +91,7 @@ transformMat = {
 #         "max_I" : 25
 #     }
 # }
-# dt = 0.12
+deadband = 1.5 
 g = 9.80665
 
 # Rotation "Matrix"
@@ -113,7 +113,7 @@ gait_params = {
     "tripod": {
         "time_on_air": 0.5, 
         "phase_offsets": [0.0, 0.5, 0.0, 0.5, 0.0, 0.5],
-        "stop_time" : 0.5 # per half cycle
+        "stop_time" : 2 # per half cycle
     },
     "wave": {
         "time_on_air": 1/6, 

@@ -21,18 +21,16 @@ class HexapodController(Node):
         self.load_pid()
         self.get_logger().info(f"{self.spider.dt}")
         self.get_logger().info(f"{self.spider.pid}")
-        self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
-        self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
-        self.roll_pub = self.create_publisher(Float64, '/roll', 10)
-        # self.pitch_pub = self.create_publisher(Float64, '/pitch', 10)
+        self.tele_sub = self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
+        # self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
+        # self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
         self._action_client = ActionClient(self, Servo, 'servo_action')
-        self.timer = self.create_timer(0.12, self.stand)
+        self.timer = self.create_timer(0.04, self.stand)
         self.active = False
         self.stand = False
-        # initialize stand motion
         self.actionlst = self.spider.stand()
+        # initialize stand motion
 
-    
     def teleop_cb(self, msg):
         command = msg.data
         if command == 'stop':
@@ -40,6 +38,38 @@ class HexapodController(Node):
         else:
             self.get_logger().info(f"Receive command: {command}")
             self.spider.add_move(command) 
+
+    def calibrate_imu(self, msg):
+        Ax = msg.linear_acceleration.x
+        Ay = msg.linear_acceleration.y
+        Az = msg.linear_acceleration.z
+        Gx = msg.angular_velocity.x
+        Gy = msg.angular_velocity.y
+        Gz = msg.angular_velocity.z
+        status = self.spider.calibrate_imu(Ax, Ay, Az, Gx, Gy, Gz)
+        if status:
+            param_file = self.get_parameter('config_file').value
+            with open(param_file, 'r') as file:
+                params = yaml.safe_load(file) or {}
+            if 'hexapod_controller' in params and 'ros__parameters' in params['hexapod_controller']:
+                pid_params = params['hexapod_controller']['ros__parameters']['pid']
+                bias_updates = {
+                    'Ax': float(self.spider.pid['bias']['Ax']),
+                    'Ay': float(self.spider.pid['bias']['Ay']),
+                    'Az': float(self.spider.pid['bias']['Az']),
+                    'Gx': float(self.spider.pid['bias']['Gx']),
+                    'Gy': float(self.spider.pid['bias']['Gy']),
+                    'Gz': float(self.spider.pid['bias']['Gz']),
+                    'roll': float(self.spider.pid['bias']['roll']),
+                    'pitch': float(self.spider.pid['bias']['pitch']),
+                    'calibrated': 1
+                }
+                pid_params['bias'].update(bias_updates)                
+                with open(param_file, 'w') as file:
+                    yaml.dump(params, file, default_flow_style=False, indent=2)
+            self.get_logger().info(f"roll_bias: {self.spider.pid['bias']['roll']} pitch_bias: {self.spider.pid['bias']['pitch']}")
+            self.destroy_subscription(self.imu_sub)
+            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
 
     def imu_cb(self, msg):
         Ax = msg.linear_acceleration.x
@@ -49,15 +79,12 @@ class HexapodController(Node):
         Gy = msg.angular_velocity.y
         Gz = msg.angular_velocity.z
         if not self.stand:
-            self.get_logger().info(f"{Ax,Ay,Az,Gx,Gy,Gz}")
             self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
-            res = self.spider.rbias()
-            self.get_logger().info(f"{res[0], res[1], res[2], res[3], res[4]}")
-            self.get_logger().info(f"roll: {self.spider.error['roll']} pitch: {self.spider.error['pitch']}")
-            self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
-            self.roll_pub.publish(Float64(data=float(self.spider.error['roll'])))
-            # self.pitch_pub.publish(Float64(data=float(self.spider.error['pitch'])))
-
+            # self.get_logger().info(f"roll_angle: {self.spider.angle['roll']} pitch_error: {self.spider.angle['pitch']}")
+            # self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
+            # self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
+            # self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
+            # self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
 
     def send_goal(self, goal):
         goal_msg = Servo.Goal()
@@ -77,7 +104,7 @@ class HexapodController(Node):
         self.active = False
 
     def stand(self):
-        if self.spider.bias_added:
+        if self.spider.pid['bias']['calibrated']:
             self.stand = True
             if self.actionlst:
                 if not self.active:
@@ -93,27 +120,24 @@ class HexapodController(Node):
             else:
                 self.stand = False
                 self.timer.cancel()
-                self.timer = self.create_timer(0.12, self.loop)
+                self.timer = self.create_timer(0.04, self.loop)
 
     def loop(self):
         if not self.active:
             self.active = True
             try:
-                self.spider.walk()
-                action = self.spider.step()
-                # self.get_logger().info(f"Received target: {action}")
-                # for leg, config in self.spider.leg.items():
-                #     self.get_logger().info(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
-                # self.get_logger().info(f"time: {self.spider.main_time}, direction: {self.spider.curr_move}\n")            
-                if action:
-                    result = ServoTargetArray()
-                    for leg, servos in action.items():
-                        for servo in servos:
-                            submsg = ServoTarget()
-                            submsg.servo_id = servo[0]
-                            submsg.target_position = servo[1]
-                            result.targets.append(submsg)
-                    self.send_goal(result)
+                if self.spider.pid['bias']['calibrated']:
+                    self.spider.walk()
+                    action = self.spider.step()         
+                    if action:
+                        result = ServoTargetArray()
+                        for leg, servos in action.items():
+                            for servo in servos:
+                                submsg = ServoTarget()
+                                submsg.servo_id = servo[0]
+                                submsg.target_position = servo[1]
+                                result.targets.append(submsg)
+                        self.send_goal(result)
             except:
                 self.active = False
                 return
@@ -122,12 +146,17 @@ class HexapodController(Node):
         for param in self._parameters.values():
             if param.name.startswith("pid."):
                 parts = param.name.split(".")
-                if len(parts) != 3: continue  
-                _, axis, name = parts
-                if axis not in self.spider.pid:
-                    self.spider.pid[axis] = dict()
-                self.spider.pid[axis][name] = param.value
+                if len(parts) == 3:  
+                    _, axis, name = parts
+                    if axis not in self.spider.pid:
+                        self.spider.pid[axis] = dict()
+                    self.spider.pid[axis][name] = param.value
+        if not self.spider.pid['bias']['calibrated']:
+            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.calibrate_imu, 10)
+        else:
+            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
 
+                
 def main(args=None):
     try:
         rclpy.init(args=args)
@@ -137,6 +166,7 @@ def main(args=None):
         rclpy.shutdown()
     except KeyboardInterrupt:
         node.get_logger().info("KeyboardInterrupt received...")
+
 
 
 # def load_pid_params(node, prefix="pid"):

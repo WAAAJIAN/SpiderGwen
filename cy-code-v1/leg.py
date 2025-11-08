@@ -1,7 +1,9 @@
 from parameter import *
 import maestro
-servo = maestro.Controller('/dev/ttyAMA0')
+import serial
 import traceback
+
+servo = maestro.Controller('/dev/ttyAMA0')
 
 class Leg:
     def __init__(self, leg, c, f, t):

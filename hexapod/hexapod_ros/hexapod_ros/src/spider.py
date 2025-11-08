@@ -33,8 +33,6 @@ class Spider():
         self.error = {'roll': 0, 'pitch': 0, 'yaw': 0}
         self.error_sum = {'roll': 0, 'pitch': 0, 'yaw': 0}
         self.bias_sample = {'Ax': 0, 'Ay': 0, 'Az': 0, 'Gx': 0, 'Gy': 0, 'Gz': 0, 'count': 0}
-        self.bias = {'Ax': 0, 'Ay': 0, 'Az': 0, 'Gx': 0, 'Gy': 0, 'Gz': 0}
-        self.bias_added = False
         self.curr_move = None
         self.main_time = 0
         self.dt = 0
@@ -47,12 +45,9 @@ class Spider():
     def add_move(self, direction_):
         self.move_queue.put(direction[direction_])
 
-    def rbias(self):
-        return (self.bias['Ax'], self.bias['Ay'], self.bias['Az'], self.bias['Gx'], self.bias['Gy'])
-
     def stand(self):
         res = []
-        l = 3
+        l = 4
         for i in range(l):
             for leg in self.leg:
                 servos = spider_servo[leg]
@@ -63,54 +58,75 @@ class Spider():
                 res.append(lst)
         return res
 
-    def update_imu(self, ax, ay, az, gx, gy, gz): # consider adding bias
-        if not self.bias_added:
-            if self.bias_sample['count'] < 50:
-                self.bias_sample['Ax'] += ax
-                self.bias_sample['Ay'] += ay
-                self.bias_sample['Az'] += -g - az
-                self.bias_sample['Gx'] += gx
-                self.bias_sample['Gy'] += gy
-                self.bias_sample['count'] += 1
-            elif self.bias_sample['count'] == 50:
-                self.bias['Ax'] = self.bias_sample['Ax']/self.bias_sample['count']
-                self.bias['Ay'] = self.bias_sample['Ay']/self.bias_sample['count']
-                self.bias['Az'] = self.bias_sample['Az']/self.bias_sample['count']
-                self.bias['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
-                self.bias['Gy'] = self.bias_sample['Gy']/self.bias_sample['count']
-                self.bias_added = True
-        else:
-            Ax = ax - self.bias['Ax']
-            Ay = ay - self.bias['Ay']
-            Az = az + self.bias['Az']
-            Gx = gx - self.bias['Gx']
-            Gy = gy - self.bias['Gy']
+    def calibrate_imu(self, ax, ay, az, gx, gy, gz):
+        if self.bias_sample['count'] < self.pid['bias']['count']:
+            self.bias_sample['Ax'] += ax
+            self.bias_sample['Ay'] += ay
+            self.bias_sample['Az'] += az
+            self.bias_sample['Gx'] += gx
+            self.bias_sample['Gy'] += gy
+            self.bias_sample['count'] += 1
+            return False
+        elif self.bias_sample['count'] == self.pid['bias']['count']:
+            self.pid['bias']['Ax'] = self.bias_sample['Ax']/self.bias_sample['count']
+            self.pid['bias']['Ay'] = self.bias_sample['Ay']/self.bias_sample['count']
+            self.pid['bias']['Az'] = self.bias_sample['Az']/self.bias_sample['count'] + g
+            self.pid['bias']['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
+            self.pid['bias']['Gy'] = self.bias_sample['Gy']/self.bias_sample['count'] 
+            self.pid['bias']['roll']  = atan2(self.pid['bias']['Ay'], sqrt(self.pid['bias']['Ax']**2 + (self.pid['bias']['Az']-g)**2)) * 180 / pi
+            self.pid['bias']['pitch']  = atan2(self.pid['bias']['Ax'], sqrt(self.pid['bias']['Ay']**2 + (self.pid['bias']['Az']-g)**2)) * 180 / pi
+            self.pid['bias']['calibrated'] = 1
+            return True
 
-            # roll
-            roll_max_I = self.pid["roll"]["max_I"]
-            roll_filter_coe = self.pid["roll"]["filter_coe"]
-            roll_kp = self.pid["roll"]["kp"]
-            roll_ki = self.pid["roll"]["ki"]
+    def update_imu(self, ax, ay, az, gx, gy, gz): 
+        Ax = ax - self.pid['bias']['Ax']
+        Ay = ay - self.pid['bias']['Ay']
+        Az = az - self.pid['bias']['Az']
+        Gx = gx - self.pid['bias']['Gx'] # roll
+        Gy = gy - self.pid['bias']['Gy'] # pitch
 
-            roll_acc  = atan2(Ay, sqrt(Ax**2 + Az**2)) * 180 / pi
-            self.angle['roll'] = roll_filter_coe * (self.angle['roll'] + Gy * self.dt) + (1 - roll_filter_coe) * roll_acc
-            error_y = 0 - self.angle['roll']
-            self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_y * self.dt), roll_max_I)
-            self.error['roll'] = roll_kp * error_y + roll_ki * self.error_sum['roll']       
-            # print("roll", self.error['roll'], self.error_sum['roll'])
+        # roll
+        roll_max_I = self.pid["roll"]["max_I"]
+        roll_max_angle = self.pid["roll"]["max_angle"]
+        roll_filter_coe = self.pid["roll"]["filter_coe"]
+        roll_kp = self.pid["roll"]["kp"]
+        roll_ki = self.pid["roll"]["ki"]
+        roll_kd = self.pid["roll"]["kd"]
+        prev_roll = self.angle['roll']
+        roll_acc  = atan2(Ay, sqrt(Ax**2 + Az**2)) * 180 / pi
+        self.angle['roll'] = roll_filter_coe * (prev_roll + Gx * self.dt) + (1 - roll_filter_coe) * roll_acc
+        error_x = self.pid['bias']['roll'] - self.angle['roll']
+        if abs(error_x) < deadband: self.error_sum['roll'] *= 0.8  
+        else: self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_x * self.dt), roll_max_I)
+        self.error['roll'] = min(max(-roll_max_angle, roll_kp * error_x + roll_ki * self.error_sum['roll'] + roll_kd * (error_x - (self.pid['bias']['roll'] - prev_roll))/self.dt), roll_max_angle)
 
-            # pitch
-            pitch_max_I = self.pid["pitch"]["max_I"]
-            pitch_filter_coe = self.pid["pitch"]["filter_coe"]
-            pitch_kp = self.pid["pitch"]["kp"]
-            pitch_ki = self.pid["pitch"]["ki"]
+        # pitch
+        pitch_max_I = self.pid["pitch"]["max_I"]
+        pitch_max_angle = self.pid["pitch"]["max_angle"]
+        pitch_filter_coe = self.pid["pitch"]["filter_coe"]
+        pitch_kp = self.pid["pitch"]["kp"]
+        pitch_ki = self.pid["pitch"]["ki"]
+        pitch_kd = self.pid["pitch"]["kd"]
+        prev_pitch = self.angle['pitch']
+        pitch_acc = atan2(Ax, sqrt(Ay**2 + Az**2)) * 180 / pi
+        self.angle['pitch'] = pitch_filter_coe * (prev_pitch + Gy * self.dt) + (1 - pitch_filter_coe) * pitch_acc
+        error_y = self.pid['bias']['pitch'] - self.angle['pitch']
+        if abs(error_y) < deadband: self.error_sum['pitch'] *= 0.8 
+        else: self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_y * self.dt), pitch_max_I)
+        self.error['pitch'] = -min(max(-pitch_max_angle, pitch_kp * error_y + pitch_ki * self.error_sum['pitch'] + pitch_kd * (error_y - (self.pid['bias']['pitch'] - prev_pitch))/self.dt), pitch_max_angle)
 
-            pitch_acc = atan2(Ax, sqrt(Ay**2 + Az**2)) * 180 / pi
-            self.angle['pitch'] = pitch_filter_coe * (self.angle['pitch'] + Gx * self.dt) + (1 - pitch_filter_coe) * pitch_acc
-            error_x = 0 - self.angle['pitch'] 
-            self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_x * self.dt), pitch_max_I)
-            self.error['pitch'] = - (pitch_kp * error_x + pitch_ki * self.error_sum['pitch'])
-            # print("pitch", self.error['pitch'], self.error_sum['pitch'], '\n')
+    def turn(self, roll=0, pitch=0):
+        res = []
+        rc = roll/2
+        pc = pitch/2
+        for l in range(2):
+            for i in self.leg:
+                leg_step = self.leg[i][0].balance(l+1 * pc, l+1 * rc)
+                servos = spider_servo[i]
+                lst = []
+                for k in range(3): lst.append([servos[k], leg_step[k]])
+                res.append(lst)
+        return res
 
     def stop(self):
         while not self.move_queue.empty():

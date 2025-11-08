@@ -1,6 +1,7 @@
 from parameter import *
 from leg import *
 from gyroscope import *
+import time
 
 class Spider:
     def __init__(self):
@@ -140,7 +141,8 @@ class Spider:
             4 : 0,
             5 : 0
         }
-        count = 0        
+        count = 0       
+        time1 = time.time() 
         while count < loop:            
             for i in self.leg: 
                 if i in (0,4,5): direction_ = [direction[0], -direction[1]]
@@ -159,12 +161,13 @@ class Spider:
                             self.leg[i].calculateWalk(phase, direction_, walk_distance)
                     if phase_time >= time_on_ground[1]:
                         leg_config[i] += 1
-            # print(phase_time, count)
-            self.runleg() # 0.1s at most
+            self.runleg()
+            time.sleep(0.04)
             self.time += step
             if self.time >= count * period + period + time_on_air:
                 count += 1
         self.time = 0
+        print(time.time() - time1) 
 
 
     # def walk(self, direction, type_, time_on_air, phase_offsets):

@@ -9,6 +9,6 @@ def generate_launch_description():
     )
     return LaunchDescription([
         Node(package='hexapod_ros', executable='imu_node'),
-        Node(package='hexapod_ros', executable='hexapod_controller', parameters=[config_file]),
+        Node(package='hexapod_ros', executable='hexapod_controller', parameters=[config_file, {'config_file': config_file}]),
         Node(package='hexapod_ros', executable='maestro_driver'),
     ])
