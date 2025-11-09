@@ -36,7 +36,7 @@ spider_servo = { # (coxa, femur, tibia)
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
 steps = 1000   # speed of motion
-sampling = 8
+sampling = 30
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
@@ -113,7 +113,7 @@ gait_params = {
     "tripod": {
         "time_on_air": 0.5, 
         "phase_offsets": [0.0, 0.5, 0.0, 0.5, 0.0, 0.5],
-        "stop_time" : 2 # per half cycle
+        "stop_time" : 4 # per half cycle
     },
     "wave": {
         "time_on_air": 1/6, 

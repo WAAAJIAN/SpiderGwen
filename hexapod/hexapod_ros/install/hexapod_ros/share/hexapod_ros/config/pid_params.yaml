@@ -1,6 +1,6 @@
 hexapod_controller:
   ros__parameters:
-    dt: 0.04
+    dt: 0.01
     pid:
       bias:
         Ax: 0.1623966943359376
@@ -15,15 +15,15 @@ hexapod_controller:
         roll: 1.2775255765111633
       pitch:
         filter_coe: 0.95
-        kd: 0.2
-        ki: 0.2
-        kp: 3
+        kd: 0
+        ki: 0
+        kp: 0
         max_I: 40
         max_angle: 40
       roll:
         filter_coe: 0.95
-        kd: 0.2
-        ki: 0.2
-        kp: 5
+        kd: 0.1
+        ki: 1
+        kp: 3
         max_I: 40
         max_angle: 60

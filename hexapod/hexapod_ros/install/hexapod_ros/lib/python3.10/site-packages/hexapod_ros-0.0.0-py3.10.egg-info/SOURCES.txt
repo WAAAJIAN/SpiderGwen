@@ -19,7 +19,6 @@ src/imu_node.py
 src/leg.py
 src/maestro.py
 src/maestro_driver.py
-src/main.py
 src/parameter.py
 src/spider.py
 test/test_copyright.py

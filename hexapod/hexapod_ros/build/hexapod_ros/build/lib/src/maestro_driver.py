@@ -3,8 +3,8 @@ from rclpy.node import Node
 from std_msgs.msg import Float32MultiArray
 from hexapod_msgs.msg import ServoTarget
 from hexapod_msgs.msg import ServoTargetArray
-from rclpy.action import ActionServer
-from hexapod_msgs.action import Servo
+# from rclpy.action import ActionServer
+# from hexapod_msgs.action import Servo
 from .maestro import Controller
 from .parameter import spider_servo
 
@@ -12,20 +12,29 @@ class MaestroDriver(Node):
     def __init__(self):
         super().__init__('maestro_driver')
         self.controller= Controller('/dev/ttyAMA0')
-        self._action_server = ActionServer(self, Servo, 'servo_action', self.execute_callback)
+        self.servo_sub = self.create_subscription(ServoTargetArray, '/servo_targets', self.servo_target_cb, 10)
+        # self._action_server = ActionServer(self, Servo, 'servo_action', self.execute_callback)
 
-    async def execute_callback(self, goal):
 
-        for data in goal.request.servo_targets.targets:
+    # async def execute_callback(self, goal):
+
+    #     for data in goal.request.servo_targets.targets:
+    #         servo_id = data.servo_id
+    #         target_position = data.target_position
+    #         self.controller.setTarget(servo_id, target_position)
+    #     goal.succeed()
+    #     # self.get_logger().info(f"Completed target: {goal.request.servo_targets}")
+
+    #     result = Servo.Result()
+    #     result.success = True
+    #     return result
+
+    def servo_target_cb(self, msg):
+        # self.get_logger().info(f"Receive msg: {msg}")
+        for data in msg.targets:
             servo_id = data.servo_id
             target_position = data.target_position
             self.controller.setTarget(servo_id, target_position)
-        goal.succeed()
-        # self.get_logger().info(f"Completed target: {goal.request.servo_targets}")
-
-        result = Servo.Result()
-        result.success = True
-        return result
         
 def main():
     try:

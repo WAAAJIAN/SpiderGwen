@@ -1,14 +1,14 @@
 import rclpy
 from rclpy.node import Node
-from rclpy.action import ActionClient
-from hexapod_msgs.action import Servo
+# from rclpy.action import ActionClient
+# from hexapod_msgs.action import Servo
 from hexapod_msgs.msg import ServoTarget
 from hexapod_msgs.msg import ServoTargetArray
 from sensor_msgs.msg import Imu
 from std_msgs.msg import String
 from std_msgs.msg import Float64
 from .spider import Spider
-from time import sleep
+from time import *
 import yaml
 from rclpy.parameter import Parameter
 
@@ -22,9 +22,12 @@ class HexapodController(Node):
         self.get_logger().info(f"{self.spider.dt}")
         self.get_logger().info(f"{self.spider.pid}")
         self.tele_sub = self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
+        self.roll_angle_pub = self.create_publisher(Float64, '/roll_angle', 10)
+        self.roll_error_pub = self.create_publisher(Float64, '/roll_error', 10)
         # self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
         # self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
-        self._action_client = ActionClient(self, Servo, 'servo_action')
+        # self._action_client = ActionClient(self, Servo, 'servo_action')
+        self.servo_pub = self.create_publisher(ServoTargetArray, '/servo_targets', 10)
         self.timer = self.create_timer(0.04, self.stand)
         self.active = False
         self.stand = False
@@ -81,66 +84,66 @@ class HexapodController(Node):
         if not self.stand:
             self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
             # self.get_logger().info(f"roll_angle: {self.spider.angle['roll']} pitch_error: {self.spider.angle['pitch']}")
-            # self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
-            # self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
-            # self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
-            # self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
+            self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
+            self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
+            self.roll_angle_pub.publish(Float64(data=float(self.spider.angle['roll'])))
+            self.roll_error_pub.publish(Float64(data=float(self.spider.error['roll'])))
 
-    def send_goal(self, goal):
-        goal_msg = Servo.Goal()
-        goal_msg.servo_targets = goal
-        self._action_client.wait_for_server()
-        self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
+    # def send_goal(self, goal):
+    #     goal_msg = Servo.Goal()
+    #     goal_msg.servo_targets = goal
+    #     self._action_client.wait_for_server()
+    #     self._send_goal_future = self._action_client.send_goal_async(goal_msg)
+    #     self._send_goal_future.add_done_callback(self.goal_response_callback)
 
-    def goal_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted: return
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
+    # def goal_response_callback(self, future):
+    #     goal_handle = future.result()
+    #     if not goal_handle.accepted: return
+    #     self._get_result_future = goal_handle.get_result_async()
+    #     self._get_result_future.add_done_callback(self.get_result_callback)
 
-    def get_result_callback(self, future):
-        result = future.result().result
-        self.active = False
+    # def get_result_callback(self, future):
+    #     result = future.result().result
+    #     self.active = False
 
     def stand(self):
         if self.spider.pid['bias']['calibrated']:
             self.stand = True
             if self.actionlst:
-                if not self.active:
-                    self.active = True
-                    action = self.actionlst.pop(0)
-                    result = ServoTargetArray()
-                    for servo in action:
-                        submsg = ServoTarget()
-                        submsg.servo_id = servo[0]
-                        submsg.target_position = servo[1]
-                        result.targets.append(submsg)
-                    self.send_goal(result)
+                # if not self.active:
+                #     self.active = True
+                action = self.actionlst.pop(0)
+                result = ServoTargetArray()
+                for servo in action:
+                    submsg = ServoTarget()
+                    submsg.servo_id = servo[0]
+                    submsg.target_position = servo[1]
+                    result.targets.append(submsg)
+                self.servo_pub.publish(result)
             else:
                 self.stand = False
                 self.timer.cancel()
                 self.timer = self.create_timer(0.04, self.loop)
 
     def loop(self):
-        if not self.active:
-            self.active = True
-            try:
-                if self.spider.pid['bias']['calibrated']:
-                    self.spider.walk()
-                    action = self.spider.step()         
-                    if action:
-                        result = ServoTargetArray()
-                        for leg, servos in action.items():
-                            for servo in servos:
-                                submsg = ServoTarget()
-                                submsg.servo_id = servo[0]
-                                submsg.target_position = servo[1]
-                                result.targets.append(submsg)
-                        self.send_goal(result)
-            except:
-                self.active = False
-                return
+        # if not self.active:
+        #     self.active = True
+        #     try:
+        if self.spider.pid['bias']['calibrated']:
+            self.spider.walk()
+            action = self.spider.step()         
+            if action:
+                result = ServoTargetArray()
+                for leg, servos in action.items():
+                    for servo in servos:
+                        submsg = ServoTarget()
+                        submsg.servo_id = servo[0]
+                        submsg.target_position = servo[1]
+                        result.targets.append(submsg)
+                self.servo_pub.publish(result)
+            # except:
+            #     self.active = False
+            #     return
 
     def load_pid(self):
         for param in self._parameters.values():
