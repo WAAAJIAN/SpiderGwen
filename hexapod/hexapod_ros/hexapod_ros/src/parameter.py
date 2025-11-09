@@ -91,7 +91,6 @@ transformMat = {
 #         "max_I" : 25
 #     }
 # }
-deadband = 1.5 
 g = 9.80665
 
 # Rotation "Matrix"
