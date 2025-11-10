@@ -15,15 +15,15 @@ hexapod_controller:
         roll: 1.2775255765111633
       pitch:
         filter_coe: 0.95
-        kd: 0
-        ki: 0
-        kp: 0
+        kd: 0.03
+        ki: 0.1
+        kp: 1.5
         max_I: 40
-        max_angle: 40
+        max_angle: 60
       roll:
         filter_coe: 0.95
-        kd: 0.1
-        ki: 1
-        kp: 3
+        kd: 0.03
+        ki: 0.1
+        kp: 1.5
         max_I: 40
         max_angle: 60

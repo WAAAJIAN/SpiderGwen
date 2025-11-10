@@ -96,8 +96,7 @@ class Spider():
         roll_acc  = atan2(Ay, sqrt(Ax**2 + Az**2)) * 180 / pi
         self.angle['roll'] = roll_filter_coe * (prev_roll + Gx * self.dt) + (1 - roll_filter_coe) * roll_acc
         error_x = self.pid['bias']['roll'] - self.angle['roll']
-        if abs(error_x) < deadband: self.error_sum['roll'] *= 0.8  
-        else: self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_x * self.dt), roll_max_I)
+        self.error_sum['roll'] = min(max(-roll_max_I, self.error_sum['roll'] + error_x * self.dt), roll_max_I)
         self.error['roll'] = min(max(-roll_max_angle, roll_kp * error_x + roll_ki * self.error_sum['roll'] + roll_kd * (error_x - (self.pid['bias']['roll'] - prev_roll))/self.dt), roll_max_angle)
 
         # pitch
@@ -111,8 +110,7 @@ class Spider():
         pitch_acc = atan2(Ax, sqrt(Ay**2 + Az**2)) * 180 / pi
         self.angle['pitch'] = pitch_filter_coe * (prev_pitch + Gy * self.dt) + (1 - pitch_filter_coe) * pitch_acc
         error_y = self.pid['bias']['pitch'] - self.angle['pitch']
-        if abs(error_y) < deadband: self.error_sum['pitch'] *= 0.8 
-        else: self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_y * self.dt), pitch_max_I)
+        self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_y * self.dt), pitch_max_I)
         self.error['pitch'] = -min(max(-pitch_max_angle, pitch_kp * error_y + pitch_ki * self.error_sum['pitch'] + pitch_kd * (error_y - (self.pid['bias']['pitch'] - prev_pitch))/self.dt), pitch_max_angle)
 
     def turn(self, roll=0, pitch=0):

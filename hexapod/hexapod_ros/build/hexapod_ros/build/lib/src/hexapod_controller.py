@@ -24,8 +24,8 @@ class HexapodController(Node):
         self.tele_sub = self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
         self.roll_angle_pub = self.create_publisher(Float64, '/roll_angle', 10)
         self.roll_error_pub = self.create_publisher(Float64, '/roll_error', 10)
-        # self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
-        # self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
+        self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
+        self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
         # self._action_client = ActionClient(self, Servo, 'servo_action')
         self.servo_pub = self.create_publisher(ServoTargetArray, '/servo_targets', 10)
         self.timer = self.create_timer(0.04, self.stand)
@@ -84,10 +84,12 @@ class HexapodController(Node):
         if not self.stand:
             self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
             # self.get_logger().info(f"roll_angle: {self.spider.angle['roll']} pitch_error: {self.spider.angle['pitch']}")
-            self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
-            self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
+            # self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
+            # self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
             self.roll_angle_pub.publish(Float64(data=float(self.spider.angle['roll'])))
             self.roll_error_pub.publish(Float64(data=float(self.spider.error['roll'])))
+            self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
+            self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
 
     # def send_goal(self, goal):
     #     goal_msg = Servo.Goal()

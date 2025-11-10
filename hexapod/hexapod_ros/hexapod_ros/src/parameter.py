@@ -73,31 +73,14 @@ transformMat = {
     4: M4, 
     5: M5
 }
-
-# ==== pid ====
-# pid = { 
-#     "roll": {
-#         "kp" : 8.5,
-#         "ki" :6, 
-#         "kd" : 0,
-#         "filter_coe" : 0.9,
-#         "max_I" : 25
-#     },
-#     "pitch":{
-#         "kp" : 7.5,
-#         "ki" : 9, #2.5,
-#         "kd" : 0,
-#         "filter_coe" : 0.88,
-#         "max_I" : 25
-#     }
-# }
+   
 g = 9.80665
 
 # Rotation "Matrix"
-R = lambda x, offset, roll=0, pitch=0 : (
+R = lambda x, offset, roll=0, pitch=0, yaw=0, loc=[0,0] : (
     (0, ctc[x] * cos(radians(offset)) * (1 - cos(radians(roll))), ctc[x] * cos(radians(offset)) * sin(radians(roll))),
     (ctc[x] * sin(radians(offset)) * (1 - cos(radians(pitch))), 0 , ctc[x] * sin(radians(offset)) * sin(radians(pitch))),
-    (0 , 0 , 0)) # (roll, pitch, yaw)
+    ((ctc[x] + sqrt(loc[0]**2 + loc[1]**2)) * sin(radians(yaw)) , (ctc[x] + sqrt(loc[0]**2 + loc[1]**2)) * cos(radians(yaw)), 0)) # (roll, pitch, yaw)
 
 # ===== Gait =====
 gait = {
