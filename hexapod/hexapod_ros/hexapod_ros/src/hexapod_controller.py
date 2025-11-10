@@ -26,6 +26,7 @@ class HexapodController(Node):
         self.roll_error_pub = self.create_publisher(Float64, '/roll_error', 10)
         self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
         self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
+        self.yaw_error_pub = self.create_publisher(Float64, '/yaw_error', 10)
         # self._action_client = ActionClient(self, Servo, 'servo_action')
         self.servo_pub = self.create_publisher(ServoTargetArray, '/servo_targets', 10)
         self.timer = self.create_timer(0.04, self.stand)
@@ -90,6 +91,7 @@ class HexapodController(Node):
             self.roll_error_pub.publish(Float64(data=float(self.spider.error['roll'])))
             self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
             self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
+            self.yaw_error_pub.publish(Float64(data=float(self.spider.error['yaw'])))
 
     # def send_goal(self, goal):
     #     goal_msg = Servo.Goal()

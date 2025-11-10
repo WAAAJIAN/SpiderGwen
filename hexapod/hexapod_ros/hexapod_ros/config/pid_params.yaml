@@ -9,21 +9,28 @@ hexapod_controller:
         Gx: 0.24914503816793732
         Gy: 0.5329618320610683
         Gz: 0.0
-        calibrated: 1
+        calibrated: 0
         count: 500
         pitch: 0.978634914347575
         roll: 1.2775255765111633
       pitch:
         filter_coe: 0.95
-        kd: 0.2
-        ki: 0.2
-        kp: 3
-        max_I: 40
-        max_angle: 40
-      roll:
-        filter_coe: 0.95
-        kd: 0.2
-        ki: 0.2
-        kp: 5
+        kd: 0.03
+        ki: 0.1
+        kp: 1.5
         max_I: 40
         max_angle: 60
+      roll:
+        filter_coe: 0.95
+        kd: 0.03
+        ki: 0.1
+        kp: 1.5
+        max_I: 40
+        max_angle: 60
+      yaw:
+        kd: 0
+        ki: 0
+        kp: 1
+        max_I: 10
+        max_angle: 20
+      

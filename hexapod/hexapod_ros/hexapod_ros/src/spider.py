@@ -123,7 +123,7 @@ class Spider():
         yaw_ki = self.pid["yaw"]["ki"]
         yaw_kd = self.pid["yaw"]["kd"]
         prev_yaw = self.angle['yaw']
-        self.angle['yaw'] = prev_yaw + Gy * self.dt
+        self.angle['yaw'] = prev_yaw + Gz * self.dt
         error_y = 0 - self.angle['yaw']
         self.error_sum['yaw'] = min(max(yaw_max_I, self.error_sum['yaw'] + error_y * self.dt), yaw_max_I)
         self.error['yaw'] = -min(max(-yaw_max_angle, yaw_kp * error_y + yaw_ki * self.error_sum['yaw'] + yaw_kd * (error_y - (0 - prev_yaw))/self.dt), yaw_max_angle)
@@ -151,8 +151,9 @@ class Spider():
         for i in self.leg:
             if self.leg[i][1] == None:
                 if self.curr_move:
-                    if i in (0,4,5): self.leg[i][1] = [self.curr_move[0], -self.curr_move[1]]
-                    else: self.leg[i][1] = self.curr_move    
+                    if len(self.curr_move) < 3:
+                        if i in (0,4,5): self.leg[i][1] = [self.curr_move[0], -self.curr_move[1]]
+                    self.leg[i][1] = self.curr_move    
             
             if self.leg[i][1]:
                 direction_ = self.leg[i][1]

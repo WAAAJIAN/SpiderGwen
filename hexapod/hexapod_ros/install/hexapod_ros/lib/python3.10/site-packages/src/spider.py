@@ -65,6 +65,7 @@ class Spider():
             self.bias_sample['Az'] += az
             self.bias_sample['Gx'] += gx
             self.bias_sample['Gy'] += gy
+            self.bias_sample['Gz'] += gz
             self.bias_sample['count'] += 1
             return False
         elif self.bias_sample['count'] == self.pid['bias']['count']:
@@ -73,6 +74,7 @@ class Spider():
             self.pid['bias']['Az'] = self.bias_sample['Az']/self.bias_sample['count'] + g
             self.pid['bias']['Gx'] = self.bias_sample['Gx']/self.bias_sample['count']
             self.pid['bias']['Gy'] = self.bias_sample['Gy']/self.bias_sample['count'] 
+            self.pid['bias']['Gz'] = self.bias_sample['Gz']/self.bias_sample['count']
             self.pid['bias']['roll']  = atan2(self.pid['bias']['Ay'], sqrt(self.pid['bias']['Ax']**2 + (self.pid['bias']['Az']-g)**2)) * 180 / pi
             self.pid['bias']['pitch']  = atan2(self.pid['bias']['Ax'], sqrt(self.pid['bias']['Ay']**2 + (self.pid['bias']['Az']-g)**2)) * 180 / pi
             self.pid['bias']['calibrated'] = 1
@@ -84,6 +86,7 @@ class Spider():
         Az = az - self.pid['bias']['Az']
         Gx = gx - self.pid['bias']['Gx'] # roll
         Gy = gy - self.pid['bias']['Gy'] # pitch
+        Gz = gz - self.pid['bias']['Gz'] # yaw
 
         # roll
         roll_max_I = self.pid["roll"]["max_I"]
@@ -113,18 +116,17 @@ class Spider():
         self.error_sum['pitch'] = min(max(-pitch_max_I, self.error_sum['pitch'] + error_y * self.dt), pitch_max_I)
         self.error['pitch'] = -min(max(-pitch_max_angle, pitch_kp * error_y + pitch_ki * self.error_sum['pitch'] + pitch_kd * (error_y - (self.pid['bias']['pitch'] - prev_pitch))/self.dt), pitch_max_angle)
 
-    def turn(self, roll=0, pitch=0):
-        res = []
-        rc = roll/2
-        pc = pitch/2
-        for l in range(2):
-            for i in self.leg:
-                leg_step = self.leg[i][0].balance(l+1 * pc, l+1 * rc)
-                servos = spider_servo[i]
-                lst = []
-                for k in range(3): lst.append([servos[k], leg_step[k]])
-                res.append(lst)
-        return res
+        # yaw
+        yaw_max_I = self.pid["yaw"]["max_I"]
+        yaw_max_angle = self.pid["yaw"]["max_angle"]
+        yaw_kp = self.pid["yaw"]["kp"]
+        yaw_ki = self.pid["yaw"]["ki"]
+        yaw_kd = self.pid["yaw"]["kd"]
+        prev_yaw = self.angle['yaw']
+        self.angle['yaw'] = prev_yaw + Gz * self.dt
+        error_y = 0 - self.angle['yaw']
+        self.error_sum['yaw'] = min(max(yaw_max_I, self.error_sum['yaw'] + error_y * self.dt), yaw_max_I)
+        self.error['yaw'] = -min(max(-yaw_max_angle, yaw_kp * error_y + yaw_ki * self.error_sum['yaw'] + yaw_kd * (error_y - (0 - prev_yaw))/self.dt), yaw_max_angle)
 
     def stop(self):
         while not self.move_queue.empty():
@@ -149,24 +151,28 @@ class Spider():
         for i in self.leg:
             if self.leg[i][1] == None:
                 if self.curr_move:
-                    if i in (0,4,5): self.leg[i][1] = [self.curr_move[0], -self.curr_move[1]]
-                    else: self.leg[i][1] = self.curr_move    
+                    if len(self.curr_move) < 3:
+                        if i in (0,4,5): self.leg[i][1] = [self.curr_move[0], -self.curr_move[1]]
+                    self.leg[i][1] = self.curr_move    
             
             if self.leg[i][1]:
                 direction_ = self.leg[i][1]
                 phase_time = self.leg[i][2]
-                if len(direction_) == 3: rotate = True
+                yaw = self.error['yaw']
+                if len(direction_) == 3: 
+                    rotate = True
+                    yaw = 0
                 else: rotate = False
 
                 if self.main_time >= phase_offsets[i] or phase_time > 0:
                     leg_step = None
                     if phase_time <= time_on_air:
                         phase = (phase_time * 180)/ time_on_air
-                        leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], rotate)
+                        leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], yaw, rotate)
                     elif phase_time < time_on_ground[1] or phase_time >= time_on_ground[0]:
                         phase = 180 + ((phase_time - time_on_air) * 180)/ (time_on_ground[1] - time_on_ground[0])
                         if phase <= 360:
-                            leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], rotate)
+                            leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], yaw, rotate)
                     if not leg_step: leg_step = self.leg[i][0].curr_angle()
                     servos = spider_servo[i]
                     lst = []

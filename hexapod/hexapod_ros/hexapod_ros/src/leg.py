@@ -38,7 +38,7 @@ class Leg:
             self.x += roll_vec[0] + pitch_vec[0]
             self.y += roll_vec[1] + pitch_vec[1]
             self.z += R_c[0][2] + R_c[1][2]
-        yaw_vec = R_c[2][:2]
+        yaw_vec = transformBodyCoortoLeg(self.leg, R_c[2][:2])
         self.x += yaw_vec[0]
         self.y += yaw_vec[1]
         self.IK()
@@ -74,7 +74,7 @@ class Leg:
                 # raise ValueError("Target too close to femur pivot.")
             elif k > fl + tl or k < abs(fl - tl):
                 k = fl + tl
-            elif k < abs(fl - tl)
+            elif k < abs(fl - tl):
                 k = abs(fl - tl)
                 # raise ValueError("Target out of reachable workspace.")
             

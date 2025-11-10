@@ -14,10 +14,13 @@ class HexapodTeleop(Node):
     def getKey(self):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
+        key = '' 
         try:
             tty.setraw(fd)
-            select.select([sys.stdin], [], [], 0)
-            key = sys.stdin.read(1)
+            if select.select([sys.stdin], [], [], 0)[0]:
+                key = sys.stdin.read(1)
+                if key == '\x1b':
+                    key += sys.stdin.read(2) 
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return key
@@ -27,12 +30,14 @@ class HexapodTeleop(Node):
             key = self.getKey()
             if key == '\x03':  # Ctrl+C
                 break
+            if not key:
+                continue
             cmd = String()
             if key == ' ':
                 cmd.data = 'stop'
             elif key in avail_command:
                 cmd.data = key
-            elif key == '\x1b[C':
+            elif key == '\x1b[C': 
                 cmd.data = 'rc'
             elif key == '\x1b[D':
                 cmd.data = 'rcc'
@@ -41,7 +46,6 @@ class HexapodTeleop(Node):
 
             self.publisher.publish(cmd)
             self.get_logger().info(f"Send command: {cmd.data}")
-
 def main():
     rclpy.init()
     node = HexapodTeleop()
