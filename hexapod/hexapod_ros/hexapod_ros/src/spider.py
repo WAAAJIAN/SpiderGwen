@@ -153,7 +153,8 @@ class Spider():
                 if self.curr_move:
                     if len(self.curr_move) < 3:
                         if i in (0,4,5): self.leg[i][1] = [self.curr_move[0], -self.curr_move[1]]
-                    self.leg[i][1] = self.curr_move    
+                        else: self.leg[i][1] = self.curr_move    
+                    else: self.leg[i][1] = self.curr_move    
             
             if self.leg[i][1]:
                 direction_ = self.leg[i][1]
