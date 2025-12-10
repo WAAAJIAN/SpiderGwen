@@ -29,7 +29,7 @@ class HexapodController(Node):
         self.yaw_error_pub = self.create_publisher(Float64, '/yaw_error', 10)
         # self._action_client = ActionClient(self, Servo, 'servo_action')
         self.servo_pub = self.create_publisher(ServoTargetArray, '/servo_targets', 10)
-        self.timer = self.create_timer(0.04, self.stand)
+        self.timer = self.create_timer(0.02, self.stand)
         self.active = False
         self.stand = False
         self.actionlst = self.spider.stand()
@@ -127,7 +127,7 @@ class HexapodController(Node):
             else:
                 self.stand = False
                 self.timer.cancel()
-                self.timer = self.create_timer(0.04, self.loop)
+                self.timer = self.create_timer(0.02, self.loop)
 
     def loop(self):
         # if not self.active:

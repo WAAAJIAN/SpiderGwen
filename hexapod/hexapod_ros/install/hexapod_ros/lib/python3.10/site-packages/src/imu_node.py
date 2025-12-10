@@ -8,7 +8,7 @@ class IMUNode(Node):
     def __init__(self):
         super().__init__('imu_node')
         self.publisher = self.create_publisher(Imu, '/imu/data_raw', 10)
-        self.timer = self.create_timer(0.01, self.loop)
+        self.timer = self.create_timer(0.002, self.loop)
         MPU_Init()
 
     def loop(self):

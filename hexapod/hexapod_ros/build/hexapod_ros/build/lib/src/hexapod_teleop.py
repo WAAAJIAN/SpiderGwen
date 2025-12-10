@@ -3,13 +3,13 @@ from rclpy.node import Node
 from std_msgs.msg import String
 import sys, termios, tty, select
 
-avail_command = {'q','w','e','a','s','d','z','x'} # gait & rotate to be added
+avail_command = {'q','w','e','a','s','d','z','x','o','p'} # gait & rotate to be added
 
 class HexapodTeleop(Node):
     def __init__(self):
         super().__init__('hexapod_teleop')
         self.publisher = self.create_publisher(String, '/teleop_command', 10)
-        self.get_logger().info("Hexapod Teleop started. Use QWEASD Keys, Ctrl+C to quit.")
+        self.get_logger().info("Hexapod Teleop started. Use QWEASDZX keys to move, OP keys to turn, Ctrl+C to quit.")
 
     def getKey(self):
         fd = sys.stdin.fileno()
@@ -17,10 +17,8 @@ class HexapodTeleop(Node):
         key = '' 
         try:
             tty.setraw(fd)
-            if select.select([sys.stdin], [], [], 0)[0]:
-                key = sys.stdin.read(1)
-                if key == '\x1b':
-                    key += sys.stdin.read(2) 
+            select.select([sys.stdin], [], [], 0)
+            key = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return key
@@ -37,10 +35,6 @@ class HexapodTeleop(Node):
                 cmd.data = 'stop'
             elif key in avail_command:
                 cmd.data = key
-            elif key == '\x1b[C': 
-                cmd.data = 'rc'
-            elif key == '\x1b[D':
-                cmd.data = 'rcc'
             else:
                 continue
 
