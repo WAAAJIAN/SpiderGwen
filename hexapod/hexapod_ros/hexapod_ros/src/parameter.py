@@ -35,8 +35,7 @@ spider_servo = { # (coxa, femur, tibia)
 
 # ===== Leg =====
 period = 30000   # period of a leg cycle 
-steps = 1000   # speed of motion
-sampling = 40
+sampling = 40 # slice cycle, determine how fast each leg moves
 
 coxa_range = (-60, 60)
 femur_range = (-60, 60)
@@ -133,8 +132,8 @@ direction = {
     's' : [-1,0],
     'a' : [0,-1],
     'd' : [0,1],
-    'q' : polarVector(45),
-    'e' : polarVector(315), 
+    'q' : polarVector(315),
+    'e' : polarVector(45), 
     'z' : polarVector(225),
     'x' : polarVector(135),
     'o': [1,0,1],
@@ -153,3 +152,4 @@ def polarVector(angle, value = 1):
 def transformBodyCoortoLeg(leg, vector, reverse=False): # vector : [x,y]
     newVec = vectorMull(transformMat[leg], vector)
     return newVec
+
