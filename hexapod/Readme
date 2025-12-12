@@ -2,7 +2,7 @@
 RPI
 Current WiFi & Password: WJ | 88888888 
 username: spider 
-Password: Spider@1
+Password: Spider@01
 IP: xxx.xx.xx.34 (usually but might not always 34), first three numbers can be obtained from checking Ip numbers of the WiFi
 * ssh into the pi with ssh spider@<IP_ADDRESS>
 * To get exact Ip, either login to the rpi and call "hostname -I" or call "FOR /L %i IN (1,1,254) DO ping -n 1 192.168.1.%i | FIND /i "Reply" >> ip_list.txt" in desktop terminal by replacing 102.168.1 with actual WiFi Ip (assuming both desktop and RPI are connected to the same network), then find ip_list.txt file to get the exact Ip.
