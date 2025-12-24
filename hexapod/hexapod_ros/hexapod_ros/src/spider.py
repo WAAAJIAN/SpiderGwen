@@ -1,17 +1,15 @@
 from .parameter import *
 from .leg import *
-# import maestro
-# servo = maestro.Controller('/dev/ttyAMA0')
-# from parameter import *
-# from leg import *
-# import time
-# from gyroscope import *
 from queue import Queue
 
-
 class Spider():
+    """
+    Main controller for the Hexapod. Handles movement queues, 
+    IMU data processing, and gait sequencing.
+    """
     def __init__(self):
-        self.leg = { # leg, direction, time
+        # Dictionary mapping leg ID to [Leg Object, Current Direction, Current Time in Cycle]
+        self.leg = {
             0: [Leg(0), None, 0], 
             1: [Leg(1), None, 0], 
             2: [Leg(2), None, 0], 
@@ -19,35 +17,29 @@ class Spider():
             4: [Leg(4), None, 0], 
             5: [Leg(5), None, 0] 
         }
-        self.gait = gait[0]
-        self.move_queue = Queue() # direction 
-        self.step_queue = {
-            0 : Queue(),
-            1 : Queue(),
-            2 : Queue(),
-            3 : Queue(),
-            4 : Queue(),
-            5 : Queue()
-        }
+        self.gait = gait[0]  # Default to "tripod" gait
+        self.move_queue = Queue() 
+        self.step_queue = {i: Queue() for i in range(6)} # Buffer for scheduled servo positions
+        
+        # Orientation state
         self.angle = {'roll': 0, 'pitch': 0, 'yaw': 0}
-        self.error = {'roll': 0, 'pitch': 0, 'yaw': 0}
-        self.error_sum = {'roll': 0, 'pitch': 0, 'yaw': 0}
+        self.error = {'roll': 0, 'pitch': 0, 'yaw': 0}      # Current PID output
+        self.error_sum = {'roll': 0, 'pitch': 0, 'yaw': 0}  # Integral term for PID
         self.bias_sample = {'Ax': 0, 'Ay': 0, 'Az': 0, 'Gx': 0, 'Gy': 0, 'Gz': 0, 'count': 0}
+        
         self.curr_move = None
-        self.main_time = 0
-        self.dt = 0
-        self.pid = dict()
-        # try:
-        #     MPU_Init()
-        # except Exception as e:
-        #     print(f"Error encounter: {e}")
+        self.main_time = 0  # Global clock for the gait cycle
+        self.dt = 0.002     # Delta time for PID calculations
+        self.pid = dict()   # Should be populated with Kp, Ki, Kd values
 
     def add_move(self, direction_):
+        """Adds a movement command (e.g., 'w', 'a', 's', 'd') to the queue."""
         self.move_queue.put(direction[direction_])
 
     def stand(self):
+        """Generates a sequence of frames to move the robot into a standing position (brute-force)."""
         res = []
-        l = 4
+        l = 4 # Number of steps in the standing animation
         for i in range(l):
             for leg in self.leg:
                 servos = spider_servo[leg]
@@ -57,9 +49,11 @@ class Spider():
                     lst.append([servos[j], curr[j]])
                 res.append(lst)
         return res
-
+    
     def calibrate_imu(self, ax, ay, az, gx, gy, gz):
+        """Averages IMU readings over a sample count to find the zero-bias."""
         if self.bias_sample['count'] < self.pid['bias']['count']:
+            # Accumulate samples
             self.bias_sample['Ax'] += ax
             self.bias_sample['Ay'] += ay
             self.bias_sample['Az'] += az
@@ -69,6 +63,7 @@ class Spider():
             self.bias_sample['count'] += 1
             return False
         elif self.bias_sample['count'] == self.pid['bias']['count']:
+            # Calculate mean and set initial roll/pitch based on gravity vector
             self.pid['bias']['Ax'] = self.bias_sample['Ax']/self.bias_sample['count']
             self.pid['bias']['Ay'] = self.bias_sample['Ay']/self.bias_sample['count']
             self.pid['bias']['Az'] = self.bias_sample['Az']/self.bias_sample['count'] + g
@@ -81,12 +76,13 @@ class Spider():
             return True
 
     def update_imu(self, ax, ay, az, gx, gy, gz): 
-        Ax = ax - self.pid['bias']['Ax']
-        Ay = ay - self.pid['bias']['Ay']
-        Az = az - self.pid['bias']['Az']
-        Gx = gx - self.pid['bias']['Gx'] # roll
-        Gy = gy - self.pid['bias']['Gy'] # pitch
-        Gz = gz - self.pid['bias']['Gz'] # yaw
+        """
+        Uses a Complementary Filter to combine Gyro (fast) and Accel (stable) 
+        data, then runs a PID loop to calculate the correction angle.
+        """
+        # Subtract calibrated bias
+        Ax, Ay, Az = ax - self.pid['bias']['Ax'], ay - self.pid['bias']['Ay'], az - self.pid['bias']['Az']
+        Gx, Gy, Gz = gx - self.pid['bias']['Gx'], gy - self.pid['bias']['Gy'], gz - self.pid['bias']['Gz']
 
         # roll
         roll_max_I = self.pid["roll"]["max_I"]
@@ -133,14 +129,20 @@ class Spider():
             try: self.move_queue.get_nowait()
             except: break
 
-    def walk(self): # one cycle took 5ms at most to calculate
+    def walk(self):
+        """
+        The 'Brain' of the walking movement. 
+        Calculates where each leg should be based on the current Gait and Time.
+        """
         if not self.curr_move: 
             if not self.move_queue.empty(): 
+                # Synchronize move start with gait cycle phase
                 if self.main_time == 0 or self.main_time == period/2:
                     self.curr_move = self.move_queue.get()
                     self.main_time = 0
             else: self.curr_move = None
 
+        # Gait timing parameters
         phase_offsets = [k * period for k in gait_params[self.gait]["phase_offsets"]]
         stop_time = gait_params[self.gait]["stop_time"]
         phase_count = sampling + stop_time * 2
@@ -149,6 +151,7 @@ class Spider():
         time_on_ground = (time_on_air + stop_time * step, period - stop_time * step)
 
         for i in self.leg:
+            # Determine leg direction (mirroring for opposite side of body)
             if self.leg[i][1] == None:
                 if self.curr_move:
                     if len(self.curr_move) < 3:
@@ -157,6 +160,7 @@ class Spider():
                     else: self.leg[i][1] = self.curr_move    
             
             if self.leg[i][1]:
+                # Leg is moving: Calculate Swing (Air) vs Stance (Ground)
                 direction_ = self.leg[i][1]
                 phase_time = self.leg[i][2]
                 yaw = self.error['yaw']
@@ -168,17 +172,22 @@ class Spider():
                 if self.main_time >= phase_offsets[i] or phase_time > 0:
                     leg_step = None
                     if phase_time <= time_on_air:
+                        # Swing Phase: Lift leg and move forward
                         phase = (phase_time * 180)/ time_on_air
                         leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], yaw, rotate)
                     elif phase_time < time_on_ground[1] or phase_time >= time_on_ground[0]:
+                        # Stance Phase: Push against ground to move body
                         phase = 180 + ((phase_time - time_on_air) * 180)/ (time_on_ground[1] - time_on_ground[0])
                         if phase <= 360:
                             leg_step = self.leg[i][0].calculateWalk(phase, direction_, walk_distance, self.error['pitch'], self.error['roll'], yaw, rotate)
                     if not leg_step: leg_step = self.leg[i][0].curr_angle()
+                    # Queue the servo commands
                     servos = spider_servo[i]
                     lst = []
                     for k in range(3): lst.append([servos[k], leg_step[k]])
                     self.step_queue[i].put(lst)
+
+                # Increment leg internal clock
                 if phase_time == 0:
                     if self.main_time >= phase_offsets[i] and self.curr_move:
                         self.leg[i][2] += step
@@ -188,6 +197,7 @@ class Spider():
                     self.leg[i][1] = None
                     self.leg[i][2] = 0
             else:
+                # Leg is stationary: Apply self-balancing only
                 leg_step = self.leg[i][0].balance(self.error['pitch'], self.error['roll'])
                 servos = spider_servo[i]
                 lst = []
@@ -200,6 +210,7 @@ class Spider():
             self.main_time = 0
 
     def step(self):
+        """ Return each queue step of the leg to node"""
         action = dict()
         for leg in self.leg:
             if not self.step_queue[leg].empty():
@@ -216,27 +227,4 @@ class Spider():
     def gaitChange(self, inp):
         self.gait = gait[inp]
 
-    # def runleg(self, servos):
-    #     for i in servos:
-    #         servo.setTarget(i[0], i[1])
-
-# s = Spider()
-# while True:
-#     ax,ay,az,gx,gy,gz = get_gyro()
-#     s.update_imu(ax,ay,az,gx,gy,gz)
-#     time.sleep(0.5)
-# s.add_move('w')
-# s.add_move('w')
-# s.add_move('w')
-# for i in range(20):
-#     print(f"time: {s.main_time}, direction: {s.curr_move}")
-#     s.walk()
-#     dct = s.step()
-#     print(f"time: {s.main_time}, direction: {s.curr_move}")
-#     # for leg, servos in dct.items():
-#         # print(f"leg: {leg}, target: {servos}")
-#         # s.runleg(servos)
-#     for leg, config in s.leg.items():
-#         print(f"leg: {leg}, dir: {config[1]}, time, {config[2]}")
-#     print("\n")
-    
+   
