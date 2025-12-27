@@ -1,5 +1,0 @@
-  File "/home/spider/GWEN_V2/SpiderGwen/hexapod/hexapod_ros/install/hexapod_ros/lib/python3.10/site-packages/src/leg.py", line 77
-    elif k < abs(fl - tl)
-                         ^
-SyntaxError: expected ':'
-

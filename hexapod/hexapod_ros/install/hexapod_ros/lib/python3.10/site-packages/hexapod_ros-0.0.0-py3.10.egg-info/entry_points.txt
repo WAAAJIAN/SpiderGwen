@@ -1,6 +1,0 @@
-[console_scripts]
-hexapod_controller = src.hexapod_controller:main
-imu_node = src.imu_node:main
-maestro_driver = src.maestro_driver:main
-teleop = src.hexapod_teleop:main
-

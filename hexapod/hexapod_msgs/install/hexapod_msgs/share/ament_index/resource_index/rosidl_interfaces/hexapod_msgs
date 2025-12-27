@@ -1,8 +1,0 @@
-action/Servo.action
-action/Servo.idl
-action/Walk.action
-action/Walk.idl
-msg/ServoTarget.idl
-msg/ServoTarget.msg
-msg/ServoTargetArray.idl
-msg/ServoTargetArray.msg
