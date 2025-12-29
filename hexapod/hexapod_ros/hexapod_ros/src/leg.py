@@ -27,21 +27,22 @@ class Leg:
             x = direction[0] * (-1 * turn_distance * ((phase/180) - 1) + distance)
             y = direction[1] * - (-1 * turn_distance * ((phase/180) - 1) + distance)
             self.z = z_offset
-        if not rotate: new_vec = transformBodyCoortoLeg(self.leg, [x,y])
+        if not rotate: new_vec = transformLegtoBody(self.leg, [x,y])
         else: new_vec = [x, y]
         self.x = x_offset + new_vec[0]
         self.y = y_offset + new_vec[1]
         R_c = R(self.offset, self.offset_angle, roll, pitch, yaw, [self.x, self.y]) 
         if phase > 180:
-            roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
-            pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+            roll_vec = transformLegtoBody(self.leg, R_c[0][:2])
+            pitch_vec = transformLegtoBody(self.leg, R_c[1][:2])
             self.x += roll_vec[0] + pitch_vec[0]
             self.y += roll_vec[1] + pitch_vec[1]
             self.z += R_c[0][2] + R_c[1][2]
-        yaw_vec = transformBodyCoortoLeg(self.leg, R_c[2][:2])
+        yaw_vec = transformLegtoBody(self.leg, R_c[2][:2])
         self.x += yaw_vec[0]
         self.y += yaw_vec[1]
         self.IK()
+        self.verify_IK()
         self.angleToDC()
         return (self.a, self.b, self.c)
 
@@ -50,24 +51,54 @@ class Leg:
         d = 20 - (20/l)*c
         self.b += d
         self.c += d
+        self.verify_IK()
         self.angleToDC()
         return (self.a, self.b, self.c)
 
     def balance(self, pitch, roll): # only roll & pitch, no yaw
         R_c = R(self.offset, self.offset_angle, roll, pitch) 
-        roll_vec = transformBodyCoortoLeg(self.leg, R_c[0][:2])
-        pitch_vec = transformBodyCoortoLeg(self.leg, R_c[1][:2])
+        roll_vec = transformLegtoBody(self.leg, R_c[0][:2])
+        pitch_vec = transformLegtoBody(self.leg, R_c[1][:2])
         self.x = x_offset + roll_vec[0] + pitch_vec[0]
         self.y = y_offset + roll_vec[1] + pitch_vec[1]
         self.z = z_offset + R_c[0][2] + R_c[1][2]
         self.IK()
+        self.verify_IK()
         self.angleToDC()
         return (self.a, self.b, self.c)
+    
+    @staticmethod
+    def FK(joint_angles, DH_table):
+        # find end effector positoin given joint angles
+        theta1, theta2, theta3 = joint_angles
+        H0_1 = H(DH_table[0][0], DH_table[0][1], DH_table[0][2], radians(theta1))
+        H1_2 = H(DH_table[1][0], DH_table[1][1], DH_table[1][2], radians(theta2))
+        H2_3 = H(DH_table[2][0], DH_table[2][1], DH_table[2][2], radians(theta3))
+        H0_2 = H0_1@H1_2
+        H0_3 = H0_2@H2_3
+        x, y, z = H0_3[0][3], H0_3[1][3], H0_3[2][3]  # extract position vector
+        return (x, y, z)   
+    
+    def verify_IK(self):
+        target = (self.x, self.y, self.z)
+        fk_pos = Leg.FK((self.a, self.b, self.c), DH_table)
+        error = (
+            fk_pos[0] - target[0],
+            fk_pos[1] - target[1],
+            fk_pos[2] - target[2]
+        )
+
+        print("Target:", target)
+        print("FK:", fk_pos)
+        print("Error:", error)
+
+        if any(abs(e) > 1e-2 for e in error):
+            print("IK verification failed")
    
     def IK(self):
         """
         Inverse Kinematics: 
-        Calculates servo angles using the Law of Cosines based on leg segment lengths (cl, fl, tl).
+        Calculates servo angles (self.a, self.b, self.c) from desired (self.x, self.y, self.z) foot position.
         """
         try:
             y = sqrt(self.x**2 + self.y**2) - cl # actual location of tip from femur in coxa frame

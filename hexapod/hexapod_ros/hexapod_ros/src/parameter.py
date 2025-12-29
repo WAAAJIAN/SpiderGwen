@@ -1,5 +1,6 @@
 from math import *
 from time import sleep  
+import numpy as np
 
 # ===== helper function =====
 def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
@@ -9,9 +10,18 @@ def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
 def polarVector(angle, value = 1):
     return [value * cos(radians(angle)), value * sin(radians(angle))]
 
-def transformBodyCoortoLeg(leg, vector, reverse=False): # vector : [x,y]
+def transformLegtoBody(leg, vector, reverse=False): # vector : [x,y]
     newVec = vectorMull(transformMat[leg], vector)
     return newVec
+
+def H(alpha, a, d, theta):
+    H = [
+        [cos(theta), -sin(theta)*cos(alpha), sin(theta)*sin(alpha), a*cos(theta)],
+        [sin(theta), cos(theta)*cos(alpha), -cos(theta)*sin(alpha), a*sin(theta)],
+        [0, sin(alpha), cos(alpha), d],
+        [0, 0, 0, 1]
+        ]
+    return np.array(H)
 
 # ===== Config =====
 spider_servo = { # (coxa, femur, tibia)
@@ -74,6 +84,15 @@ transformMat = {
 }
    
 g = 9.80665
+
+# ===== DH Table =====
+# alpha, a, d, theta
+# define theta 0 here first, will be updated in FK 
+DH_table = {
+    0: [pi/2, cl, 0, 0],
+    1: [0, fl, 0, 0],
+    2: [0, tl, 0, 0]
+}
 
 # Rotation "Matrix"
 R = lambda x, offset, roll=0, pitch=0, yaw=0, loc=[0,0] : (
@@ -140,16 +159,4 @@ direction = {
     'p': [-1,0,1]
 }
 
-
-# ===== helper function =====
-def vectorMull(m1, m2): # transform vector (Matrix Multiplication)
-    m3 = [(m1[0][0])*(m2[0]) + (m1[0][1])*(m2[1]), (m1[1][0])*(m2[0]) + (m1[1][1])*(m2[1])]
-    return m3
-
-def polarVector(angle, value = 1):
-    return [value * cos(radians(angle)), value * sin(radians(angle))]
-
-def transformBodyCoortoLeg(leg, vector, reverse=False): # vector : [x,y]
-    newVec = vectorMull(transformMat[leg], vector)
-    return newVec
 
