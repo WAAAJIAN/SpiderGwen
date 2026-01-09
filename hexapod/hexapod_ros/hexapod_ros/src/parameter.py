@@ -21,7 +21,7 @@ def H(alpha, a, d, theta):
         [0, sin(alpha), cos(alpha), d],
         [0, 0, 0, 1]
         ]
-    return np.array(H)
+    return np.array(H) 
 
 # ===== Config =====
 spider_servo = { # (coxa, femur, tibia)

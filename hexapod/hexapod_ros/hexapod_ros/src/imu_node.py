@@ -3,7 +3,6 @@ from rclpy.node import Node
 from sensor_msgs.msg import Imu
 from .gyroscope import get_gyro, MPU_Init
 
-
 class IMUNode(Node):
     def __init__(self):
         super().__init__('imu_node')

@@ -1,5 +1,5 @@
-import smbus2					#import SMBus module of I2C
-from time import sleep          #import
+import smbus2	#import SMBus module of I2C
+from time import sleep   #import
 
 #some MPU6050 Registers and their Address // refer to picture under Subsystems, gyro info
 PWR_MGMT_1   = 0x6B
