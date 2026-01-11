@@ -67,6 +67,15 @@ offset_angle_map = {0: offset_angle + 90, 1: offset_angle,
                     2: 0, 5: 180, 
                     3: -offset_angle, 4: offset_angle + 180} # offset angle of each leg from y axis
 
+leg_type_map = {
+    0: 1,  # corner
+    1: 1,  # corner
+    2: 0,  # middle
+    3: 1,  # corner
+    4: 1,  # corner
+    5: 0   # middle
+}
+
 #Matrix for transform coordinate on each leg (second version)
 M0 = [[-cos(radians(offset_angle)), -sin(radians(offset_angle))],[-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 0
 M1 = [[cos(radians(offset_angle)), sin(radians(offset_angle))], [-sin(radians(offset_angle)), cos(radians(offset_angle))]]    # leg 1

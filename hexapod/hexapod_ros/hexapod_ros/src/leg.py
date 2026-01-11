@@ -13,6 +13,8 @@ class Leg:
         # Joint angles (coxa, femur, tibia)
         self.a, self.b, self.c = 0, 0, 180
         self.offset_angle = offset_angle_map[self.leg]
+        self.offset = leg_type_map[self.leg]
+        
         self.IK()
 
     def calculateWalk(self, phase, direction, distance, pitch, roll, yaw, rotate):
