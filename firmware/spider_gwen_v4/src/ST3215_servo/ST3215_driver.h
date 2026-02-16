@@ -11,10 +11,11 @@
 #define ST3215_DRIVER_H
 
 #include "ST3215_protocol.h"
+#include <Arduino.h>
 
 class ST3215_driver {
     public:
-        ST3215_driver();
+        ST3215_driver(HardwareSerial &serial);
 
         /**
          * @brief Initializes all connected ST3215 servo motors by pinging each possible ID and
@@ -88,7 +89,7 @@ class ST3215_driver {
          * @param angle The target angle to set for the servo motor.
          * @return true if the command is successful, false otherwise.
          */
-        bool ST3215_new_angle(uint8_t id, size_t angle);
+        bool set_angle(uint8_t id, size_t angle);
 
         /**
          * @brief Writes data to change speed of servomotor with the specified ID.
@@ -96,7 +97,7 @@ class ST3215_driver {
          * @param speed The target speed to set for the servo motor.
          * @return true if the command is successful, false otherwise.
          */
-        bool ST3215_speed(uint8_t id, size_t speed);
+        bool set_speed(uint8_t id, size_t speed);
 
         /**
          * @brief Changes the ID of a servo motor from an old ID to a new ID.
@@ -116,6 +117,7 @@ class ST3215_driver {
 
 
     private:
+        HardwareSerial &_serial;
         ST3215_protocol protocol;
 } ;
 
