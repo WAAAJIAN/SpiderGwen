@@ -15,6 +15,21 @@
 #include <Arduino.h>
 
 /**
+ * Memory addresses for the ST3215 servomotor, needed to construct command packets for reading and writing
+ */
+#define ST3215_REG_ID 0x05
+#define ST3215_REG_BAUDRATE 0x06
+#define ST3215_REG_TARGET_LOCATION 0x2A
+#define ST3215_REG_RUNNING_SPEED 0x2E
+#define ST3215_REG_LOCK_PROTECTION 0x37
+#define ST3215_REG_CURRENT_LOCATION 0x38
+#define ST3215_REG_CURRENT_SPEED 0x3A
+#define ST3215_REG_CURRENT_LOAD 0x3C
+#define ST3215_REG_CURRENT_VOLTAGE 0x3E
+#define ST3215_REG_CURRENT_TEMPERATURE 0x3F
+#define ST3215_REG_ASYNC_WRITE_FLAG 0x40
+
+/**
  * HEADER byte for the ST3215 protocol, used to indicate the start of a command packet.
  * Requires 2 consecutive HEADER bytes to signify the beginning of a valid command packet.
  */
@@ -27,8 +42,13 @@
  * - ST3215_PROTOCOL_READ: Command to read data from a register in the servo motor.
  * - ST3215_PROTOCOL_SYNC_WRITE: Command to perform a synchronous write operation to multiple servo motors.
  */
-#define ST3215_PROTOCOL_WRITE 0x01
+
+#define ST3215_PROTOCOL_PING 0x01
 #define ST3215_PROTOCOL_READ 0x02
+#define ST3215_PROTOCOL_WRITE 0x03
+#define ST3215_PROTOCOL_REGWRITE 0x04
+#define ST3215_PROTOCOL_ACTION 0x05
+#define ST3215_PROTOCOL_RESET 0x06
 #define ST3215_PROTOCOL_SYNC_WRITE 0x83
 
 
@@ -66,7 +86,7 @@ class ST3215_protocol {
          * @param checksum The output parameter where the calculated checksum will be stored.
          * @return true if the checksum is valid, false otherwise.
          */
-        bool checksum(uint8_t *packet, uint8_t *checksum);
+        bool checksum(uint8_t id, uint8_t length, uint8_t *data, uint8_t *checksum_out);
 
     protected:
         HardwareSerial &_serial; // Reference to the HardwareSerial object used for communication with the servo motors
