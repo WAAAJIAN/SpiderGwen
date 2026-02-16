@@ -16,13 +16,11 @@
 
 #include "ST3215_protocol.h"
 
-ST3215_protocol::ST3215_protocol(HardwareSerial &serial) : _serial(serial) {}
-
 bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t instruction,  uint8_t *data) 
 {
     size_t packet_size = 6 + data_length;
-    uint8_t packet[packet_size]; // Buffer for the command packet
-    packet[0] = ST3215_PROTOCOL_HEADER; // Header byte
+    uint8_t packet[packet_size];
+    packet[0] = ST3215_PROTOCOL_HEADER;
     packet[1] = ST3215_PROTOCOL_HEADER;
     packet[2] = id;
     packet[3] = data_length;
@@ -33,7 +31,7 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
     }
 
     uint8_t checksum_value;
-    if (!checksum(packet, &checksum_value))
+    if (!checksum(id, data_length, packet+3, &checksum_value))
     {
         return false; // Checksum calculation failed
     }
@@ -43,71 +41,95 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
     {
         return false; // Failed to send the complete packet
     }
+    _serial.flush(); // Ensure the packet is sent before returning
     
     return true; // Placeholder return value
 }
 
 bool ST3215_protocol::ST3215_receive(uint8_t id, uint8_t *out) 
 {
-    uint8_t header_check[2];
-    _serial.readBytes(header_check, 2);
-    if (header_check[0] != ST3215_PROTOCOL_HEADER || header_check[1] != ST3215_PROTOCOL_HEADER) 
-    {
-        return false; // Invalid packet header
-    }
-
-    uint8_t packet_id;
-    _serial.readBytes(&packet_id, 1);
-    if (packet_id != id) 
-    {
-        return false; // ID mismatch
-    }
-
-    uint8_t data_length;
-    _serial.readBytes(&data_length, 1);
-
-    uint8_t data[data_length];
-    for (size_t i = 0; i < data_length + 1; ++i) 
-    {
-        data[i] = _serial.read(); // Read data bytes and checksum
-    }
-
-    for (size_t i = 0; i < data_length; ++i) 
-    {
-        out[i] = data[i]; // Store received data in output variable
-    }
-
-    return true;
-}
-
-bool ST3215_protocol::checksum(uint8_t *packet, uint8_t *checksum) 
-{
-    // Implement checksum calculation according to the ST3215 protocol specifications
-    // Return true if the checksum is valid, false otherwise
-    if (!packet) 
+    uint8_t header[2];
+    if (_serial.readBytes(header, 2) != 2)
     {
         return false;
     }
 
-    if (packet[0] != ST3215_PROTOCOL_HEADER) 
+    if (header[0] != ST3215_PROTOCOL_HEADER || header[1] != ST3215_PROTOCOL_HEADER)
     {
-        if(packet[1] != ST3215_PROTOCOL_HEADER) 
+        return false;
+    }
+
+    uint8_t packet_id;
+    if (_serial.readBytes(&packet_id, 1) != 1)
+    {
+        return false;
+    }
+
+    if (packet_id != id)
+    {
+        return false;
+    }
+
+    uint8_t data_length;
+    if (_serial.readBytes(&data_length, 1) != 1)
+    {
+        return false;
+    }
+
+    if (data_length < 2)   // must at least contain instruction + checksum
+    {
+        return false;
+    }
+
+    // data will contain instruction + payload + checksum
+    uint8_t data[data_length];
+    for (uint8_t i = 0; i < data_length; i++) {
+        int b = _serial.read();
+        if (b < 0) 
         {
-            return false; // Invalid packet header
+            return false;
         }
+        data[i] = (uint8_t)b;
     }
 
-    packet += 2;
-
-    size_t buf = 0;
-    for (size_t i = 0; i < sizeof(packet); ++i) 
+    uint8_t calc_checksum;
+    if (!checksum(packet_id, data_length, data, &calc_checksum))
     {
-        // Calculate checksum (this is a placeholder implementation)
-        buf += packet[i];
+        return false;
+    }
+    uint8_t received_checksum = data[data_length - 1];
+
+    if (calc_checksum != received_checksum)
+    {
+        return false;
     }
 
-    *checksum = ~(buf & 0xFF);
+    // copy payload without checksum
+    for (uint8_t i = 0; i < data_length - 1; i++)
+        out[i] = data[i];
+
     return true;
 }
+
+
+bool ST3215_protocol::checksum(uint8_t id, uint8_t length, uint8_t *data, uint8_t *checksum_out)
+{
+    if (!data || !checksum_out)
+    {
+        return false; // Invalid input parameters
+    }
+
+    uint16_t sum = 0;
+
+    sum += id;
+    sum += length;
+
+    for (uint8_t i = 0; i < length - 1; i++)   // exclude checksum byte
+        sum += data[i];
+
+    *checksum_out = ~(sum & 0xFF);
+    return true;
+}
+
 
 #endif // ST3215_PROTOCOL_CPP
