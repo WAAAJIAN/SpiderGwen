@@ -15,10 +15,15 @@
 #include <Arduino.h>
 
 /**
- * Memory addresses for the ST3215 servomotor, needed to construct command packets for reading and writing
+ * EEPROM Memory addresses for the ST3215 servomotor, needed to construct command packets for reading and writing
  */
 #define ST3215_REG_ID 0x05
 #define ST3215_REG_BAUDRATE 0x06
+#define ST3215_REG_POS_CORRECTION 0x1C
+
+/**
+ * SRAM Memory addresses for the ST3215 servomotor, needed to construct command packets for reading and writing
+ */
 #define ST3215_REG_TARGET_LOCATION 0x2A
 #define ST3215_REG_RUNNING_SPEED 0x2E
 #define ST3215_REG_LOCK_PROTECTION 0x37
