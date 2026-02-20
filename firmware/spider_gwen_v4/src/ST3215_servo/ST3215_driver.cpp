@@ -10,8 +10,7 @@ ST3215_driver::ST3215_driver(HardwareSerial &serial) : _serial(serial), protocol
 
 bool ST3215_driver::ping(uint8_t id) 
 {
-    uint8_t data[1] = {0x01};
-    if(!protocol.ST3215_write(id, 0x01, ST3215_PROTOCOL_PING, data))
+    if(!protocol.ST3215_write(id, 0x00, ST3215_PROTOCOL_PING, nullptr))
     {
         return false;
     }
@@ -19,6 +18,7 @@ bool ST3215_driver::ping(uint8_t id)
     if (!protocol.ST3215_receive(id, response)) 
     {
         return false;
+        
     }
     
     if(response[0] != 0x00) // Assuming 0x00 is the expected response for a successful ping
@@ -32,7 +32,7 @@ bool ST3215_driver::ping(uint8_t id)
 bool ST3215_driver::change_id(uint8_t old_id, uint8_t new_id) 
 {
     // First need to unlock register
-    uint8_t unlock_data[2] = {ST3215_REG_LOCK_PROTECTION, 0x01};    // opens the lock
+    uint8_t unlock_data[2] = {ST3215_REG_LOCK_PROTECTION, 0x00};    // opens the lock
     if(!protocol.ST3215_write(old_id, 0x04, ST3215_PROTOCOL_WRITE, unlock_data))
     {
         return false;
@@ -57,7 +57,7 @@ bool ST3215_driver::change_id(uint8_t old_id, uint8_t new_id)
     }
 
     // Finally, lock the register again with the new ID
-    uint8_t lock_data[2] = {ST3215_REG_LOCK_PROTECTION, 0x00};    // locks the register
+    uint8_t lock_data[2] = {ST3215_REG_LOCK_PROTECTION, 0x01};    // locks the register
     if(!protocol.ST3215_write(new_id, 0x04, ST3215_PROTOCOL_WRITE, lock_data))
     {
         return false;
