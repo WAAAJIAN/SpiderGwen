@@ -16,6 +16,8 @@
 
 #include "ST3215_protocol.h"
 
+ST3215_protocol::ST3215_protocol(HardwareSerial &serial) : _serial(serial) {}
+
 bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t instruction,  uint8_t *data) 
 {
     size_t packet_size = 6 + data_length;
@@ -23,18 +25,23 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
     packet[0] = ST3215_PROTOCOL_HEADER;
     packet[1] = ST3215_PROTOCOL_HEADER;
     packet[2] = id;
-    packet[3] = data_length;
+    packet[3] = data_length+2; // data length + instruction byte + checksum byte
     packet[4] = instruction;
-    for (uint8_t i = 0; i < data_length; ++i) 
+
+    if (!(data == nullptr))
     {
-        packet[5 + i] = data[i]; // Copy data into the packet
+        for (uint8_t i = 0; i < data_length-1; i++) 
+        {
+            packet[5 + i] = data[i]; // Copy data into the packet
+        }
     }
 
     uint8_t checksum_value;
-    if (!checksum(id, data_length, packet+3, &checksum_value))
+    if (!checksum(id, data_length+2, packet+4, &checksum_value))
     {
         return false; // Checksum calculation failed
     }
+
     packet[5 + data_length] = checksum_value;
 
     if(_serial.write(packet, packet_size) != packet_size) 
@@ -42,7 +49,9 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
         return false; // Failed to send the complete packet
     }
     _serial.flush(); // Ensure the packet is sent before returning
-    
+
+    uint8_t clear[packet_size];
+    _serial.readBytes(clear, packet_size);
     return true; // Placeholder return value
 }
 
@@ -85,6 +94,7 @@ bool ST3215_protocol::ST3215_receive(uint8_t id, uint8_t *out)
     uint8_t data[data_length];
     for (uint8_t i = 0; i < data_length; i++) {
         int b = _serial.read();
+
         if (b < 0) 
         {
             return false;
