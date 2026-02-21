@@ -67,9 +67,9 @@ class ST3215_protocol {
         /**
          * @brief general write function for ST3215 protocol, which sends a command packet to the servo motor with the specified ID, register address, and data.
          * @param id The ID of the servo motor to write to.
-         * @param data The byte of data to write to the register.
-         * @param data_length The length of the data to write.
-         * @param instruction The instruction to be sent.
+         * @param data_length the length of the data, does not include instruction byte and checksum byte.
+         * @param instruction the instruction byte to be sent, use defined instruction bytes such as ST3215_PROTOCOL_WRITE, ST3215_PROTOCOL_READ, etc.
+         * @param data the data bytes to be sent, typically also known as the parameters of the byte stream. Can be set to nullptr if no data is required to be sent.
          * @return true if the write command is successful, false otherwise.
          */
         bool ST3215_write(uint8_t id, uint8_t data_length, uint8_t instruction,  uint8_t *data);
@@ -78,9 +78,8 @@ class ST3215_protocol {
          * @brief general read function for ST3215 protocol, which sends a command packet to the servo motor with 
          * the specified ID and register address, and reads the response data from the servo motor.
          * @param id The ID of the servo motor to read from.
-         * @param reg_addr The register address to read from.
-         * @param data A reference to a byte variable where the read data will be stored.
-         * @return true if the read command is successful and data is stored in the provided variable, false otherwise.
+         * @param out A pointer to a byte array where the read data will be stored.
+         * @return true if the read command is successful and data is stored in the provided array, false otherwise.
          */
         bool ST3215_receive(uint8_t id, uint8_t *out);
 
