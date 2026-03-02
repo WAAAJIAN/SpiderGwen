@@ -20,9 +20,6 @@ float femur_max = 60;
 float tibia_min = 30;
 float tibia_max = 150;
 
-#define RAD_TO_DEG 57.29577951308232
-#define DEG_TO_RAD 0.017453292519943295
-
 // safer clamp
 float clampf(float val, float minv, float maxv) {
   if (val < minv) return minv;
@@ -93,10 +90,17 @@ void setup() {
 }
 
 void loop() {
-
   // test position
   leg.setFoot(0, 150, 150);
   leg.printAngles();
-
+  delay(2000);
+  leg.setFoot(30, 150, 120);
+  leg.printAngles();
+  delay(2000);
+  leg.setFoot(-30, 150, 120);
+  leg.printAngles();
+  delay(2000);
+  leg.setFoot(0, 180, 100);
+  leg.printAngles();
   delay(2000);
 }
