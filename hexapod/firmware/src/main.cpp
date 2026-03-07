@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "ST3215_driver.h"
+#include "ST3215_servo/ST3215_driver.h"
 
 #define SERIAL_BAUD_RATE 1000000
 #define SERIAL_BAUD_RATE_DEBUG 115200
