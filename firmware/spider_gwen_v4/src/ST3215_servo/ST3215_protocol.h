@@ -19,7 +19,7 @@
  */
 #define ST3215_REG_ID 0x05
 #define ST3215_REG_BAUDRATE 0x06
-#define ST3215_REG_POS_CORRECTION 0x1C
+#define ST3215_REG_POS_CORRECTION 0x1F
 
 /**
  * SRAM Memory addresses for the ST3215 servomotor, needed to construct command packets for reading and writing

@@ -30,7 +30,7 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
 
     if (!(data == nullptr))
     {
-        for (uint8_t i = 0; i < data_length-1; i++) 
+        for (uint8_t i = 0; i < data_length; i++) 
         {
             packet[5 + i] = data[i]; // Copy data into the packet
         }
@@ -49,6 +49,26 @@ bool ST3215_protocol::ST3215_write(uint8_t id, uint8_t data_length, uint8_t inst
         return false; // Failed to send the complete packet
     }
     _serial.flush(); // Ensure the packet is sent before returning
+
+    // debugging: print all sent bytes
+    Serial.print("Sent packet: ");
+    Serial.print("ID: ");
+    Serial.print(id);
+    Serial.print(", Length: ");
+    Serial.print(data_length + 2);
+    Serial.print(", Instruction: ");
+    Serial.print(instruction, HEX);
+    if (data_length > 0) {
+        Serial.print(", Data: ");
+        for (uint8_t i = 0; i < data_length; i++) {
+            Serial.print(data[i], HEX);
+            Serial.print(" ");
+        }
+    }
+    Serial.print(", Checksum: ");
+    Serial.print(checksum_value, HEX);
+    Serial.println();
+    // End of debugging
 
     uint8_t clear[packet_size];
     _serial.readBytes(clear, packet_size);
@@ -90,7 +110,8 @@ bool ST3215_protocol::ST3215_receive(uint8_t id, uint8_t *out)
         return false;
     }
 
-    // data will contain instruction + payload + checksum
+    // data will contain working byte + payload + checksum
+    // if working byte is 0x00, means instruction executed successfully, we can return the other bytes as payload.
     uint8_t data[data_length];
     for (uint8_t i = 0; i < data_length; i++) {
         int b = _serial.read();
@@ -100,6 +121,11 @@ bool ST3215_protocol::ST3215_receive(uint8_t id, uint8_t *out)
             return false;
         }
         data[i] = (uint8_t)b;
+    }
+
+    if (data[0] != 0x00) // check if working byte is 0x00, meaning executed successfully
+    {
+        return false;
     }
 
     uint8_t calc_checksum;
@@ -115,12 +141,13 @@ bool ST3215_protocol::ST3215_receive(uint8_t id, uint8_t *out)
     }
 
     // copy payload without checksum
-    for (uint8_t i = 0; i < data_length - 1; i++)
-        out[i] = data[i];
+    for (uint8_t i = 1; i < data_length - 1; i++)
+    {
+        out[i - 1] = data[i];
+    }
 
     return true;
 }
-
 
 bool ST3215_protocol::checksum(uint8_t id, uint8_t length, uint8_t *data, uint8_t *checksum_out)
 {
@@ -140,6 +167,5 @@ bool ST3215_protocol::checksum(uint8_t id, uint8_t length, uint8_t *data, uint8_
     *checksum_out = ~(sum & 0xFF);
     return true;
 }
-
 
 #endif // ST3215_PROTOCOL_CPP
