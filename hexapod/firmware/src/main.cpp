@@ -31,7 +31,7 @@ void setup()
       Serial.print("Servo with ID ");
       Serial.print(id);
       Serial.println(" is present.");
-      servo_driver->set_speed(id, 200);
+      servo_driver->set_speed(id, 300);
       servo_driver->set_angle(id, 180);
       servo_driver->read_load(id, &load);
       servo_driver->read_speed(id, &speed);
@@ -51,11 +51,13 @@ void setup()
 }
 
 void loop() {
-  // for (uint8_t id = 1; id <= 3; id++) 
-  // {
-  //   servo_driver.set_angle(id, 40);
-  //   delay(1000);
-  //   servo_driver.set_angle(id, 0);
-  //   delay(1000);
-  // }
+  for (uint8_t id = 1; id <= 3; id++) 
+  {
+    servo_driver->set_angle(id, 160);
+    delay(1500);                       
+    servo_driver->set_angle(id, 200);
+    delay(1500);
+    servo_driver->set_angle(id, 180);
+    delay(1500);
+  }
 }
