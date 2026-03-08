@@ -51,13 +51,19 @@ void setup()
 }
 
 void loop() {
-  for (uint8_t id = 1; id <= 3; id++) 
-  {
-    servo_driver->set_angle(id, 160);
-    delay(1500);                       
-    servo_driver->set_angle(id, 200);
-    delay(1500);
-    servo_driver->set_angle(id, 180);
-    delay(1500);
-  }
+  // for (uint8_t id = 1; id <= 3; id++) 
+  // {
+  //   servo_driver->set_angle(id, 160);
+  //   delay(1500);                       
+  //   servo_driver->set_angle(id, 200);
+  //   delay(1500);
+  //   servo_driver->set_angle(id, 180);
+  //   delay(1500);
+  // }
+  servo_driver->set_angle(3, 90);
+  delay(2500);
+  servo_driver->set_angle(3, 180);
+  delay(2500);
+  servo_driver->set_angle(3, 270);
+  delay(2500);
 }
