@@ -1,5 +1,6 @@
-**System Architecture**
+## System Architecture
 
+```
 Raspberry Pi (Python + ROS)
 │
 │  High-level planning
@@ -20,9 +21,11 @@ ESP32 (C++ PlatformIO)
 │
 ▼
 ST3215 Motors
+```
 
-**Directory Structure**
+## Directory Structure
 
+```
 hexapod
 │
 ├── firmware (ESP32 code)
@@ -55,3 +58,4 @@ hexapod
 │
 └── ros
     └── hexapod_ros
+```
