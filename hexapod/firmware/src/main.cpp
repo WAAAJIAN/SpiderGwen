@@ -62,7 +62,7 @@ void loop() {
   
   // leg1.setFoot(100,100,-60);
 
-  leg1.setFoot(0, 290, -70);
+  leg1.setFoot(0, 290, -40);
   leg1.printAngles();
 
   servo_driver->set_angle(3, leg1.a);
