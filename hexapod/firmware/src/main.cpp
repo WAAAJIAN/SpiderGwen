@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "ST3215_servo/ST3215_driver.h"
+#include "kinematics/leg.h"
 
 #define SERIAL_BAUD_RATE 1000000
 #define SERIAL_BAUD_RATE_DEBUG 115200
@@ -7,6 +8,7 @@
 #define TX 17
 
 ST3215_driver *servo_driver;
+Leg leg1;
 
 void setup() 
 {
@@ -51,19 +53,20 @@ void setup()
 }
 
 void loop() {
-  // for (uint8_t id = 1; id <= 3; id++) 
-  // {
-  //   servo_driver->set_angle(id, 160);
-  //   delay(1500);                       
-  //   servo_driver->set_angle(id, 200);
-  //   delay(1500);
-  //   servo_driver->set_angle(id, 180);
-  //   delay(1500);
-  // }
-  servo_driver->set_angle(3, 90);
-  delay(2500);
-  servo_driver->set_angle(3, 180);
-  delay(2500);
-  servo_driver->set_angle(3, 270);
-  delay(2500);
+  // servo_driver->set_angle(3, 180);
+  // delay(2500);
+  // servo_driver->set_angle(2, 180);
+  // delay(2500);
+  // servo_driver->set_angle(1, 180);
+  // delay(2500);
+  
+  // leg1.setFoot(100,100,-60);
+
+  leg1.setFoot(0, 290, -70);
+  leg1.printAngles();
+
+  servo_driver->set_angle(3, leg1.a);
+  servo_driver->set_angle(2, leg1.b);
+  servo_driver->set_angle(1, leg1.c);
+  delay(2000);
 }
