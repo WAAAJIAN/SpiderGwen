@@ -6,8 +6,9 @@ float cl = 55.65;
 float fl = 110.0;
 float tl = 145.4;
 
+// Neutral position when leg is horizontally straight is (0, 312, 0)
 float x_offset = 0;
-float y_offset = 325;
+float y_offset = 312;
 float z_offset = 0;
 
 float coxa_min = 135;
@@ -59,7 +60,7 @@ void Leg::IK() {
   float ib = (theta2 - theta) * RAD_TO_DEG;
   float ic = 180 - tib * RAD_TO_DEG;
 
-  // map to servo reference frame
+  // map to servo reference frame, +180 because we set 180 to be neutral for ST3215
   a = 180.0 + ia;
   b = 180.0 + ib;
   c = 180.0 + ic;

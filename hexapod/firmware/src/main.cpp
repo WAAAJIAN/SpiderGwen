@@ -60,25 +60,39 @@ void loop() {
   // servo_driver->set_angle(1, 135);
   // delay(2500);
 
-  leg1.setFoot(0, 200, 0);
+  leg1.setFoot(0, 200, 5);
   leg1.printAngles();
   servo_driver->set_angle(3, leg1.a);
   servo_driver->set_angle(2, leg1.b);
   servo_driver->set_angle(1, leg1.c);
-  delay(2000);
+  delay(3000);
 
-  leg1.setFoot(0, 250, 0);
+  leg1.setFoot(0, 225, 5);
   leg1.printAngles();
   servo_driver->set_angle(3, leg1.a);
   servo_driver->set_angle(2, leg1.b);
   servo_driver->set_angle(1, leg1.c);
-  delay(2000);
+  delay(3000);
 
-  leg1.setFoot(0, 300, 0);
+  leg1.setFoot(0, 250, 5);
   leg1.printAngles();
   servo_driver->set_angle(3, leg1.a);
   servo_driver->set_angle(2, leg1.b);
   servo_driver->set_angle(1, leg1.c);
-  delay(2000);
+  delay(3000);
+
+  leg1.setFoot(0, 275, 5);
+  leg1.printAngles();
+  servo_driver->set_angle(3, leg1.a);
+  servo_driver->set_angle(2, leg1.b);
+  servo_driver->set_angle(1, leg1.c);
+  delay(3000);
+
+  leg1.setFoot(0, 300, 5);
+  leg1.printAngles();
+  servo_driver->set_angle(3, leg1.a);
+  servo_driver->set_angle(2, leg1.b);
+  servo_driver->set_angle(1, leg1.c);
+  delay(3000);
 
 }
