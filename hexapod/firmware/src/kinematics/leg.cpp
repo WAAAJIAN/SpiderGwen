@@ -1,5 +1,6 @@
 #include "leg.h"
 #include <math.h>
+#include "parameter.h"
 
 // parameters
 float cl = 55.65;
@@ -69,6 +70,91 @@ void Leg::IK() {
   a = clampf(a, coxa_min, coxa_max);
   b = clampf(b, femur_min, femur_max);
   c = clampf(c, tibia_min, tibia_max);
+}
+
+void Leg::FK(float a_in, float b_in, float c_in, float &fx, float &fy, float &fz)
+{
+  // Convert servo angles back to IK reference
+  float ia = a_in - 180;
+  float ib = b_in - 180;
+  float ic = c_in - 180;
+
+  float tib = 180 - ic;
+
+  float theta = ib * DEG_TO_RAD;
+  float tib_rad = tib * DEG_TO_RAD;
+
+  float k = sqrt(fl*fl + tl*tl - 2*fl*tl*cos(tib_rad));
+
+  float theta2 = acos((fl*fl + k*k - tl*tl)/(2*fl*k));
+
+  float z = k * sin(theta2 - theta);
+  float y1 = k * cos(theta2 - theta);
+
+  float planar = y1 + cl;
+
+  fx = planar * sin(ia * DEG_TO_RAD);
+  fy = planar * cos(ia * DEG_TO_RAD);
+  fz = z;
+}
+
+void Leg::verifyIK()
+{
+  float fx, fy, fz;
+
+  FK(a, b, c, fx, fy, fz);
+
+  Serial.print("Target: ");
+  Serial.print(x); Serial.print(" ");
+  Serial.print(y); Serial.print(" ");
+  Serial.println(z);
+
+  Serial.print("FK: ");
+  Serial.print(fx); Serial.print(" ");
+  Serial.print(fy); Serial.print(" ");
+  Serial.println(fz);
+
+  Serial.print("Error: ");
+  Serial.print(fx - x); Serial.print(" ");
+  Serial.print(fy - y); Serial.print(" ");
+  Serial.println(fz - z);
+}
+
+void Leg::stand(int steps, int current_step)
+{
+  IK();
+
+  float d = 20 - (20.0 / steps) * current_step;
+
+  b += d;
+  c += d;
+
+  b = clampf(b, femur_min, femur_max);
+  c = clampf(c, tibia_min, tibia_max);
+}
+
+void Leg::balance(float pitch, float roll)
+{
+  float dx = pitch * 2;
+  float dy = roll * 2;
+
+  x = x_offset + dx;
+  y = y_offset + dy;
+  z = z_offset;
+
+  IK();
+}
+
+void Leg::balance(float pitch, float roll)
+{
+  float dx = pitch * 2;
+  float dy = roll * 2;
+
+  x = x_offset + dx;
+  y = y_offset + dy;
+  z = z_offset;
+
+  IK();
 }
 
 void Leg::printAngles() {
