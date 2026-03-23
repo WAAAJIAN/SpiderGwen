@@ -1,6 +1,6 @@
 #include "leg.h"
 #include <math.h>
-#include "parameter.h"
+#include "../parameters.h"
 
 // parameters
 float cl = 55.65;
@@ -131,18 +131,6 @@ void Leg::stand(int steps, int current_step)
 
   b = clampf(b, femur_min, femur_max);
   c = clampf(c, tibia_min, tibia_max);
-}
-
-void Leg::balance(float pitch, float roll)
-{
-  float dx = pitch * 2;
-  float dy = roll * 2;
-
-  x = x_offset + dx;
-  y = y_offset + dy;
-  z = z_offset;
-
-  IK();
 }
 
 void Leg::balance(float pitch, float roll)
