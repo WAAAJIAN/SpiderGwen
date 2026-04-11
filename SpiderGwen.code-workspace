@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "name": "firmware",
+            "path": "firmware"
+        },
+        {
+            "name": "ros2_ws",
+            "path": "ros2_ws"
+        },
+        {
+            "name": "legacy",
+            "path": "legacy"
+        }
+    ]
+}
