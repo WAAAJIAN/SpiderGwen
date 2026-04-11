@@ -1,3 +1,0 @@
-# ServoTargetArray.msg
-
-ServoTarget[] targets
