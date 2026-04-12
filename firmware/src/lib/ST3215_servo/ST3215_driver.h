@@ -1,3 +1,14 @@
+/**
+ * @file ST3215_driver.h
+ * @brief High-level driver for ST3215 servo motor
+ *
+ * @author Lim Wei Jian
+ * @date 2026
+ *
+ * MIT License — see LICENSE file in project root
+ * Copyright (c) 2026 Lim Wei Jian
+ */
+
 #ifndef ST3215_DRIVER_H
 #define ST3215_DRIVER_H
 
@@ -10,6 +21,7 @@
 #define SERIAL_BAUD_RATE_DEBUG  115200
 #define RX 18
 #define TX 17
+#define DIR_PIN 4
 
 enum class ST3215_Mode : uint8_t
 {
@@ -22,7 +34,7 @@ enum class ST3215_Mode : uint8_t
 class ST3215_driver
 {
 public:
-    ST3215_driver(HardwareSerial &serial);
+    ST3215_driver(HardwareSerial &serial, uint8_t dir_pin);
 
     // --- Misc ---
     bool ping(uint8_t id);
@@ -61,10 +73,13 @@ public:
     bool read_all_angles(uint8_t *ids, uint16_t *angles, uint8_t num_servos);
     bool read_all_status(uint8_t *ids, uint8_t *statuses, uint8_t num_servos);
 
+    //  --- helper functions ---
+    bool read_register(uint8_t id, ST3215_REG reg, uint8_t *out, uint8_t length = 1);
+
     // --- Operation mode ---
     bool set_operation_mode(uint8_t id, ST3215_Mode mode);
 
-protected:
+private:
     HardwareSerial &_serial;
     ST3215_protocol protocol;
 

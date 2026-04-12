@@ -1,6 +1,6 @@
 #include "ST3215_driver.h"
 
-ST3215_driver::ST3215_driver(HardwareSerial &serial) : _serial(serial), protocol(serial)
+ST3215_driver::ST3215_driver(HardwareSerial &serial, uint8_t dir_pin) : _serial(serial), protocol(serial, dir_pin)
 {
     serial.begin(SERIAL_BAUD_RATE, SERIAL_8N1, RX, TX);
     uart_set_mode(UART_NUM_1, UART_MODE_RS485_HALF_DUPLEX);
@@ -189,6 +189,7 @@ bool ST3215_driver::set_speed_sync(uint8_t *ids, uint16_t *speeds, uint8_t num_s
 {
     // 2 bytes per servo: [speed_low, speed_high]
     uint8_t data[num_servos * 2];
+    
     for (uint8_t i = 0; i < num_servos; i++)
     {
         data[i * 2]     = (uint8_t)(speeds[i] & 0xFF);
@@ -297,6 +298,10 @@ bool ST3215_driver::read_all_status(uint8_t *ids, uint8_t *statuses, uint8_t num
     return all_success;
 }
 
+bool ST3215_driver::read_register(uint8_t id, ST3215_REG reg, uint8_t *out, uint8_t length)
+{
+    return protocol.read(id, reg, length, out);
+}
 // ============================================================
 // Operation mode
 // ============================================================

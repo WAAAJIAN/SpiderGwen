@@ -1,3 +1,14 @@
+/**
+ * @file ST3215_protocol.h
+ * @brief protocol for ST3215 servo motor
+ *
+ * @author Lim Wei Jian
+ * @date 2026
+ *
+ * MIT License — see LICENSE file in project root
+ * Copyright (c) 2026 Lim Wei Jian
+ */
+
 #ifndef ST3215_PROTOCOL_H
 #define ST3215_PROTOCOL_H
 
@@ -8,7 +19,7 @@
 class ST3215_protocol
 {
 public:
-    ST3215_protocol(HardwareSerial &serial);
+    ST3215_protocol(HardwareSerial &serial, uint8_t dir_pin);
 
     bool ping(uint8_t id);
     bool read(uint8_t id, ST3215_REG reg, uint8_t read_length, uint8_t *out);
@@ -19,6 +30,7 @@ public:
 
 private:
     HardwareSerial &_serial;
+    uint8_t _dir_pin;
     static constexpr uint8_t HEADER = 0xFF;
     static constexpr uint8_t BROADCAST_ID = 0xFE;
 

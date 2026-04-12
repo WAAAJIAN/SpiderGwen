@@ -1,6 +1,10 @@
 #include "ST3215_protocol.h"
 
-ST3215_protocol::ST3215_protocol(HardwareSerial &serial) : _serial(serial) {}
+ST3215_protocol::ST3215_protocol(HardwareSerial &serial, uint8_t dir_pin) : _serial(serial), _dir_pin(dir_pin)
+{
+    pinMode(_dir_pin, OUTPUT);
+    digitalWrite(_dir_pin, LOW);  
+}
 
 // ============================================================
 // Public API
@@ -59,6 +63,10 @@ bool ST3215_protocol::action(uint8_t id)
     if (!send_packet(id, ST3215_CMD::ACTION, nullptr, 0))
         return false;
 
+    // // broadcast ID never returns a packet — skip receive
+    // if (id == BROADCAST_ID)
+    //     return true;
+
     return receive_packet(id, nullptr, 0);
 }
 
@@ -89,6 +97,11 @@ bool ST3215_protocol::sync_write(ST3215_REG reg, uint8_t data_length_per_servo, 
 
 bool ST3215_protocol::send_packet(uint8_t id, ST3215_CMD cmd, uint8_t *payload, uint8_t payload_length)
 {
+    // while (_serial.available())
+    // {
+    //     _serial.read();
+    // }
+        
     // packet = [HEADER, HEADER, ID, LENGTH, CMD, payload..., CHECKSUM]
     // LENGTH = payload_length + 1 (cmd byte) + 1 (checksum byte)
     uint8_t length = payload_length + 2;
@@ -112,7 +125,13 @@ bool ST3215_protocol::send_packet(uint8_t id, ST3215_CMD cmd, uint8_t *payload, 
 
     packet[5 + payload_length] = checksum_value;
 
-    return _serial.write(packet, packet_size) == packet_size;
+    digitalWrite(_dir_pin, HIGH);
+    bool result = _serial.write(packet, packet_size) == packet_size;
+    _serial.flush();                // wait until all bytes physically sent
+    digitalWrite(_dir_pin, LOW);
+    delay(1);
+
+    return result;
 }
 
 bool ST3215_protocol::receive_packet(uint8_t id, uint8_t *out, uint8_t out_length)
@@ -135,18 +154,13 @@ bool ST3215_protocol::receive_packet(uint8_t id, uint8_t *out, uint8_t out_lengt
     uint8_t data_length;
     if (_serial.readBytes(&data_length, 1) != 1)
         return false;
-    if (data_length < 2)  // must at least have error byte + checksum
+    if (data_length < 2)
         return false;
 
-    // Read payload — [error_byte, data..., checksum]
+    // Read payload — consistent blocking read
     uint8_t data[data_length];
-    for (uint8_t i = 0; i < data_length; i++)
-    {
-        int b = _serial.read();
-        if (b < 0)
-            return false;
-        data[i] = (uint8_t)b;
-    }
+    if (_serial.readBytes(data, data_length) != data_length)
+        return false;
 
     // Validate error byte
     if (data[0] != 0x00)
@@ -159,10 +173,10 @@ bool ST3215_protocol::receive_packet(uint8_t id, uint8_t *out, uint8_t out_lengt
     if (calc_checksum != data[data_length - 1])
         return false;
 
-    // Copy payload to out if provided — skipping error byte and checksum
+    // Copy payload to out if provided
     if (out != nullptr && out_length > 0)
     {
-        uint8_t payload_length = data_length - 2; // exclude error byte and checksum
+        uint8_t payload_length = data_length - 2;
         uint8_t copy_length = (out_length < payload_length) ? out_length : payload_length;
         for (uint8_t i = 0; i < copy_length; i++)
             out[i] = data[1 + i];
