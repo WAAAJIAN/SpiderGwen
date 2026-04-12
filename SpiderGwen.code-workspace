@@ -11,6 +11,14 @@
         {
             "name": "legacy",
             "path": "legacy"
+        },
+        {
+            "name": "docs",
+            "path": "docs"
+        },
+        {
+            "name": "root",
+            "path": "."
         }
     ]
 }
