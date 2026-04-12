@@ -1,22 +1,31 @@
-#include "main.h"
+#include <main.h>
+#include <Arduino.h>
 
-ST3215_driver *servo_driver = nullptr;
+ST3215_driver driver(Serial1, DIR_PIN);
 
 void setup()
 {
-    Serial.begin(SERIAL_BAUD_RATE_DEBUG);
-    uint32_t t = millis();
-    while (!Serial && (millis() - t) < 3000)
-        ;
+    Serial.begin(115200);
+    delay(100);
 
-    servo_driver = new ST3215_driver(Serial1);
+    Serial.println("============================");
+    Serial.println("  Spider Single Leg Test");
+    Serial.println("============================");
 
-    // TODO: init other peripherals
+    // initialise spider with single leg
+    Spider::init(driver, coxa_ids, femur_ids, tibia_ids);
 
-    // TODO: start threads
+    // enable torque (ensure no limping leg)
+    Spider::enable_torque(true);
+    delay(500);
+
+    // move to standing position
+    Serial.println("[ STANDING ]");
+    Spider::stand(1000);
+    delay(2000);
 }
 
 void loop()
 {
-    // TODO: control loop
+
 }
