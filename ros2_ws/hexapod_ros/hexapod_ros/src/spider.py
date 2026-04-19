@@ -226,5 +226,3 @@ class Spider():
 
     def gaitChange(self, inp):
         self.gait = gait[inp]
-
-   
