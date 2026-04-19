@@ -11,7 +11,7 @@ from .spider import Spider
 from time import *
 import yaml
 from rclpy.parameter import Parameter
-
+from .esp32_interface import ESP32Interface
 
 class HexapodController(Node):
     def __init__(self):
@@ -34,6 +34,7 @@ class HexapodController(Node):
         self.stand = False
         self.actionlst = self.spider.stand()
         # initialize stand motion
+        self.esp = ESP32Interface()
 
     def teleop_cb(self, msg):
         command = msg.data
@@ -138,13 +139,8 @@ class HexapodController(Node):
             action = self.spider.step()         
             if action:
                 result = ServoTargetArray()
-                for leg, servos in action.items():
-                    for servo in servos:
-                        submsg = ServoTarget()
-                        submsg.servo_id = servo[0]
-                        submsg.target_position = servo[1]
-                        result.targets.append(submsg)
-                self.servo_pub.publish(result)
+                for leg_id, (x, y, z) in self.spider.foot_positions().items():
+                    self.esp.send_leg_xyz(leg_id, x, y, z)
             # except:
             #     self.active = False
             #     return
@@ -163,7 +159,6 @@ class HexapodController(Node):
         else:
             self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
 
-                
 def main(args=None):
     try:
         rclpy.init(args=args)
@@ -173,8 +168,6 @@ def main(args=None):
         rclpy.shutdown()
     except KeyboardInterrupt:
         node.get_logger().info("KeyboardInterrupt received...")
-
-
 
 # def load_pid_params(node, prefix="pid"):
 #     pid_dict = dict()

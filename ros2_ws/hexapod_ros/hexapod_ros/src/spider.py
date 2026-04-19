@@ -1,3 +1,6 @@
+## TODO: Need to remove all "Legs" related command from here, this should only calculate the desired foot positions, and send them to
+## the ESP32 to execute. After that, implement a closed loop control by sending the actual foot positions from ESP32 back here. 
+
 from .parameter import *
 from .leg import *
 from queue import Queue

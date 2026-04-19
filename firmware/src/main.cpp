@@ -28,6 +28,7 @@ void setup()
 // the code in this loop is a simplified version to receive foot position commands from the serial monitor and execute them
 // commands should be in the format: L,leg,x,y,z
 // commands are sent over from RPI through UART
+// we also need something to send the actual foot positions back to RPI for closed loop control, but for now we will just execute the commands without feedback
 void loop()
 {
     if (Serial.available())
