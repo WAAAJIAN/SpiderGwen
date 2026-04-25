@@ -28,7 +28,6 @@ setup(
             'imu_node = src.imu_node:main',
             'teleop = src.hexapod_teleop:main',
             'hexapod_controller = src.hexapod_controller:main',
-            'maestro_driver = src.maestro_driver:main',
         ],
     },
     package_data={

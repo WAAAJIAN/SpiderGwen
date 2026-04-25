@@ -15,7 +15,7 @@
   <depend>rclpy</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
-  <depend>hexapod_msgs</depend>
+  <depend>python3-serial</depend>
 
   <export>
     <build_type>ament_python</build_type>
