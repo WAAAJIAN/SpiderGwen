@@ -19,6 +19,7 @@ The RPi sends high-level movement commands to the ESP32 over UART. The ESP32 exe
 
 ```
 SpiderGwen
+├── README.md
 ├── docs
 │   ├── electrical
 │   ├── firmware
@@ -47,70 +48,32 @@ SpiderGwen
 │       └── main.cpp
 ├── legacy
 │   ├── cy-code-v1
-│   │   ├── calibrate.py
-│   │   ├── gait_test.py
-│   │   ├── gyroscope.py
-│   │   ├── IK_test.py
-│   │   ├── leg_solver_v2.py
-│   │   ├── leg_solver.py
-│   │   ├── leg.py
-│   │   ├── maestro.py
-│   │   ├── main.py
-│   │   ├── parameter.py
-│   │   ├── readme
-│   │   ├── spider.py
-│   │   └── testswitch.py
 │   ├── cy-code-v2
-│   │   ├── balance.cpp
-│   │   ├── config.json
-│   │   ├── leg.cpp
-│   │   └── spider.cpp
-│   ├── gyroscope_testing.py
-│   ├── Microswitch.py
-│   ├── TestLeg.py
-│   ├── Walking_V2.py
-│   └── ws-code-v1
-│       ├── FK_IK_test.py
-│       ├── ForwardKinematics.py
-│       ├── leg_config.py
-│       ├── maestro.py
-│       ├── Spider.py
-│       └── TriLeg.py
-├── README.md
-├── ros2_ws
+│   ├── miscellaneous
 │   ├── hexapod_msgs
-│   │   └── src
-│   │       ├── action
-│   │       │   ├── Servo.action
-│   │       │   └── Walk.action
-│   │       ├── CMakeLists.txt
-│   │       ├── msg
-│   │       │   ├── ServoTarget.msg
-│   │       │   └── ServoTargetArray.msg
-│   │       └── package.xml
+│   └── ws-code-v1
+├── ros2_ws
 │   ├── hexapod_ros
 │   │   └── hexapod_ros
 │   │       ├── config
 │   │       │   └── pid_params.yaml
 │   │       ├── launch
 │   │       │   └── hexapod.launch.py
-│   │       ├── package.xml
 │   │       ├── resource
 │   │       │   └── hexapod_ros
+│   │       ├── package.xml
 │   │       ├── setup.cfg
 │   │       ├── setup.py
 │   │       ├── src
 │   │       │   ├── __init__.py
+│   │       │   ├── esp32_interface.py
 │   │       │   ├── gyroscope.py
 │   │       │   ├── hexapod_controller.py
 │   │       │   ├── hexapod_teleop.py
 │   │       │   ├── imu_node.py
-│   │       │   ├── leg.py
-│   │       │   ├── maestro_driver.py
-│   │       │   ├── maestro.py
+│   │       │   ├── leg_state.py
 │   │       │   ├── parameter.py
 │   │       │   ├── spider.py
-│   │       │   └── verifyIKwithESP.py
 │   │       └── test
 │   │           ├── test_copyright.py
 │   │           ├── test_flake8.py
@@ -137,8 +100,8 @@ The `legacy/` directory contains previous versions kept for reference:
 - [x] RS485 half-duplex communication
 - [x] Sync write for coordinated multi-servo motion
 - [ ] Battery management library
-- [ ] ESP32 ↔ RPi UART protocol (WJ next task)
-- [ ] ROS2 gait controller (port from legacy)
+- [ ] ESP32 ↔ RPi UART protocol 
+- [x] ROS2 gait controller 
 - [ ] Computer vision navigation
 
 ---
