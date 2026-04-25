@@ -78,7 +78,7 @@ SpiderGwen
 │   │           ├── test_copyright.py
 │   │           ├── test_flake8.py
 │   │           └── test_pep257.py
-│   └── Readme
+├── Developers' Notes
 └── SpiderGwen.code-workspace
 ```
 
