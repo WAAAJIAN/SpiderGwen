@@ -14,11 +14,12 @@ class HexapodTeleop(Node):
     def getKey(self):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
-        key = '' 
+        key = ''
         try:
             tty.setraw(fd)
-            select.select([sys.stdin], [], [], 0)
-            key = sys.stdin.read(1)
+            ready, _, _ = select.select([sys.stdin], [], [], 0.1)
+            if ready:
+                key = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return key

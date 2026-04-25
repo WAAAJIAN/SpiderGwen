@@ -1,7 +1,13 @@
-import smbus2	#import SMBus module of I2C
-from time import sleep   #import
+## gyroscope.py
+## MPU6050 I2C driver for SpiderGwen RPi side.
+## Reads raw accelerometer and gyroscope data and converts to physical units:
+##   Accelerometer → m/s²
+##   Gyroscope     → °/s
 
-#some MPU6050 Registers and their Address // refer to picture under Subsystems, gyro info
+import smbus2
+from time import sleep
+
+# MPU6050 register addresses
 PWR_MGMT_1   = 0x6B
 SMPLRT_DIV   = 0x19
 CONFIG       = 0x1A
@@ -14,62 +20,47 @@ GYRO_XOUT_H  = 0x43
 GYRO_YOUT_H  = 0x45
 GYRO_ZOUT_H  = 0x47
 
-def MPU_Init():
-	#write to sample rate register
-	bus.write_byte_data(Device_Address, SMPLRT_DIV, 7)
-	
-	#Write to power management register
-	bus.write_byte_data(Device_Address, PWR_MGMT_1, 1)
-	
-	#Write to Configuration register
-	bus.write_byte_data(Device_Address, CONFIG, 0)
-	
-	#Write to Gyro configuration register
-	bus.write_byte_data(Device_Address, GYRO_CONFIG, 24)
-	
-	#Write to interrupt enable register
-	bus.write_byte_data(Device_Address, INT_ENABLE, 1)
+# Scale factors
+ACCEL_SCALE  = 16384.0  # LSB/(m/s²) for ±2g full scale
+GYRO_SCALE   = 131.0    # LSB/(°/s)  for ±250°/s full scale (GYRO_CONFIG = 0x00)
+# NOTE: if GYRO_CONFIG is set to 0x18 (±2000°/s), use 16.4 instead
 
-def read_raw_data(addr):
-	#Accelero and Gyro value are 16-bit
-        high = bus.read_byte_data(Device_Address, addr)
-        low = bus.read_byte_data(Device_Address, addr+1)
-    
-        #concatenate higher and lower value
-        value = ((high << 8) | low)
-        
-        #to get signed value from mpu6050
-        if(value > 32768):
-                value = value - 65536
+DEVICE_ADDRESS = 0x68
+
+
+class MPU6050:
+    def __init__(self, bus_number=1):
+        self.bus = smbus2.SMBus(bus_number)
+        self._init_device()
+
+    def _init_device(self):
+        self.bus.write_byte_data(DEVICE_ADDRESS, SMPLRT_DIV, 7)   # sample rate = 8kHz / (7+1) = 1kHz
+        self.bus.write_byte_data(DEVICE_ADDRESS, PWR_MGMT_1,  1)   # wake device, use X gyro as clock
+        self.bus.write_byte_data(DEVICE_ADDRESS, CONFIG,      0)   # no DLPF
+        self.bus.write_byte_data(DEVICE_ADDRESS, GYRO_CONFIG, 0)   # ±250°/s — matches GYRO_SCALE above
+        self.bus.write_byte_data(DEVICE_ADDRESS, INT_ENABLE,  1)   # data ready interrupt
+
+    def _read_raw(self, addr):
+        high  = self.bus.read_byte_data(DEVICE_ADDRESS, addr)
+        low   = self.bus.read_byte_data(DEVICE_ADDRESS, addr + 1)
+        value = (high << 8) | low
+        if value > 32768:
+            value -= 65536
         return value
 
+    def get_gyro(self):
+        """
+        Returns [Ax, Ay, Az, Gx, Gy, Gz]:
+          Ax, Ay, Az — linear acceleration in m/s²
+          Gx, Gy, Gz — angular velocity in °/s
+        Note: Az is negated because the IMU is mounted upside-down on this robot.
+        """
+        Ax =  self._read_raw(ACCEL_XOUT_H) * 9.81 / ACCEL_SCALE
+        Ay =  self._read_raw(ACCEL_YOUT_H) * 9.81 / ACCEL_SCALE
+        Az = -self._read_raw(ACCEL_ZOUT_H) * 9.81 / ACCEL_SCALE  # inverted mount
 
-bus = smbus2.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
-Device_Address = 0x68   # MPU6050 device address
+        Gx = self._read_raw(GYRO_XOUT_H) / GYRO_SCALE
+        Gy = self._read_raw(GYRO_YOUT_H) / GYRO_SCALE
+        Gz = self._read_raw(GYRO_ZOUT_H) / GYRO_SCALE
 
-# MPU_Init()
-
-#print (" Reading Data of Gyroscope and Accelerometer")
-
-def get_gyro():
-    #Read Accelerometer raw value
-    acc_x = read_raw_data(ACCEL_XOUT_H)
-    acc_y = read_raw_data(ACCEL_YOUT_H)
-    acc_z = read_raw_data(ACCEL_ZOUT_H)
-    
-    #Read Gyroscope raw value
-    gyro_x = read_raw_data(GYRO_XOUT_H)
-    gyro_y = read_raw_data(GYRO_YOUT_H)
-    gyro_z = read_raw_data(GYRO_ZOUT_H)
-    
-    #Full scale range +/- 250 degree/C as per sensitivity scale factor
-    Ax = acc_x * 9.81/16384.0
-    Ay = acc_y * 9.81/16384.0
-    Az = - acc_z * 9.81/16384.0
-
-    Gx = gyro_x/131.0
-    Gy = gyro_y/131.0
-    Gz = gyro_z/131.0
-    
-#     print ("Gx=%.2f" %Gx, u'\u00b0'+ "/s", "\tGy=%.2f" %Gy, u'\u00b0'+ "/s", "\tGz=%.2f" %Gz, u'\u00b0'+ "/s", "\tAx=%.2f ms2" %Ax, "\tAy=%.2f ms2" %Ay, "\tAz=%.2f ms2" %Az) 	
-    return [Ax, Ay, Az , Gx, Gy, Gz]
+        return [Ax, Ay, Az, Gx, Gy, Gz]

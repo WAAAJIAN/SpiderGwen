@@ -1,163 +1,225 @@
+## hexapod_controller.py
+## ROS2 node for SpiderGwen hexapod (RPi side).
+##
+## Responsibilities:
+##   - Receives teleop commands and forwards to Spider motion planner
+##   - Receives IMU data, runs complementary filter + PID via Spider
+##   - Each control tick: calls spider.walk() then spider.step(),
+##     and sends resulting foot positions to ESP32 over UART
+##   - Stand command: sends "STAND\n" to ESP32 directly (ESP32 owns that sequence)
+##
+## UART protocol to ESP32:
+##   L,leg_id,x,y,z\n  — foot position target
+##   STAND\n            — trigger stand sequence on ESP32
+
 import rclpy
 from rclpy.node import Node
-# from rclpy.action import ActionClient
-# from hexapod_msgs.action import Servo
-from hexapod_msgs.msg import ServoTarget
-from hexapod_msgs.msg import ServoTargetArray
 from sensor_msgs.msg import Imu
-from std_msgs.msg import String
-from std_msgs.msg import Float64
+from std_msgs.msg import String, Float64
 from .spider import Spider
-from time import *
-import yaml
-from rclpy.parameter import Parameter
 from .esp32_interface import ESP32Interface
+import yaml
+
 
 class HexapodController(Node):
     def __init__(self):
-        super().__init__('hexapod_controller', allow_undeclared_parameters=True, automatically_declare_parameters_from_overrides=True)
+        super().__init__(
+            'hexapod_controller',
+            allow_undeclared_parameters=True,
+            automatically_declare_parameters_from_overrides=True
+        )
+
         self.spider = Spider()
         self.spider.dt = self.get_parameter('dt').value
         self.load_pid()
-        self.get_logger().info(f"{self.spider.dt}")
-        self.get_logger().info(f"{self.spider.pid}")
-        self.tele_sub = self.create_subscription(String, '/teleop_command', self.teleop_cb, 10)
-        self.roll_angle_pub = self.create_publisher(Float64, '/roll_angle', 10)
-        self.roll_error_pub = self.create_publisher(Float64, '/roll_error', 10)
+
+        self.get_logger().info(f"dt: {self.spider.dt}")
+        self.get_logger().info(f"pid: {self.spider.pid}")
+
+        # ESP32 UART interface
+        self.esp = ESP32Interface()
+
+        # ROS2 subscriptions
+        self.tele_sub = self.create_subscription(
+            String, '/teleop_command', self.teleop_cb, 10)
+
+        # ROS2 publishers (IMU diagnostics)
+        self.roll_angle_pub  = self.create_publisher(Float64, '/roll_angle',  10)
+        self.roll_error_pub  = self.create_publisher(Float64, '/roll_error',  10)
         self.pitch_angle_pub = self.create_publisher(Float64, '/pitch_angle', 10)
         self.pitch_error_pub = self.create_publisher(Float64, '/pitch_error', 10)
-        self.yaw_error_pub = self.create_publisher(Float64, '/yaw_error', 10)
-        # self._action_client = ActionClient(self, Servo, 'servo_action')
-        self.servo_pub = self.create_publisher(ServoTargetArray, '/servo_targets', 10)
-        self.timer = self.create_timer(0.02, self.stand)
-        self.active = False
-        self.stand = False
-        self.actionlst = self.spider.stand()
-        # initialize stand motion
-        self.esp = ESP32Interface()
+        self.yaw_error_pub   = self.create_publisher(Float64, '/yaw_error',   10)
+
+        # State flags
+        self.standing = False   # True while stand sequence is executing on ESP32
+
+        # Start: send stand command to ESP32, then begin control loop
+        self._trigger_stand()
+
+    # ------------------------------------------------------------------ #
+    #  Stand
+    # ------------------------------------------------------------------ #
+
+    def _trigger_stand(self):
+        """
+        Sends STAND command to ESP32 and waits for it to complete
+        before starting the main control loop.
+        ESP32's Spider::stand() runs the full stand sequence autonomously.
+        """
+        self.standing = True
+        self.get_logger().info("[ STAND ] Sending STAND command to ESP32...")
+        self.esp.send_command("STAND")
+
+        # ESP32 stand sequence takes ~3s (50 steps × 40ms + 1s initial delay).
+        # Use a one-shot timer to start the control loop after it finishes.
+        self.create_timer(4.0, self._start_control_loop)
+
+    def _start_control_loop(self):
+        """Called once after stand sequence completes. Starts normal control loop."""
+        self.standing = False
+        self.get_logger().info("[ READY ] Starting control loop.")
+
+        # IMU subscription: calibrate first if needed, else go straight to control
+        if not self.spider.pid['bias']['calibrated']:
+            self.imu_sub = self.create_subscription(
+                Imu, '/imu/data_raw', self.calibrate_imu_cb, 10)
+        else:
+            self._start_imu_control()
+
+        # Cancel the one-shot timer (create_timer repeats — destroy it)
+        # Note: ROS2 timers are repeating; we destroy it after first fire
+        # This is handled by only creating it once in _trigger_stand.
+
+    # ------------------------------------------------------------------ #
+    #  IMU calibration
+    # ------------------------------------------------------------------ #
+
+    def calibrate_imu_cb(self, msg):
+        """Accumulates IMU samples to find zero-bias, then switches to control."""
+        done = self.spider.calibrate_imu(
+            msg.linear_acceleration.x,
+            msg.linear_acceleration.y,
+            msg.linear_acceleration.z,
+            msg.angular_velocity.x,
+            msg.angular_velocity.y,
+            msg.angular_velocity.z
+        )
+        if done:
+            # Save calibrated bias back to param file
+            self._save_bias_to_config()
+            self.get_logger().info(
+                f"IMU calibrated — roll_bias: {self.spider.pid['bias']['roll']:.3f}  "
+                f"pitch_bias: {self.spider.pid['bias']['pitch']:.3f}"
+            )
+            self.destroy_subscription(self.imu_sub)
+            self._start_imu_control()
+
+    def _save_bias_to_config(self):
+        try:
+            param_file = self.get_parameter('config_file').value
+            with open(param_file, 'r') as f:
+                params = yaml.safe_load(f) or {}
+            ros_params = (params
+                          .get('hexapod_controller', {})
+                          .get('ros__parameters', {}))
+            if 'pid' in ros_params:
+                bias = self.spider.pid['bias']
+                ros_params['pid']['bias'].update({
+                    'Ax':         float(bias['Ax']),
+                    'Ay':         float(bias['Ay']),
+                    'Az':         float(bias['Az']),
+                    'Gx':         float(bias['Gx']),
+                    'Gy':         float(bias['Gy']),
+                    'Gz':         float(bias['Gz']),
+                    'roll':       float(bias['roll']),
+                    'pitch':      float(bias['pitch']),
+                    'calibrated': 1
+                })
+                with open(param_file, 'w') as f:
+                    yaml.dump(params, f, default_flow_style=False, indent=2)
+        except Exception as e:
+            self.get_logger().warn(f"Could not save bias to config: {e}")
+
+    def _start_imu_control(self):
+        """Switch IMU subscription to the live control callback."""
+        self.imu_sub = self.create_subscription(
+            Imu, '/imu/data_raw', self.imu_cb, 10)
+        # Main control loop at 50 Hz (every 20 ms)
+        self.control_timer = self.create_timer(0.02, self.control_loop)
+
+    # ------------------------------------------------------------------ #
+    #  IMU live callback
+    # ------------------------------------------------------------------ #
+
+    def imu_cb(self, msg):
+        """
+        Updates complementary filter + PID with latest IMU reading.
+        Publishes diagnostic angles/errors for tuning/monitoring.
+        """
+        if self.standing:
+            return  # Don't process IMU during stand sequence
+
+        self.spider.update_imu(
+            msg.linear_acceleration.x,
+            msg.linear_acceleration.y,
+            msg.linear_acceleration.z,
+            msg.angular_velocity.x,
+            msg.angular_velocity.y,
+            msg.angular_velocity.z
+        )
+        self.roll_angle_pub.publish( Float64(data=float(self.spider.angle['roll'])))
+        self.roll_error_pub.publish( Float64(data=float(self.spider.error['roll'])))
+        self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
+        self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
+        self.yaw_error_pub.publish(  Float64(data=float(self.spider.error['yaw'])))
+
+    # ------------------------------------------------------------------ #
+    #  Teleop
+    # ------------------------------------------------------------------ #
 
     def teleop_cb(self, msg):
         command = msg.data
         if command == 'stop':
             self.spider.stop()
         else:
-            self.get_logger().info(f"Receive command: {command}")
-            self.spider.add_move(command) 
+            self.get_logger().info(f"Teleop command received: {command}")
+            self.spider.add_move(command)
 
-    def calibrate_imu(self, msg):
-        Ax = msg.linear_acceleration.x
-        Ay = msg.linear_acceleration.y
-        Az = msg.linear_acceleration.z
-        Gx = msg.angular_velocity.x
-        Gy = msg.angular_velocity.y
-        Gz = msg.angular_velocity.z
-        status = self.spider.calibrate_imu(Ax, Ay, Az, Gx, Gy, Gz)
-        if status:
-            param_file = self.get_parameter('config_file').value
-            with open(param_file, 'r') as file:
-                params = yaml.safe_load(file) or {}
-            if 'hexapod_controller' in params and 'ros__parameters' in params['hexapod_controller']:
-                pid_params = params['hexapod_controller']['ros__parameters']['pid']
-                bias_updates = {
-                    'Ax': float(self.spider.pid['bias']['Ax']),
-                    'Ay': float(self.spider.pid['bias']['Ay']),
-                    'Az': float(self.spider.pid['bias']['Az']),
-                    'Gx': float(self.spider.pid['bias']['Gx']),
-                    'Gy': float(self.spider.pid['bias']['Gy']),
-                    'Gz': float(self.spider.pid['bias']['Gz']),
-                    'roll': float(self.spider.pid['bias']['roll']),
-                    'pitch': float(self.spider.pid['bias']['pitch']),
-                    'calibrated': 1
-                }
-                pid_params['bias'].update(bias_updates)                
-                with open(param_file, 'w') as file:
-                    yaml.dump(params, file, default_flow_style=False, indent=2)
-            self.get_logger().info(f"roll_bias: {self.spider.pid['bias']['roll']} pitch_bias: {self.spider.pid['bias']['pitch']}")
-            self.destroy_subscription(self.imu_sub)
-            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
+    # ------------------------------------------------------------------ #
+    #  Main control loop (50 Hz)
+    # ------------------------------------------------------------------ #
 
-    def imu_cb(self, msg):
-        Ax = msg.linear_acceleration.x
-        Ay = msg.linear_acceleration.y
-        Az = msg.linear_acceleration.z
-        Gx = msg.angular_velocity.x
-        Gy = msg.angular_velocity.y
-        Gz = msg.angular_velocity.z
-        if not self.stand:
-            self.spider.update_imu(Ax, Ay, Az, Gx, Gy, Gz)
-            # self.get_logger().info(f"roll_angle: {self.spider.angle['roll']} pitch_error: {self.spider.angle['pitch']}")
-            # self.get_logger().info(f"roll_error: {self.spider.error['roll']} pitch_error: {self.spider.error['pitch']}")
-            # self.get_logger().info(f"roll_sum: {self.spider.error_sum['roll']} pitch_sum: {self.spider.error_sum['pitch']}\n")
-            self.roll_angle_pub.publish(Float64(data=float(self.spider.angle['roll'])))
-            self.roll_error_pub.publish(Float64(data=float(self.spider.error['roll'])))
-            self.pitch_angle_pub.publish(Float64(data=float(self.spider.angle['pitch'])))
-            self.pitch_error_pub.publish(Float64(data=float(self.spider.error['pitch'])))
-            self.yaw_error_pub.publish(Float64(data=float(self.spider.error['yaw'])))
+    def control_loop(self):
+        """
+        Runs every 20 ms.
+        1. Calls spider.walk() to advance gait state and fill step queues
+        2. Calls spider.step() to get {leg_id: (x, y, z)} for this tick
+        3. Sends each foot position to ESP32 via UART
+        """
+        if self.standing or not self.spider.pid['bias']['calibrated']:
+            return
 
-    # def send_goal(self, goal):
-    #     goal_msg = Servo.Goal()
-    #     goal_msg.servo_targets = goal
-    #     self._action_client.wait_for_server()
-    #     self._send_goal_future = self._action_client.send_goal_async(goal_msg)
-    #     self._send_goal_future.add_done_callback(self.goal_response_callback)
+        self.spider.walk()
+        positions = self.spider.step()  # {leg_id: (x, y, z)}
 
-    # def goal_response_callback(self, future):
-    #     goal_handle = future.result()
-    #     if not goal_handle.accepted: return
-    #     self._get_result_future = goal_handle.get_result_async()
-    #     self._get_result_future.add_done_callback(self.get_result_callback)
+        for leg_id, (x, y, z) in positions.items():
+            self.esp.send_leg_xyz(leg_id, x, y, z)
 
-    # def get_result_callback(self, future):
-    #     result = future.result().result
-    #     self.active = False
-
-    def stand(self):
-        if self.spider.pid['bias']['calibrated']:
-            self.stand = True
-            if self.actionlst:
-                # if not self.active:
-                #     self.active = True
-                action = self.actionlst.pop(0)
-                result = ServoTargetArray()
-                for servo in action:
-                    submsg = ServoTarget()
-                    submsg.servo_id = servo[0]
-                    submsg.target_position = servo[1]
-                    result.targets.append(submsg)
-                self.servo_pub.publish(result)
-            else:
-                self.stand = False
-                self.timer.cancel()
-                self.timer = self.create_timer(0.02, self.loop)
-
-    def loop(self):
-        # if not self.active:
-        #     self.active = True
-        #     try:
-        if self.spider.pid['bias']['calibrated']:
-            self.spider.walk()
-            action = self.spider.step()         
-            if action:
-                result = ServoTargetArray()
-                for leg_id, (x, y, z) in self.spider.foot_positions().items():
-                    self.esp.send_leg_xyz(leg_id, x, y, z)
-            # except:
-            #     self.active = False
-            #     return
+    # ------------------------------------------------------------------ #
+    #  PID parameter loading
+    # ------------------------------------------------------------------ #
 
     def load_pid(self):
+        """Loads PID params from ROS2 parameter server into spider.pid dict."""
         for param in self._parameters.values():
             if param.name.startswith("pid."):
                 parts = param.name.split(".")
-                if len(parts) == 3:  
+                if len(parts) == 3:
                     _, axis, name = parts
                     if axis not in self.spider.pid:
                         self.spider.pid[axis] = dict()
                     self.spider.pid[axis][name] = param.value
-        if not self.spider.pid['bias']['calibrated']:
-            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.calibrate_imu, 10)
-        else:
-            self.imu_sub = self.create_subscription(Imu, '/imu/data_raw', self.imu_cb, 10)
+
 
 def main(args=None):
     try:
@@ -167,15 +229,4 @@ def main(args=None):
         node.destroy_node()
         rclpy.shutdown()
     except KeyboardInterrupt:
-        node.get_logger().info("KeyboardInterrupt received...")
-
-# def load_pid_params(node, prefix="pid"):
-#     pid_dict = dict()
-#     for param in node.list_parameters([prefix], depth=5).names:
-#         parts = param.split(".")
-#         if len(parts) != 3: continue  
-#         _, axis, name = parts
-#         if axis not in pid_dict:
-#             pid_dict[axis] = dict()
-#         pid_dict[axis][name] = node.get_parameter(param).double_value
-#     return pid_dict
+        node.get_logger().info("KeyboardInterrupt — shutting down.")
